@@ -1,11 +1,11 @@
 import Typography from '@material-ui/core/Typography'
 
-import Header from './Header'
+import NavBar from './NavBar'
 
 const Layout = props => {
   return (
     <div>
-      <Header />
+      <NavBar />
       <Typography variant='h3'>
         Empircal SEO
       </Typography>

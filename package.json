@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "clsx": "latest",
+    "formik": "^2.1.2",
+    "formik-material-ui": "^2.0.0-alpha.2",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
