@@ -1,14 +1,11 @@
-import Link from '../src/Link'
+import Typography from '@material-ui/core/Typography'
 
 const Header = () => {
   return (
     <div>
-      <Link href='/'>
-        home
-      </Link>
-      <Link href='/about'>
-        about
-      </Link>
+      <Typography variant='h3'>
+        Empirical SEO
+      </Typography>
     </div>
   )
 }
