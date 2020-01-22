@@ -9,8 +9,12 @@ const Survey = props => {
       <Typography variant='h3'>
         Empirical SEO
       </Typography>
-      <Typography variant='body'>
-        you see a turtle on the beach, upside down. you decide you want a tomagachi. what do?
+      <Typography variant='body1'>
+        this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
+      </Typography>
+      <br />
+      <Typography variant='h5'>
+        Find the best place to party Las Vegas
       </Typography>
       <form noValidate autoComplete='off'>
         <TextField label='keywords' /> <br />
