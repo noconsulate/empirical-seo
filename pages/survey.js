@@ -17,7 +17,7 @@ const MyForm = () => (
     }}
     onSubmit={(values, { setSubmitting }) => {
       const keywords = values.keywords.split(' ').filter(item => item != '')
-      console.log(keywords)
+      console.log('keywords', keywords)
       db.collection('keywords').add({
         words: keywords
       })
