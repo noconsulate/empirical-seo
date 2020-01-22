@@ -8,14 +8,16 @@ import { db } from '../config/firebase'
 import Layout from '../components/Layout'
 
 const MyForm = () => (
+
+
   <Formik
     initialValues={{ keywords: '' }}
     validate={values => {
       // Your client-side validation logic
     }}
     onSubmit={(values, { setSubmitting }) => {
-      const keywords = values.keywords.split(' ')
-      //need to get rid of whitespace entries here
+      const keywords = values.keywords.split(' ').filter(item => item != '')
+      console.log(keywords)
       db.collection('keywords').add({
         words: keywords
       })
