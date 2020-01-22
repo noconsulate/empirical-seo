@@ -1,28 +1,36 @@
-import { useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import Button from '@material-ui/core/Button'
 
-import Layout from '../components/Layout'
-
 import { db } from '../config/firebase'
+
+import Layout from '../components/Layout'
 
 const MyForm = () => (
   <Formik
-    initialValues={{ keywords: 'keywordz' }}
+    initialValues={{ keywords: '' }}
     validate={values => {
       // Your client-side validation logic
     }}
     onSubmit={(values, { setSubmitting }) => {
-      console.log(values.keywords)
-      alert(values.keywords)
+      const keywords = values.keywords.split(' ')
+      //need to get rid of whitespace entries here
+      db.collection('keywords').add({
+        words: keywords
+      })
+      .then(docRef => {
+        console.log("Keywords written to: ", docRef.id)
+      })
+      .catch(error => {
+        console.error("Error adding document: ", docRef.id);
+      })
       setSubmitting(false)
     }}
   >
     {({ isSubmitting }) => (
       <Form>
-        <TextField name='keywords' />
+        <TextField name='keywords' placeholder='keywords here' />
         <Button
          type="submit"
          fullWidth
