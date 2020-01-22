@@ -1,11 +1,17 @@
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import Head from 'next/head'
 
 const Survey = props => {
 
   return (
+    
     <div>
+      <Head>
+        <title>A Simple Survey</title>
+      </Head>
+      
       <Typography variant='h3'>
         Empirical SEO
       </Typography>
