@@ -4,13 +4,7 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-//mock data
-const mockWords = ['one', 'two', 'three']
-
 const Results = (props) => {
-  console.log(props.keywords.length)
-  props.keywords.forEach(word => console.log(word)
-  )
 
   const rows = () => {
     return (
@@ -22,7 +16,6 @@ const Results = (props) => {
     )
   }
 
-
 const pageContent = (
   <div>
     <Typography variant='h4'>
@@ -30,14 +23,12 @@ const pageContent = (
     </Typography>
     {rows()}
   </div>
-)
   
   return (
     <Layout 
       content={pageContent}
       title='Survey results - CONFIDENTIAL'
     />
-    
   )
 }
 
