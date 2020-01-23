@@ -4,22 +4,44 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
+
+
+const Results = (props) => {
+  console.log(props.keywords.length)
+  props.keywords.forEach(word => console.log(word)
+  )
+
+  const rows = () => {
+    return (
+      <ul>
+        {props.keywords.forEach(word => 
+          <li>{word}</li>
+        )}
+      </ul>
+    )
+  }
+
+
 const pageContent = (
   <div>
     <Typography variant='h4'>
       Results
     </Typography>
+    {rows()}
+    <ul>
+        {props.keywords.forEach(word => 
+          <li>{word}</li>
+        )}
+      </ul>
   </div>
 )
-
-const Results = (props) => {
-  console.log(props.keywords)
   
   return (
     <Layout 
       content={pageContent}
       title='Survey results - CONFIDENTIAL'
     />
+    
   )
 }
 
@@ -28,8 +50,9 @@ Results.getInitialProps = async () => {
   let keywordsObj = []
   
   keywords.forEach(doc => {
-    console.log(doc.data())
-    keywordsObj.push(doc.data())
+    doc.data().words.forEach(word => {
+      keywordsObj.push(word)
+    })
   })
   console.log(keywordsObj)
   
