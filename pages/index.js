@@ -1,12 +1,21 @@
+import Link from '../src/Link'
+
 import Layout from '../components/Layout'
 
 const pageContent = (
-  <p>we got the keywords</p>
+  <div>
+    <Link href='/survey'>
+      Survey
+    </Link>
+  </div>
 )
 
 const Index = () => {
   return (
-    <Layout content={pageContent} />
+    <Layout 
+      content={pageContent} 
+      title='Empirical SEO'
+    />
   )
 }
 

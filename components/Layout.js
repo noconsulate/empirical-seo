@@ -1,6 +1,6 @@
-import Typography from '@material-ui/core/Typography'
 import Head from 'next/head'
 
+import NavBar from './NavBar'
 import Header from './Header'
 
 const Layout = props => {
@@ -10,6 +10,7 @@ const Layout = props => {
       <Head>
         <title>{props.title}</title>
       </Head>
+      <NavBar />
       <Header />
       {props.content}
     </div>
