@@ -4,7 +4,8 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-
+//mock data
+const mockWords = ['one', 'two', 'three']
 
 const Results = (props) => {
   console.log(props.keywords.length)
@@ -14,8 +15,8 @@ const Results = (props) => {
   const rows = () => {
     return (
       <ul>
-        {props.keywords.forEach(word => 
-          <li>{word}</li>
+        {props.keywords.map(word => 
+          <li key={word}>{word}</li>
         )}
       </ul>
     )
@@ -28,11 +29,6 @@ const pageContent = (
       Results
     </Typography>
     {rows()}
-    <ul>
-        {props.keywords.forEach(word => 
-          <li>{word}</li>
-        )}
-      </ul>
   </div>
 )
   
