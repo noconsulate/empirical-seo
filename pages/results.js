@@ -22,6 +22,9 @@ const pageContent = (
       Results
     </Typography>
     {rows()}
+    <Typography variant='h4'>
+      number of words: {props.keywords.length}
+    </Typography>
   </div>
 )
 
