@@ -23,7 +23,8 @@ const pageContent = (
     </Typography>
     {rows()}
   </div>
-  
+)
+
   return (
     <Layout 
       content={pageContent}
