@@ -7,8 +7,9 @@ import { db } from '../config/firebase'
 import Layout from '../components/Layout'
 
 const Results = (props) => {
+console.log(props.phrases)
 
-  const rows = () => {
+  const rowsKeywords = () => {
     let listKey = 0
     return (
       <List dense={true}>
@@ -21,12 +22,29 @@ const Results = (props) => {
     )
   }
 
+  const rowsPhrases = () => {
+    let listKey = 0
+    return (
+      <List dense={true}>
+        {props.phrases.map(phrase => {
+          <ListItem key={listKey++}>
+            <ListItemText primary={`${phrase}`} />
+          </ListItem>
+        })}
+      </List>
+    )
+  }
+
 const pageContent = (
   <div>
     <Typography variant='h4'>
-      Results
+      Keywords
     </Typography>
-    {rows()}
+    {rowsKeywords()}
+    <Typography variant='h4'>
+      Phrases
+    </Typography>
+    {rowsPhrases()}
     <Typography variant='h4'>
       number of words: {props.keywords.total}
     </Typography>
@@ -47,6 +65,7 @@ Results.getInitialProps = async () => {
     total: 0,
     words: []
   }
+  const phrases = []
 
   const parseWords = (word) => {
     console.log('parswords', word)
@@ -66,13 +85,21 @@ Results.getInitialProps = async () => {
     doc.data().words.forEach(word => {
       parseWords(word)
     })
+    phrases.push(doc.data().words)
   })
   
-  console.log(keywordsObj)
   keywordsObj.words.sort((a, b) => (a.count < b.count ? 1 : -1))
-  console.log(keywordsObj)
+  const joined = phrases.map(phrase => phrase.join())
+  console.log(joined)
   
-  return { keywords: keywordsObj }
+  console.log(keywordsObj)
+  console.log(phrases)
+  
+  
+  return { 
+    keywords: keywordsObj,
+    phrases: phrases
+  }
 }
 
 export default Results
