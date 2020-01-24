@@ -9,8 +9,8 @@ const Results = (props) => {
   const rows = () => {
     return (
       <ul>
-        {props.keywords.map(word => 
-          <li key={word}>{word}</li>
+        {props.keywords.words.map(word => 
+          <li key={word.keyword}>"{word.keyword}": {word.count}</li>
         )}
       </ul>
     )
@@ -23,7 +23,7 @@ const pageContent = (
     </Typography>
     {rows()}
     <Typography variant='h4'>
-      number of words: {props.keywords.length}
+      number of words: {props.keywords.total}
     </Typography>
   </div>
 )
@@ -65,8 +65,7 @@ Results.getInitialProps = async () => {
   
   console.log(keywordsObj)
   
-  const dummyWords = ['dog', 'cat', 'skunk']
-  return { keywords: dummyWords }
+  return { keywords: keywordsObj }
 }
 
 export default Results
