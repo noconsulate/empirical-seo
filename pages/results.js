@@ -1,5 +1,7 @@
 import Typography from '@material-ui/core/Typography'
-
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List'
+import ListItemText from '@material-ui/core/ListItemText';
 import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
@@ -7,12 +9,15 @@ import Layout from '../components/Layout'
 const Results = (props) => {
 
   const rows = () => {
+    let listKey = 0
     return (
-      <ul>
-        {props.keywords.words.map(word => 
-          <li key={word.keyword}>"{word.keyword}": {word.count}</li>
+      <List dense={true}>
+        {props.keywords.words.map(word =>
+          <ListItem key={listKey++}>
+            <ListItemText primary={`"${word.keyword}": ${word.count} times`} />
+          </ListItem>  
         )}
-      </ul>
+      </List>
     )
   }
 
