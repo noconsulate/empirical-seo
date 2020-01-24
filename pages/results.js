@@ -38,16 +38,35 @@ const pageContent = (
 
 Results.getInitialProps = async () => {
   const keywords = await db.collection('keywords').get()
-  let keywordsObj = []
-  
+  let keywordsObj = {
+    total: 0,
+    words: []
+  }
+
+  const parseWords = (word) => {
+    console.log('parswords', word)
+    let index = keywordsObj.words.findIndex(item => item.keyword === word)
+    if (index === -1) {
+      keywordsObj.words.push({
+        keyword: word,
+        count: 1
+      })
+      keywordsObj.total += 1
+    } else {
+      keywordsObj.words[index].count += 1
+      keywordsObj.total += 1
+    }
+  }
   keywords.forEach(doc => {
     doc.data().words.forEach(word => {
-      keywordsObj.push(word)
+      parseWords(word)
     })
   })
+  
   console.log(keywordsObj)
   
-  return { keywords: keywordsObj }
+  const dummyWords = ['dog', 'cat', 'skunk']
+  return { keywords: dummyWords }
 }
 
 export default Results
