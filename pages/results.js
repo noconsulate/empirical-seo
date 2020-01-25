@@ -26,17 +26,16 @@ props.phrases.map(phrase => console.log(phrase))
   const rowsPhrases = () => {
     let listKey = 0
     return (
-      // <div>
-      //   {props.phrases.map(phrase => <p>{phrase}</p>)}
-      // </div>
-
-      <List dense={true}>
-        {props.phrases.map(phrase => {
-          <ListItem key={listKey++}>
-            <ListItemText primary={phrase} />
-          </ListItem>
-        })}
-      </List>
+   
+      <div>
+        <List dense={true}>
+          {props.phrases.map(phrase => 
+            <ListItem key={listKey++}>
+              <ListItemText primary={phrase} />
+            </ListItem>
+          )}
+        </List>
+      </div>
     )
   }
 
