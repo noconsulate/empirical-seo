@@ -8,6 +8,7 @@ import Layout from '../components/Layout'
 
 const Results = (props) => {
 console.log(props.phrases)
+props.phrases.map(phrase => console.log(phrase))
 
   const rowsKeywords = () => {
     let listKey = 0
@@ -25,10 +26,14 @@ console.log(props.phrases)
   const rowsPhrases = () => {
     let listKey = 0
     return (
+      // <div>
+      //   {props.phrases.map(phrase => <p>{phrase}</p>)}
+      // </div>
+
       <List dense={true}>
         {props.phrases.map(phrase => {
           <ListItem key={listKey++}>
-            <ListItemText primary={`${phrase}`} />
+            <ListItemText primary={phrase} />
           </ListItem>
         })}
       </List>
@@ -65,10 +70,10 @@ Results.getInitialProps = async () => {
     total: 0,
     words: []
   }
+  let phrase = ' '
   const phrases = []
 
   const parseWords = (word) => {
-    console.log('parswords', word)
     let index = keywordsObj.words.findIndex(item => item.keyword === word)
     if (index === -1) {
       keywordsObj.words.push({
@@ -82,19 +87,17 @@ Results.getInitialProps = async () => {
     }
   }
   keywords.forEach(doc => {
+    phrase = ' '
     doc.data().words.forEach(word => {
       parseWords(word)
+      phrase += ' ' + word
     })
-    phrases.push(doc.data().words)
+    
+    phrases.push(phrase)
   })
   
   keywordsObj.words.sort((a, b) => (a.count < b.count ? 1 : -1))
-  const joined = phrases.map(phrase => phrase.join())
-  console.log(joined)
-  
-  console.log(keywordsObj)
-  console.log(phrases)
-  
+  console.log('on server', phrases)
   
   return { 
     keywords: keywordsObj,
