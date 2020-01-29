@@ -1,5 +1,6 @@
+import * as Yup from 'yup'
 import Typography from '@material-ui/core/Typography'
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import { TextField } from 'formik-material-ui';
 import Button from '@material-ui/core/Button'
 
@@ -7,14 +8,17 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
+const FormSchema = Yup.object().shape({
+  keywords: Yup.string()
+    .required('The search field is empty!')
+})
+
 const MyForm = () => (
 
 
   <Formik
     initialValues={{ keywords: '' }}
-    validate={values => {
-      // Your client-side validation logic
-    }}
+    validationSchema={FormSchema}
     onSubmit={(values, { setSubmitting }) => {
       const keywords = values.keywords.split(' ').filter(item => item != '')
       console.log('keywords', keywords)
@@ -33,6 +37,7 @@ const MyForm = () => (
     {({ isSubmitting }) => (
       <Form>
         <TextField name='keywords' placeholder='keywords here' />
+        <ErrorMessage name='keywords' />
         <Button
          type="submit"
          fullWidth

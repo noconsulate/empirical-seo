@@ -1,0 +1,9 @@
+** TO DO **
+Validate subissions:
+  
+  -prevent idential submissions
+
+Design:
+  Separate survey/results. different boxes in same view?
+
+Authentication

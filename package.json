@@ -12,7 +12,8 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-window": "^1.8.5"
+    "react-window": "^1.8.5",
+    "yup": "^0.28.1"
   },
   "scripts": {
     "dev": "next",
