@@ -1,3 +1,4 @@
+import React from 'react'
 import * as Yup from 'yup'
 import Typography from '@material-ui/core/Typography'
 import { Formik, Form, ErrorMessage } from 'formik';
@@ -13,13 +14,11 @@ const FormSchema = Yup.object().shape({
     .required('The search field is empty!')
 })
 
-
-
-
-
 const Survey = props => {
-  const MyForm = () => (
+  const [hasSubmitted, setHasSubmitted] = React.useState(false)
 
+
+  const MyForm = () => (
     <Formik
       initialValues={{ keywords: '' }}
       validationSchema={FormSchema}
@@ -36,6 +35,7 @@ const Survey = props => {
           console.error("Error adding document: ", docRef.id);
         })
         setSubmitting(false)
+        setHasSubmitted(true)
       }}
     >
       {({ isSubmitting }) => (
@@ -55,20 +55,35 @@ const Survey = props => {
       )}
     </Formik>
   );
-  
-  const pageContent = (
-    <div>
+
+  const beforeSubmit = () => (
+    
+      <div>
       <Typography variant='body1'>
         this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
         </Typography>
       <br />
       <Typography variant='h5'>
         Find the best place to party Las Vegas
-        </Typography>
+      </Typography>
       {MyForm()}
-    </div>
+      </div>
+    
+  )
+  const afterSubmit = () => (
+    <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/beachclam.jpg?alt=media&token=5005560c-fa6d-4c08-ac5e-b70e52d9c042' /> 
   )
   
+  const pageContent = (
+    <div>
+      {
+        hasSubmitted ? 
+        afterSubmit() :
+        beforeSubmit()
+      }
+    </div>
+  )
+
   return (
     <Layout
       content={pageContent}
