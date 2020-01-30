@@ -71,7 +71,7 @@ const Survey = props => {
     
   )
   const afterSubmit = () => (
-    <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/beachclam.jpg?alt=media&token=5005560c-fa6d-4c08-ac5e-b70e52d9c042' /> 
+    <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/photo_2020-01-30_16-07-10.jpg?alt=media&token=25358198-3148-425c-b57e-0d49f0e544b7' /> 
   )
   
   const pageContent = (
