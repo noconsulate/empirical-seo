@@ -16,7 +16,24 @@ const FormSchema = Yup.object().shape({
 
 const Survey = props => {
   const [hasSubmitted, setHasSubmitted] = React.useState(false)
+  const [id, setId] = React.useState('')
+  const submitAuth = (type) => {
+    console.log(id)
+    
+    db.collection('keywords').doc(id).set({
+      auth: type
+    }, { merge: true })
+    .then(docRef => {
+      console.log('auth updated')
+    })
+    .catch(error => {
+      console.error('Error updating document: ', error)
+    })
+  }
 
+  const handleAuth = () => {
+    submitAuth('dummy')
+  }
 
   const MyForm = () => (
     <Formik
@@ -30,6 +47,7 @@ const Survey = props => {
         })
         .then(docRef => {
           console.log("Keywords written to: ", docRef.id)
+          setId(docRef.id)
         })
         .catch(error => {
           console.error("Error adding document: ", docRef.id);
@@ -40,7 +58,7 @@ const Survey = props => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <TextField name='keywords' placeholder='keywords here' />
+          <TextField name='keywords' placeholder='keywords here' autoComplete='off'/>
           <ErrorMessage name='keywords' />
           <Button
            type="submit"
@@ -71,9 +89,18 @@ const Survey = props => {
     
   )
   const afterSubmit = () => (
-    <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/photo_2020-01-30_16-07-10.jpg?alt=media&token=25358198-3148-425c-b57e-0d49f0e544b7' /> 
+    <div>
+      <Typography variant='body1'>
+        Please validate your submission by logging in with Google, Facebook, or email so you can entered into the contest. 
+      </Typography>
+      <Button
+       onClick={handleAuth}
+      >
+        AUTHENTICATE!
+      </Button>
+      <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/photo_2020-01-30_16-07-10.jpg?alt=media&token=25358198-3148-425c-b57e-0d49f0e544b7' /> 
+    </div>
   )
-  
   const pageContent = (
     <div>
       {
