@@ -16,6 +16,7 @@ const FormSchema = Yup.object().shape({
 
 const Survey = props => {
   const [hasSubmitted, setHasSubmitted] = React.useState(false)
+  const [hasAuthenticated, setHasAuthenticated] = React.useState(false)
   const [id, setId] = React.useState('')
   const submitAuth = (type) => {
     console.log(id)
@@ -25,6 +26,7 @@ const Survey = props => {
     }, { merge: true })
     .then(docRef => {
       console.log('auth updated')
+      setHasAuthenticated(true)
     })
     .catch(error => {
       console.error('Error updating document: ', error)
@@ -75,7 +77,6 @@ const Survey = props => {
   );
 
   const beforeSubmit = () => (
-    
       <div>
       <Typography variant='body1'>
         this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
@@ -86,10 +87,10 @@ const Survey = props => {
       </Typography>
       {MyForm()}
       </div>
-    
   )
-  const afterSubmit = () => (
-    <div>
+
+  const beforeAuth = () => (
+    <>
       <Typography variant='body1'>
         Please validate your submission by logging in with Google, Facebook, or email so you can entered into the contest. 
       </Typography>
@@ -99,8 +100,27 @@ const Survey = props => {
         AUTHENTICATE!
       </Button>
       <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/photo_2020-01-30_16-07-10.jpg?alt=media&token=25358198-3148-425c-b57e-0d49f0e544b7' /> 
+    </>
+  )
+
+  const afterAuth = () => (
+    <>
+      <Typography variant='body1'>
+        Thank you for your participation. Hopefully it will be YOU on this beach with the lovely clam!
+      </Typography>
+      <img src='https://firebasestorage.googleapis.com/v0/b/empirical-seo.appspot.com/o/photo_2020-01-30_16-07-10.jpg?alt=media&token=25358198-3148-425c-b57e-0d49f0e544b7' /> 
+    </>
+  )
+  const afterSubmit = () => (
+    <div>
+      {
+      hasAuthenticated ?
+      afterAuth() :
+      beforeAuth()
+    }
     </div>
   )
+
   const pageContent = (
     <div>
       {
