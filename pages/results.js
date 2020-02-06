@@ -96,7 +96,6 @@ Results.getInitialProps = async () => {
   })
   
   keywordsObj.words.sort((a, b) => (a.count < b.count ? 1 : -1))
-  console.log('on server', phrases)
   
   return { 
     keywords: keywordsObj,
