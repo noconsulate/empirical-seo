@@ -1,19 +1,44 @@
 import Head from 'next/head'
+import { makeStyles } from '@material-ui/core/styles'
+import { 
+  Grid, 
+  Container, 
+  CssBaseline, 
+} from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core/styles'
+import theme from '../src/theme'
 
 import NavBar from './NavBar'
 import Header from './Header'
 
-const Layout = props => {
-  return (
+const useStyles = makeStyles(theme => ({
+  root: {
+    
+  },
+  slab: {
+    border: 'dashed',
+  }
+}))
 
-    <div>
-      <Head>
-        <title>{props.title}</title>
-      </Head>
+const Layout = props => {
+  const classes = useStyles()
+
+  return (
+   <ThemeProvider theme={theme}>
+     <Head>
+       <title>{props.title}</title>
+     </Head>
+     <div>
+      <CssBaseline />
+    <Container maxWidth="lg" className={classes.slab}>
       <NavBar />
       <Header />
-      {props.content}
-    </div>
+      <main>
+        {props.content}
+      </main>
+    </Container>
+   </div>
+   </ThemeProvider>
   )
 }
 
