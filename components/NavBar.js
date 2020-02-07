@@ -9,6 +9,7 @@ import Link from '../src/Link'
 const useStyles = makeStyles({
   navButton: {
     marginRight: 15,
+    backgroundColor: 'pink',
   },
   navBar: {
   }
@@ -22,7 +23,8 @@ const NavBar = props => {
           <Link href='/survey' color='textPrimary' className={classes.navButton}>
             Survey
           </Link>
-          <Link href='/results' color='textPrimary'>
+          <Link href='/results' color='textPrimary' className={classes.navButton}
+          >
             Results
           </Link>
       </Toolbar>

@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Yup from 'yup'
-import Typography from '@material-ui/core/Typography'
+import {makeStyles} from '@material-ui/core/styles'
+import { Typography, Grid } from '@material-ui/core/'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { TextField } from 'formik-material-ui';
 import Button from '@material-ui/core/Button'
@@ -9,12 +10,23 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
+const useStyles = makeStyles(theme => ({
+  form: {
+    backgroundColor: 'red',
+  },
+  content: {
+    backgroundColor: 'green',
+  },
+}))
+
 const FormSchema = Yup.object().shape({
   keywords: Yup.string()
     .required('The search field is empty!')
 })
 
 const Survey = props => {
+  const classes = useStyles() 
+
   const [hasSubmitted, setHasSubmitted] = React.useState(false)
   const [hasAuthenticated, setHasAuthenticated] = React.useState(false)
   const [id, setId] = React.useState('')
@@ -59,12 +71,12 @@ const Survey = props => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form className={classes.form}>
           <TextField name='keywords' placeholder='keywords here' autoComplete='off'/>
           <ErrorMessage name='keywords' />
           <Button
            type="submit"
-           fullWidth
+           
            variant="contained"
            color="primary"
            disabled={isSubmitting}
@@ -77,7 +89,7 @@ const Survey = props => {
   );
 
   const beforeSubmit = () => (
-      <div>
+      <div className={classes.content}>
       <Typography variant='body1'>
         this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
         </Typography>
