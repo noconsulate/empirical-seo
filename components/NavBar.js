@@ -31,6 +31,10 @@ const NavBar = props => {
           >
             About
           </Link>
+          <Link href='/privacy' color='textPrimary' className={classes.navButton}
+          >
+            Privacy
+          </Link>
       </Toolbar>
     </AppBar>
   )
