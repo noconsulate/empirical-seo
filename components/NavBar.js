@@ -27,6 +27,10 @@ const NavBar = props => {
           >
             Results
           </Link>
+          <Link href='/about' color='textPrimary' className={classes.navButton}
+          >
+            About
+          </Link>
       </Toolbar>
     </AppBar>
   )
