@@ -4,6 +4,8 @@ import {
   Container, 
   CssBaseline, 
 } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core/styles'
+import theme from '../src/theme'
 
 import NavBar from '../components/NavBar'
 import Header from '../components/Header'
@@ -13,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     
   },
   slab: {
-    backgroundColor: 'green',
+    border: 'dashed',
   }
 }))
 
@@ -21,13 +23,15 @@ const Grids = () => {
   const classes = useStyles()
 
   return (
-   <div>
+   <ThemeProvider theme={theme}>
+     <div>
       <CssBaseline />
-    <Container maxWidth="lg" className={classes.slab}>
+    <Container maxWidth="lg" className={classes.slab} disableGutters>
       <NavBar />
       <Header />
     </Container>
    </div>
+   </ThemeProvider>
   )
 }
 

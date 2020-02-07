@@ -18,7 +18,7 @@ const NavBar = props => {
   const classes = useStyles()
   return (
     <AppBar position='static'>
-      <Toolbar className={classes.navBar}>
+      <Toolbar className={classes.navBar} disableGutters>
           <Link href='/survey' color='textPrimary' className={classes.navButton}>
             Survey
           </Link>
