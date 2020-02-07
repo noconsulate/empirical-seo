@@ -8,7 +8,9 @@ import Link from '../src/Link'
 
 const useStyles = makeStyles({
   navButton: {
-    marginRight: 15
+    marginRight: 15,
+  },
+  navBar: {
   }
 })
 
@@ -16,7 +18,7 @@ const NavBar = props => {
   const classes = useStyles()
   return (
     <AppBar position='static'>
-      <Toolbar>
+      <Toolbar className={classes.navBar}>
           <Link href='/survey' color='textPrimary' className={classes.navButton}>
             Survey
           </Link>
