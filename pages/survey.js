@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Yup from 'yup'
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Grid } from '@material-ui/core/'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -13,7 +13,9 @@ import Layout from '../components/Layout'
 const useStyles = makeStyles(theme => ({
   form: {
     backgroundColor: 'red',
+    alignItems: 'center',
   },
+
   content: {
     backgroundColor: 'green',
   },
@@ -25,24 +27,24 @@ const FormSchema = Yup.object().shape({
 })
 
 const Survey = props => {
-  const classes = useStyles() 
+  const classes = useStyles()
 
   const [hasSubmitted, setHasSubmitted] = React.useState(false)
   const [hasAuthenticated, setHasAuthenticated] = React.useState(false)
   const [id, setId] = React.useState('')
   const submitAuth = (type) => {
     console.log(id)
-    
+
     db.collection('keywords').doc(id).set({
       auth: type
     }, { merge: true })
-    .then(docRef => {
-      console.log('auth updated')
-      setHasAuthenticated(true)
-    })
-    .catch(error => {
-      console.error('Error updating document: ', error)
-    })
+      .then(docRef => {
+        console.log('auth updated')
+        setHasAuthenticated(true)
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error)
+      })
   }
 
   const handleAuth = () => {
@@ -59,37 +61,46 @@ const Survey = props => {
         db.collection('keywords').add({
           words: keywords
         })
-        .then(docRef => {
-          console.log("Keywords written to: ", docRef.id)
-          setId(docRef.id)
-        })
-        .catch(error => {
-          console.error("Error adding document: ", docRef.id);
-        })
+          .then(docRef => {
+            console.log("Keywords written to: ", docRef.id)
+            setId(docRef.id)
+          })
+          .catch(error => {
+            console.error("Error adding document: ", docRef.id);
+          })
         setSubmitting(false)
         setHasSubmitted(true)
       }}
     >
       {({ isSubmitting }) => (
-        <Form className={classes.form}>
-          <TextField name='keywords' placeholder='keywords here' autoComplete='off'/>
-          <ErrorMessage name='keywords' />
-          <Button
-           type="submit"
-           
-           variant="contained"
-           color="primary"
-           disabled={isSubmitting}
-         >
-           Submit
+        <Grid container direction='column' className={classes.form}>
+          <Form>
+            <Grid item>
+              <TextField name='keywords' placeholder='keywords here' autoComplete='off' />
+            
+            </Grid>
+            <Grid item>
+              <ErrorMessage name='keywords' />
+            </Grid>
+            <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+            >
+              Submit
          </Button>
-        </Form>
+            </Grid>
+            
+          </Form>
+        </Grid>
       )}
     </Formik>
   );
 
   const beforeSubmit = () => (
-      <div className={classes.content}>
+    <div className={classes.content}>
       <Typography variant='body1'>
         this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
         </Typography>
@@ -98,20 +109,20 @@ const Survey = props => {
         Find the best place to party Las Vegas
       </Typography>
       {MyForm()}
-      </div>
+    </div>
   )
 
   const beforeAuth = () => (
     <>
       <Typography variant='body1'>
-        Please validate your submission by logging in with Google, Facebook, or email so you can entered into the contest. 
+        Please validate your submission by logging in with Google, Facebook, or email so you can entered into the contest.
       </Typography>
       <Button
-       onClick={handleAuth}
+        onClick={handleAuth}
       >
         AUTHENTICATE!
       </Button>
-      
+
     </>
   )
 
@@ -120,25 +131,25 @@ const Survey = props => {
       <Typography variant='body1'>
         Thank you for your participation. Hopefully it will be YOU on this beach with the lovely clam!
       </Typography>
-      
+
     </>
   )
   const afterSubmit = () => (
     <div>
       {
-      hasAuthenticated ?
-      afterAuth() :
-      beforeAuth()
-    }
+        hasAuthenticated ?
+          afterAuth() :
+          beforeAuth()
+      }
     </div>
   )
 
   const pageContent = (
     <div>
       {
-        hasSubmitted ? 
-        afterSubmit() :
-        beforeSubmit()
+        hasSubmitted ?
+          afterSubmit() :
+          beforeSubmit()
       }
     </div>
   )
