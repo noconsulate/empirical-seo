@@ -1,3 +1,6 @@
 ** TO DO **
 
 Loading animations (npm skelton?)
+fix ErrorMessage in survey.js
+
+Custom scenarios

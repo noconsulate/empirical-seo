@@ -20,6 +20,9 @@ const NavBar = props => {
   return (
     <AppBar position='static'>
       <Toolbar className={classes.navBar} >
+          <Link href='/create' color='textPrimary' className={classes.navButton}>
+            Create
+          </Link>
           <Link href='/survey' color='textPrimary' className={classes.navButton}>
             Survey
           </Link>
