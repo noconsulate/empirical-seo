@@ -1,10 +1,9 @@
 import React from 'react'
 import * as Yup from 'yup'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, Grid } from '@material-ui/core/'
+import { Typography, Grid, Button } from '@material-ui/core/'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { TextField } from 'formik-material-ui';
-import Button from '@material-ui/core/Button'
 
 import { db } from '../config/firebase'
 
@@ -77,22 +76,22 @@ const Survey = props => {
           <Form>
             <Grid item>
               <TextField name='keywords' placeholder='keywords here' autoComplete='off' />
-            
+
             </Grid>
             <Grid item>
               <ErrorMessage name='keywords' />
             </Grid>
             <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-            >
-              Submit
-         </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isSubmitting}
+              >
+                Submit
+              </Button>
             </Grid>
-            
+
           </Form>
         </Grid>
       )}
