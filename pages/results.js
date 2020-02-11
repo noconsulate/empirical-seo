@@ -1,14 +1,25 @@
-import Typography from '@material-ui/core/Typography'
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/core/styles'
+import {
+  ListItem, List, ListItemText, Typography
+} from '@material-ui/core'
 import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
+const useStyles = makeStyles(theme => ({
+  keywords: {
+    backgroundColor: 'green',
+  },
+  phrases: {
+    backgroundColor: 'red',
+  },
+  extra: {
+    backgroundColor: 'yellow',
+  },
+}))
+
 const Results = (props) => {
-console.log(props.phrases)
-props.phrases.map(phrase => console.log(phrase))
+  const classes = useStyles()
 
   const rowsKeywords = () => {
     let listKey = 0
@@ -17,7 +28,7 @@ props.phrases.map(phrase => console.log(phrase))
         {props.keywords.words.map(word =>
           <ListItem key={listKey++}>
             <ListItemText primary={`"${word.keyword}": ${word.count} times`} />
-          </ListItem>  
+          </ListItem>
         )}
       </List>
     )
@@ -26,10 +37,10 @@ props.phrases.map(phrase => console.log(phrase))
   const rowsPhrases = () => {
     let listKey = 0
     return (
-   
+
       <div>
         <List dense={true}>
-          {props.phrases.map(phrase => 
+          {props.phrases.map(phrase =>
             <ListItem key={listKey++}>
               <ListItemText primary={phrase} />
             </ListItem>
@@ -39,24 +50,48 @@ props.phrases.map(phrase => console.log(phrase))
     )
   }
 
-const pageContent = (
-  <div>
-    <Typography variant='h4'>
-      Keywords
-    </Typography>
-    {rowsKeywords()}
-    <Typography variant='h4'>
-      Phrases
-    </Typography>
-    {rowsPhrases()}
-    <Typography variant='h4'>
-      number of words: {props.keywords.total}
-    </Typography>
-  </div>
-)
+  const KeywordsPane = () => {
+    return (
+      <div className={classes.keywords}>
+        <Typography variant='h4'>
+          Keywords
+       </Typography>
+        {rowsKeywords()}
+      </div>
+    )
+  }
+
+  const PhrasesPane = () => {
+    return (
+      <div className={classes.phrases}>
+        <Typography variant='h4'>
+          Phrases
+      </Typography>
+        {rowsPhrases()}
+      </div>
+    )
+  }
+
+  const ExtraPane = () => {
+    return (
+      <div className={classes.extra}>
+        <Typography variant='h4'>
+          number of words: {props.keywords.total}
+        </Typography>
+      </div>
+    )
+  }
+
+  const pageContent = (
+    <div>
+      <KeywordsPane />
+      <PhrasesPane />
+      <ExtraPane />
+    </div>
+  )
 
   return (
-    <Layout 
+    <Layout
       content={pageContent}
       title='Survey results - CONFIDENTIAL'
     />
@@ -91,13 +126,13 @@ Results.getInitialProps = async () => {
       parseWords(word)
       phrase += ' ' + word
     })
-    
+
     phrases.push(phrase)
   })
-  
+
   keywordsObj.words.sort((a, b) => (a.count < b.count ? 1 : -1))
-  
-  return { 
+
+  return {
     keywords: keywordsObj,
     phrases: phrases
   }
