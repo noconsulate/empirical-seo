@@ -19,47 +19,39 @@ const useStyles = makeStyles(theme => ({
 const Create = props => {
   const classes = useStyles()
 
-  const MyForm = () => {
+  const MyForm = () => (
     <Formik
-      initialValues={{ scenario: ''}}
+      initialValues={{ scenario: '' }}
       onSubmit={(values, { setSubmitting }) => {
-        alert('submitting' + values.scenario)
+        console.log(values)
+        alert(values.scenario)
         setSubmitting(false)
       }}
-      >
+    >
       {({ isSubmitting }) => (
-        <Grid container className={classes.form}>
+        <Grid container direction='column' className={classes.form}>
           <Form>
             <Grid item>
-              <TextField
-                name='scenario'
-                placeholder='scenario here'
-                autoComplete='off'
-              />
+              <TextField name='scenario' placeholder='scenario here' autoComplete='off' />
+
             </Grid>
+            
             <Grid item>
-              <Button 
-                type='submit'
-                variant='contained'
-                color='primary'
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
                 disabled={isSubmitting}
               >
                 Submit
               </Button>
             </Grid>
+
           </Form>
         </Grid>
       )}
-      </Formik>
-  }
-
-  const MyForm1 = () => {
-    return(
-      <div>
-        can u poo
-      </div>
-    )
-  }
+    </Formik>
+  );
 
   const ScenarioForm = () => {
     return (
@@ -68,7 +60,6 @@ const Create = props => {
           Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
       </Typography>
       {MyForm()}
-      {MyForm1()}
       </div>
     )
   }
