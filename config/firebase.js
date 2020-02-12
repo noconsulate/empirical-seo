@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app'
 import "firebase/firestore"
 
+
 var firebaseConfig = {
   apiKey: "AIzaSyDbC1jdZ8p9m6Wtx10vJh6rUAqRDQTbT3I",
   authDomain: "empirical-seo.firebaseapp.com",
@@ -18,5 +19,5 @@ if (!firebase.apps.length) {
       console.error('Firebase initialization error raised', err.stack)
   }
 }
-
 export const db = firebase.firestore()
+

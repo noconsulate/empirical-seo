@@ -6,6 +6,7 @@
     "@material-ui/core": "latest",
     "clsx": "latest",
     "firebase": "^7.7.0",
+    "firebaseui": "^4.4.0",
     "formik": "^2.1.2",
     "formik-material-ui": "^2.0.0-alpha.2",
     "next": "latest",
