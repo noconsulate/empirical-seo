@@ -37,6 +37,7 @@ const Create = props => {
           .then(docRef => {
             console.log('scenario written to: ', docRef.id)
             setId(docRef.id)
+            setPageControl(1)
           })
           .catch(error => {
             console.error('error adding document: ', error.message)
@@ -93,7 +94,6 @@ const Create = props => {
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
         </Typography>
-        {MyLoginForm}
       </div>
     )
   }
@@ -103,6 +103,7 @@ const Create = props => {
       {
         {
           0: <ScenarioForm />,
+          1: <LoginForm />
         }[pageControl]
       }
     </>
