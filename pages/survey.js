@@ -26,10 +26,10 @@ const FormSchema = Yup.object().shape({
 })
 
 const Survey = props => {
-  const classes = useStyles()
-
   const [hasSubmitted, setHasSubmitted] = React.useState(false)
   const [hasAuthenticated, setHasAuthenticated] = React.useState(false)
+  
+  const classes = useStyles()
   const [id, setId] = React.useState('')
   const submitAuth = (type) => {
     console.log(id)
@@ -65,7 +65,7 @@ const Survey = props => {
             setId(docRef.id)
           })
           .catch(error => {
-            console.error("Error adding document: ", docRef.id);
+            console.error("Error adding document: ", error.message);
           })
         setSubmitting(false)
         setHasSubmitted(true)
@@ -75,7 +75,11 @@ const Survey = props => {
         <Grid container direction='column' className={classes.form}>
           <Form>
             <Grid item>
-              <TextField name='keywords' placeholder='keywords here' autoComplete='off' />
+              <TextField 
+                name='keywords' 
+                placeholder='keywords here' 
+                autoComplete='off' 
+              />
 
             </Grid>
             <Grid item>
