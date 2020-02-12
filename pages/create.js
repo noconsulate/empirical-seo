@@ -7,9 +7,9 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import { TextField } from 'formik-material-ui';
 
 import { db } from '../config/firebase'
-import { startFirebaseUi } from '../config/firebase'
 
 import Layout from '../components/Layout'
+import ScenarioForm from '../components/ScenarioForm'
 
 const useStyles = makeStyles(theme => ({
   extra: {
@@ -23,10 +23,6 @@ const useStyles = makeStyles(theme => ({
 const Create = props => {
   const [id, setId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
-
-  // React.useEffect( () => {
-  //   startFirebaseUi('#firebaseui')
-  // }, [])
 
   const classes = useStyles()
 
@@ -82,16 +78,16 @@ const Create = props => {
     </Formik>
   );
 
-  const ScenarioForm = () => {
-    return (
-      <div className={classes.extra}>
-        <Typography variant='body1'>
-          Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
-      </Typography>
-      {MyScenarioForm()}
-      </div>
-    )
-  }
+  // const ScenarioForm = () => {
+  //   return (
+  //     <div className={classes.extra}>
+  //       <Typography variant='body1'>
+  //         Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
+  //     </Typography>
+  //     {MyScenarioForm()}
+  //     </div>
+  //   )
+  // }
 
   const LoginForm = () => {
     return (
