@@ -24,9 +24,11 @@ const useStyles = makeStyles(theme => ({
 const Create = props => {
   const [id, setId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
-  const [scenarioText, setScenarioText] = React.useState('')
+  const [scenarioText, setScenarioText] = React.useState('ar')
   const [test, setTest] = React.useState('')
 
+
+  
   const classes = useStyles()
 
   const handleChangeScenario = event => {
@@ -34,6 +36,9 @@ const Create = props => {
     
     setScenarioText(event.target.value)
     const { target } = event;
+    setTimeout(() => {
+      target.focus();
+    }, 10);
 
   }
 
@@ -57,16 +62,16 @@ const Create = props => {
     setTest(event.target.value)
   }
 
-  const Scenarioform = props => {
+  const Scenarioform = () => {
     return (
-      <div>
+      <>
         <div className={classes.description}>
           <Typography variant='body1'>
             Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
           </Typography>
         </div>
         <form autoComplete='off' className={classes.form} onSubmit={handleSubmitScenario}>
-          <TextField 
+          <TextField id='foo'
             label="scenario"
             multiline
             fullWidth
@@ -79,7 +84,7 @@ const Create = props => {
             Submit
           </Button>
         </form>
-      </div>
+      </>
     )
   }
   const LoginForm = () => {
