@@ -85,7 +85,7 @@ const Create = props => {
           Here's the link to your survey.
         </Typography>
         <Link href={{ pathname: '/surveyparams', query: { urlid: urlId } }}>
-          <a>{`www.impishseo.com/survey?urlid=${urlId}`}</a>
+          <a>{`www.empircalseoapp.com/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
