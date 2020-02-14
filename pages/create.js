@@ -33,7 +33,7 @@ const Create = props => {
     setFormText(event.target.value)
   }
 
-  const handleSubmitScenario = async event => {
+  const handleSubmitScenario = event => {
     event.preventDefault()
     const urlIdGen = shortid.generate()
     console.log(urlId)
