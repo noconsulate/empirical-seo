@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 const Create = props => {
   const [id, setId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
-  const [scenarioText, setScenarioText] = React.useState('ar')
+  const [scenarioText, setScenarioText] = React.useState('')
   const [test, setTest] = React.useState('')
 
 
@@ -37,8 +37,6 @@ const Create = props => {
 
   const handleSubmitScenario = event => {
     event.preventDefault()
-    console.log('handle submit')
-    
     db.collection('scenarios').add({
       scenario: scenarioText,
     })
@@ -46,8 +44,6 @@ const Create = props => {
         console.log('scenario written to: ', docRef.id)
         setId(docRef.id)
         setPageControl(1)
-        console.log(pageControl)
-        
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
