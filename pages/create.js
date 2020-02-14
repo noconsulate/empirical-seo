@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   Typography, Button, Grid, FormControl, TextField
 } from '@material-ui/core'
-import { Formik, Form, ErrorMessage } from 'formik';
-
+import shortid from 'shortid'
 import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
@@ -25,33 +24,33 @@ const Create = props => {
   const [id, setId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
   const [scenarioText, setScenarioText] = React.useState('')
-  const [test, setTest] = React.useState('')
-
+  const [formText, setFormText] = React.useState('')
 
   
   const classes = useStyles()
 
   const handleChangeScenario = event => {
-    setScenarioText(event.target.value)
+    setFormText(event.target.value)
   }
 
   const handleSubmitScenario = event => {
     event.preventDefault()
+    const urlId = shortid.generate()
+    console.log(urlId)
+    
     db.collection('scenarios').add({
-      scenario: scenarioText,
+      scenario: formText,
+      urlId,
     })
       .then(docRef => {
         console.log('scenario written to: ', docRef.id)
         setId(docRef.id)
         setPageControl(1)
+        setFormText('')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
       })
-  }
-
-  const handleTest = event => {
-    setTest(event.target.value)
   }
 
   const ScenarioForm = () => {
@@ -68,10 +67,9 @@ const Create = props => {
             multiline
             fullWidth
             rowsMax='2'
-            value={scenarioText}
+            value={formText}
             onChange={handleChangeScenario}
           />
-          <TextField value={test} onChange={handleTest} />
           <Button type='submit' variant='contained'>
             Submit
           </Button>
