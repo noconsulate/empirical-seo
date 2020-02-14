@@ -32,18 +32,13 @@ const Create = props => {
   const classes = useStyles()
 
   const handleChangeScenario = event => {
-    console.log('keypress')
-    
     setScenarioText(event.target.value)
-    const { target } = event;
-    setTimeout(() => {
-      target.focus();
-    }, 10);
-
   }
 
   const handleSubmitScenario = event => {
     event.preventDefault()
+    console.log('handle submit')
+    
     db.collection('scenarios').add({
       scenario: scenarioText,
     })
@@ -51,10 +46,11 @@ const Create = props => {
         console.log('scenario written to: ', docRef.id)
         setId(docRef.id)
         setPageControl(1)
+        console.log(pageControl)
+        
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
-
       })
   }
 
@@ -100,17 +96,18 @@ const Create = props => {
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return Scenarioform
+        return Scenarioform()
+      case 1:
+        console.log('viewControl 1')
+        
+        return LoginForm()
     } 
   }
 
   const pageContent = (
     <>
       {
-        {
-          0: {Scenarioform()},
-          1: {LoginForm()}
-        }[pageControl]
+        viewControl()
       }
     </>
   )
