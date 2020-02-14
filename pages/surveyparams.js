@@ -29,6 +29,7 @@ const Survey = props => {
   const router = useRouter()
   React.useEffect(() => {
     const value = router.query.urlid
+    console.log(value)
     setUrlId(value)
     console.log(urlId)
     if (urlId) {
@@ -59,18 +60,18 @@ const Survey = props => {
     event.preventDefault()
     console.log('submit', formText)
 
-    const keywords = formText.split(' ').filter(item => item != '')
-    console.log('keywords', keywords)
-    db.collection('keywords').add({
-      words: keywords,
-      scenario: scenarioId,
-    })
-      .then(docRef => {
-        console.log("Keywords written to: ", docRef.id)
-      })
-      .catch(error => {
-        console.error("Error adding document: ", error.message);
-      })
+    // const keywords = formText.split(' ').filter(item => item != '')
+    // console.log('keywords', keywords)
+    // db.collection('keywords').add({
+    //   words: keywords,
+    //   scenario: scenarioId,
+    // })
+    //   .then(docRef => {
+    //     console.log("Keywords written to: ", docRef.id)
+    //   })
+    //   .catch(error => {
+    //     console.error("Error adding document: ", error.message);
+    //   })
   }
 
   const SurveyForm = () => {
