@@ -54,7 +54,7 @@ const Create = props => {
     setTest(event.target.value)
   }
 
-  const Scenarioform = () => {
+  const ScenarioForm = () => {
     return (
       <>
         <div className={classes.description}>
@@ -92,10 +92,8 @@ const Create = props => {
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return Scenarioform()
+        return ScenarioForm()
       case 1:
-        console.log('viewControl 1')
-        
         return LoginForm()
     } 
   }
