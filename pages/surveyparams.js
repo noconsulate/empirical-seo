@@ -26,12 +26,12 @@ const Survey = props => {
 
   const classes = useStyles()
 
-  const router = useRouter()
+  console.log(props.query.urlid)
+
   React.useEffect(() => {
-    const value = router.query.urlid
-    console.log(value)
-    setUrlId(value)
+    setUrlId(props.query.urlid)
     console.log(urlId)
+    
     if (urlId) {
       const scenariosRef = db.collection('scenarios')
       const query = scenariosRef.where('urlId', '==', urlId)
@@ -120,3 +120,6 @@ const Survey = props => {
 
 export default Survey
 
+Survey.getInitialProps = ({query}) => {
+  return {query}
+}
