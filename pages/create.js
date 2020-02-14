@@ -97,12 +97,19 @@ const Create = props => {
     )
   }
 
+  const viewControl = () => {
+    switch (pageControl) {
+      case 0:
+        return Scenarioform
+    } 
+  }
+
   const pageContent = (
     <>
       {
         {
-          0: <Scenarioform />,
-          1: <LoginForm />
+          0: {Scenarioform()},
+          1: {LoginForm()}
         }[pageControl]
       }
     </>

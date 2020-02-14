@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  TextField,
+  TextField, Typography
 } from '@material-ui/core'
 
 import Layout from '../components/Layout'
@@ -11,12 +11,26 @@ const Create = props => {
   const handleChange = event => {
     setValue(event.target.value)
   }
+
+  const ScenarioView = () => {
+    return (
+      <>
+        <Typography variant='body1'>
+          Scenario:
+        </Typography>
+        <form>
+          <TextField  
+            value={value}
+            onChange={handleChange}
+          />
+        </form>
+      </>
+    )
+  }
+
   const pageContent = (
     <>
-      <TextField
-        value={value}
-        onChange={handleChange}
-      />
+      {ScenarioView()}
     </>
   )
   return (
