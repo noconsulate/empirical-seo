@@ -1,9 +1,7 @@
 import React from 'react'
-import * as Yup from 'yup'
+import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, Grid, Button } from '@material-ui/core/'
-import { Formik, Form, ErrorMessage } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
 import { db } from '../config/firebase'
 
@@ -16,154 +14,113 @@ const useStyles = makeStyles(theme => ({
   },
 
   content: {
-    backgroundColor: 'green',
+    backgroundColor: 'yellow',
   },
 }))
 
-const FormSchema = Yup.object().shape({
-  keywords: Yup.string()
-    .required('The search field is empty!')
-})
-
 const Survey = props => {
-  const [hasSubmitted, setHasSubmitted] = React.useState(false)
-  const [hasAuthenticated, setHasAuthenticated] = React.useState(false)
-  
-  const classes = useStyles()
-  const [id, setId] = React.useState('')
-  const submitAuth = (type) => {
-    console.log(id)
+  // const [urlId, setUrlId] = React.useState('IImN9lc3')
+  const [scenarioId, setScenarioId] = React.useState('')
+  const [scenarioText, setScenarioText] = React.useState('')
+  const [formText, setFormText] = React.useState('')
 
-    db.collection('keywords').doc(id).set({
-      auth: type
-    }, { merge: true })
+  const urlId = props.query.urlid
+
+  const classes = useStyles()
+
+  React.useEffect(() => {
+    //debugger
+    // console.log(props.query.urlid)
+  
+    console.log(urlId)
+    
+    if (urlId) {
+      const scenariosRef = db.collection('scenarios')
+      const query = scenariosRef.where('urlId', '==', urlId)
+      query.get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            console.log(doc.id, doc.data())
+            const scenarioValue = doc.data().scenario
+            setScenarioText(scenarioValue)
+            setScenarioId(doc.id)
+          })
+        })
+        .catch(error => {
+          console.log('error', error)
+        })
+    }
+  }, [])
+
+
+
+  const handleChange = event => {
+    setFormText(event.target.value)
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    console.log('submit', formText)
+
+    const keywords = formText.split(' ').filter(item => item != '')
+    console.log('keywords', keywords)
+    db.collection('scenarios').doc(scenarioId).collection('keywords').add({
+      keywords
+    })
       .then(docRef => {
-        console.log('auth updated')
-        setHasAuthenticated(true)
+        console.log("Keywords written to: ", docRef.id)
       })
       .catch(error => {
-        console.error('Error updating document: ', error)
+        console.error("Error adding document: ", error.message);
       })
   }
 
-  const handleAuth = () => {
-    submitAuth('dummy')
+  const SurveyForm = () => {
+
+    return (
+      <>
+        <Grid container direction='column'>
+          <div className={classes.content}>
+            <Typography variant='body1'>
+              {scenarioText}
+            </Typography>
+          </div>
+          <form
+            className={classes.form}
+            autoComplete='off'
+            onSubmit={handleSubmit}
+          >
+            <TextField
+              value={formText}
+              onChange={handleChange}
+            />
+            <Button type='submit'>
+              google!
+            </Button>
+          </form>
+        </Grid>
+      </>
+    )
   }
 
-  const MyForm = () => (
-    <Formik
-      initialValues={{ keywords: '' }}
-      validationSchema={FormSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        const keywords = values.keywords.split(' ').filter(item => item != '')
-        console.log('keywords', keywords)
-        db.collection('keywords').add({
-          words: keywords
-        })
-          .then(docRef => {
-            console.log("Keywords written to: ", docRef.id)
-            setId(docRef.id)
-          })
-          .catch(error => {
-            console.error("Error adding document: ", error.message);
-          })
-        setSubmitting(false)
-        setHasSubmitted(true)
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Grid container direction='column' className={classes.form}>
-          <Form>
-            <Grid item>
-              <TextField 
-                name='keywords' 
-                placeholder='keywords here' 
-                autoComplete='off' 
-              />
-
-            </Grid>
-            <Grid item>
-              <ErrorMessage name='keywords' />
-            </Grid>
-            <Grid item>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={isSubmitting}
-              >
-                Submit
-              </Button>
-            </Grid>
-
-          </Form>
-        </Grid>
-      )}
-    </Formik>
-  );
-
-  const beforeSubmit = () => (
-    <div className={classes.content}>
-      <Typography variant='body1'>
-        this is a digital scavenger hunt. Top searchers you will be rewarded by being entered into the contest
-        </Typography>
-      <br />
-      <Typography variant='h5'>
-        Find the best place to party Las Vegas
-      </Typography>
-      {MyForm()}
-    </div>
-  )
-
-  const beforeAuth = () => (
-    <>
-      <Typography variant='body1'>
-        Please validate your submission by logging in with Google, Facebook, or email so you can entered into the contest.
-      </Typography>
-      <Button
-        onClick={handleAuth}
-      >
-        AUTHENTICATE!
-      </Button>
-
-    </>
-  )
-
-  const afterAuth = () => (
-    <>
-      <Typography variant='body1'>
-        Thank you for your participation. Hopefully it will be YOU on this beach with the lovely clam!
-      </Typography>
-
-    </>
-  )
-  const afterSubmit = () => (
-    <div>
-      {
-        hasAuthenticated ?
-          afterAuth() :
-          beforeAuth()
-      }
-    </div>
-  )
-
   const pageContent = (
-    <div>
-      {
-        hasSubmitted ?
-          afterSubmit() :
-          beforeSubmit()
-      }
-    </div>
+    <>
+      {SurveyForm()}
+    </>
   )
 
   return (
-    <Layout
-      content={pageContent}
-      title='a Simple Survey'
-    />
-
+    <>
+      <Layout
+        content={pageContent}
+        title={'SURVEY NEEDS TITLE YA KNOW'}
+      />
+    </>
   )
 }
 
 export default Survey
+
+Survey.getInitialProps = ({query}) => {
+  return {query}
+}

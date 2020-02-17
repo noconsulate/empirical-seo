@@ -84,7 +84,7 @@ const Create = props => {
         <Typography variant='body1'>
           Here's the link to your survey.
         </Typography>
-        <Link href={{ pathname: '/surveyparams', query: { urlid: urlId } }}>
+        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           <a>{`www.empircalseoapp.com/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
