@@ -19,17 +19,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Survey = props => {
-  const [urlId, setUrlId] = React.useState('')
+  // const [urlId, setUrlId] = React.useState('IImN9lc3')
   const [scenarioId, setScenarioId] = React.useState('')
   const [scenarioText, setScenarioText] = React.useState('')
   const [formText, setFormText] = React.useState('')
 
+  const urlId = props.query.urlid
+
   const classes = useStyles()
 
-  console.log(props.query.urlid)
-
   React.useEffect(() => {
-    setUrlId(props.query.urlid)
+    //debugger
+    // console.log(props.query.urlid)
+  
     console.log(urlId)
     
     if (urlId) {
@@ -60,18 +62,18 @@ const Survey = props => {
     event.preventDefault()
     console.log('submit', formText)
 
-    // const keywords = formText.split(' ').filter(item => item != '')
-    // console.log('keywords', keywords)
-    // db.collection('keywords').add({
-    //   words: keywords,
-    //   scenario: scenarioId,
-    // })
-    //   .then(docRef => {
-    //     console.log("Keywords written to: ", docRef.id)
-    //   })
-    //   .catch(error => {
-    //     console.error("Error adding document: ", error.message);
-    //   })
+    const keywords = formText.split(' ').filter(item => item != '')
+    console.log('keywords', keywords)
+    db.collection('keywords').add({
+      words: keywords,
+      scenario: scenarioId,
+    })
+      .then(docRef => {
+        console.log("Keywords written to: ", docRef.id)
+      })
+      .catch(error => {
+        console.error("Error adding document: ", error.message);
+      })
   }
 
   const SurveyForm = () => {
