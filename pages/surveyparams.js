@@ -64,9 +64,8 @@ const Survey = props => {
 
     const keywords = formText.split(' ').filter(item => item != '')
     console.log('keywords', keywords)
-    db.collection('keywords').add({
-      words: keywords,
-      scenario: scenarioId,
+    db.collection('scenarios').doc(scenarioId).collection('keywords').add({
+      keywords
     })
       .then(docRef => {
         console.log("Keywords written to: ", docRef.id)
