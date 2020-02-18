@@ -89,7 +89,7 @@ const Create = props => {
           <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
-          Here's the results page.
+          Here's the results page. Please note anyone with this link can see your results, unless you create an account.
         </Typography>
         <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
           <a>{`${prodUrl}/results?urlid=${urlId}`}</a>

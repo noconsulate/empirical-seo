@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app'
 import "firebase/firestore"
+import 'firebase/auth'
 
 
 var firebaseConfig = {
@@ -19,5 +20,7 @@ if (!firebase.apps.length) {
       console.error('Firebase initialization error raised', err.stack)
   }
 }
+
 export const db = firebase.firestore()
 
+export const fbAuth = firebase.auth()
