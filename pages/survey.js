@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
@@ -12,28 +11,26 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'red',
     alignItems: 'center',
   },
-
   content: {
     backgroundColor: 'yellow',
+  },
+  thankYou: {
+    backgroundColor: 'green',
   },
 }))
 
 const Survey = props => {
-  // const [urlId, setUrlId] = React.useState('IImN9lc3')
+
   const [scenarioId, setScenarioId] = React.useState('')
   const [scenarioText, setScenarioText] = React.useState('')
   const [formText, setFormText] = React.useState('')
+  const [pageControl, setPageControl] = React.useState(0)
 
   const urlId = props.query.urlid
 
   const classes = useStyles()
 
   React.useEffect(() => {
-    //debugger
-    // console.log(props.query.urlid)
-  
-    console.log(urlId)
-    
     if (urlId) {
       const scenariosRef = db.collection('scenarios')
       const query = scenariosRef.where('urlId', '==', urlId)
@@ -69,6 +66,7 @@ const Survey = props => {
     })
       .then(docRef => {
         console.log("Keywords written to: ", docRef.id)
+        setPageControl(1)
       })
       .catch(error => {
         console.error("Error adding document: ", error.message);
@@ -103,9 +101,30 @@ const Survey = props => {
     )
   }
 
+  const ThankYou = () => {
+    return (
+      <>
+        <div className={classes.thankYou}>
+          <Typography variant='body1'>
+            Thank you for your submission.
+          </Typography>
+        </div>
+      </>
+    )
+  }
+
+  const ViewControl = () => {
+    switch (pageControl) {
+      case 0: 
+        return SurveyForm()
+      case 1: 
+        return ThankYou()
+    }
+  }
+
   const pageContent = (
     <>
-      {SurveyForm()}
+      {ViewControl()}
     </>
   )
 

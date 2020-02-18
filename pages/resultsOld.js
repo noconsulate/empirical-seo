@@ -1,4 +1,3 @@
-import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography
@@ -99,24 +98,8 @@ const Results = (props) => {
   )
 }
 
-export default Results
-
-Results.getInitialProps = async ({ query }) => {
-  const urlId = query.urlid
-  console.log(urlId)
-
-  const scenariosRef = db.collection('scenarios')
-  const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
-  const scenario = await scenarioQuery.get()
-
-  let scenarioId
-  scenario.forEach(doc => {
-    scenarioId = doc.id
-  })
-  console.log(scenarioId)
-
-  const keywords = await db.collection('scenarios').doc(scenarioId).collection('keywords').get()
-
+Results.getInitialProps = async () => {
+  const keywords = await db.collection('keywords').get()
   let keywordsObj = {
     total: 0,
     words: []
@@ -137,19 +120,22 @@ Results.getInitialProps = async ({ query }) => {
       keywordsObj.total += 1
     }
   }
-
   keywords.forEach(doc => {
-    phrase = ''
-    doc.data().keywords.forEach(word => {
-      console.log(word)
+    phrase = ' '
+    doc.data().words.forEach(word => {
       parseWords(word)
       phrase += ' ' + word
     })
 
     phrases.push(phrase)
   })
-  return { 
+
+  keywordsObj.words.sort((a, b) => (a.count < b.count ? 1 : -1))
+
+  return {
     keywords: keywordsObj,
     phrases: phrases
   }
 }
+
+export default Results

@@ -4,3 +4,5 @@ Loading animations (npm skelton?)
 fix ErrorMessage in survey.js
 
 Custom scenarios
+
+Error handling, especially for query params

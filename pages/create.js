@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Create = props => {
-  const [id, setId] = React.useState('')
   const [urlId, setUrlId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
   const [formText, setFormText] = React.useState('')
@@ -44,7 +43,6 @@ const Create = props => {
     })
       .then(docRef => {
         console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
-        setId(docRef.id)
         setUrlId(urlIdGen)
         setPageControl(1)
         setFormText('')
@@ -86,6 +84,12 @@ const Create = props => {
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           <a>{`www.empircalseoapp.com/survey?urlid=${urlId}`}</a>
+        </Link>
+        <Typography variant='body1'>
+          Here's the results page.
+        </Typography>
+        <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
+          <a>{`www.empiricalseoapp.com/results?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
