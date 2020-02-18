@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const prodUrl = process.env.prodUrl
+console.log(prodUrl)
+
 const Create = props => {
   const [urlId, setUrlId] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
@@ -83,13 +86,13 @@ const Create = props => {
           Here's the link to your survey.
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          <a>{`www.empircalseoapp.com/survey?urlid=${urlId}`}</a>
+          <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           Here's the results page.
         </Typography>
         <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
-          <a>{`www.empiricalseoapp.com/results?urlid=${urlId}`}</a>
+          <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
