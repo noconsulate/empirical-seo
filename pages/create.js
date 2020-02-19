@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  Typography, Button, Grid, FormControl, TextField
+  Typography, Button, Grid, FormControl, TextField, Checkbox,
+  FormGroup, FormControlLabel
 } from '@material-ui/core'
 import shortid from 'shortid'
-import { db } from '../config/firebase'
+import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
@@ -25,13 +26,18 @@ const prodUrl = process.env.prodUrl
 console.log(prodUrl)
 
 const Create = props => {
-  const [urlId, setUrlId] = React.useState('')
-  const [pageControl, setPageControl] = React.useState(0)
-  const [formText, setFormText] = React.useState('')
+  const [urlId, setUrlId] = useState('')
+  const [scenarioUid, setScenarioUid] = useState('')
+  const [pageControl, setPageControl] = useState(0)
+  const [formText, setFormText] = useState('')
+  const [checked, setChecked] = useState(false)
 
   const classes = useStyles()
 
-  const handleChangeScenario = event => {
+  const handleCheckbox = event => {
+    setChecked(event.target.checked)
+  }
+  const handleChange = event => {
     setFormText(event.target.value)
   }
 
@@ -42,16 +48,37 @@ const Create = props => {
 
     db.collection('scenarios').add({
       scenario: formText,
-      urlId: urlIdGen
+      urlId: urlIdGen,
+      private: false,
     })
       .then(docRef => {
         console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
+        setScenarioUid(docRef.id)
         setUrlId(urlIdGen)
         setPageControl(1)
         setFormText('')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
+      })
+  }
+
+  const handleSignIn = event => {
+    event.preventDefault()
+    console.log('opt in?', checked)
+
+    const actionCodeSettings = {
+      url: `http://localhost:3000/signin?optin=${checked}&scenario=${scenarioUid}`,
+      handleCodeInApp: true,
+    }
+
+    fbAuth.sendSignInLinkToEmail(formText, actionCodeSettings)
+      .then(() => {
+        console.log('link sent')
+        window.localStorage.setItem('emailForSignIn', formText)
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 
@@ -70,7 +97,7 @@ const Create = props => {
             fullWidth
             rowsMax='2'
             value={formText}
-            onChange={handleChangeScenario}
+            onChange={handleChange}
           />
           <Button type='submit' variant='contained'>
             Submit
@@ -97,6 +124,29 @@ const Create = props => {
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
         </Typography>
+        <form onSubmit={handleSignIn}>
+          <TextField
+            label='email'
+            value={formText}
+            onChange={handleChange}
+            type='email'
+          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheckbox}
+                  valiue='primary'
+                />
+              }
+              label='Opt in?'
+            />
+          </FormGroup>
+          <Button type='submit'>
+            Sign in!
+          </Button>
+        </form>
       </div>
     )
   }
