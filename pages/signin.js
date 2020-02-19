@@ -13,42 +13,71 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 const SignIn = props => {
-  const [uid, setUid] = useState('')
-
   const classes = useStyles()
+  console.log(props)
+  const optIn = props.query.optin
+  console.log(optIn)
 
   useEffect(() => {
-    var user = fbAuth.currentUser
-    if (user) {
-      console.log(user.uid)
-    }
-
-    // if no user proceed with email link validation
-    if (!user) {
-      if (fbAuth.isSignInWithEmailLink(window.location.href)) {
-        console.log('if')
-        let email = window.localStorage.getItem('emailForSignIn')
-        if (!email) {
-          email = window.prompt('please provide email for account confirmation')
+    const dbUpdate = () => {
+      const docRef = db.collection('users').doc(uid)
+      docRef.get().then(doc => {
+        if (doc.exists) {
+          console.log('user exists')
+        } else {
+          console.log('user dont exists')
+          db.collection('users').doc(uid).set({
+            scenarios: 'scenario uid goes here',
+            email: userEmail,
+            optIn: props.query.optin
+          })
         }
-      
-        console.log('window location', window.location.href)
-        fbAuth.signInWithEmailLink(email, window.location.href)
-          .then(result => {
-            console.log('signed in', result.user, result.user.linkAndRetrieveDataWithCredential)
-            const foo = result.user.uid
-            console.log(foo, foo.uid)
-            setUid(result.user.uid)
-            console.log(uid)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
+      })
     }
 
-    // check if user is in db, if so add new scenario to doc
-    
+    let user, uid, userEmail
+    const userProcess = async () => {
+      user = await fbAuth.currentUser
+      if (user) {
+        console.log('hooray', user)
+        uid = user.uid
+        userEmail = user.email
+        console.log(userEmail)
+        dbUpdate()
+      } else {
+        // if no user proceed with email link validation lala
+        console.log('no user')
+        if (fbAuth.isSignInWithEmailLink(window.location.href)) {
+          console.log('if')
+          let email = window.localStorage.getItem('emailForSignIn')
+          if (!email) {
+            email = window.prompt('please provide email for account confirmation')
+          }
+          fbAuth.signInWithEmailLink(email, window.location.href)
+            .then(result => {
+              console.log('signed in', result.user)
+              uid = result.user.uid
+              userEmail = result.user.email
+              console.log(uid, userEmail)
+              dbUpdate()
+            })
+            .catch(error => {
+              console.log('signin with email error', error)
+            })
+        }
+
+      }
+      console.log(uid)
+      // check if user exists in db
+
+    }
+
+    userProcess()
+
+
+
+    // check if user is in db, if so add new scenario to doc lal
+
   }, [])
 
   const pageContent = (
@@ -61,7 +90,7 @@ const SignIn = props => {
 
   return (
     <>
-      <Layout 
+      <Layout
         content={pageContent}
         title='Finish signup'
       />
@@ -70,3 +99,7 @@ const SignIn = props => {
 }
 
 export default SignIn
+
+SignIn.getInitialProps = ({ query }) => {
+  return ({ query })
+}
