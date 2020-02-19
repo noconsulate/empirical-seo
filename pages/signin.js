@@ -15,8 +15,10 @@ const SignIn = props => {
   console.log(props)
   const optIn = props.query.optin
   console.log(optIn)
-  const scenarioUid = props.query.scenario
-  console.log(scenarioUid)
+  // const scenarioUid = props.query.scenario 
+  // console.log(scenarioUid)
+  const urlId = props.query.urlid
+  console.log(urlId)
 
   useEffect(() => {
     const dbUpdate = () => {
@@ -26,12 +28,12 @@ const SignIn = props => {
           console.log('user exists')
           docRef.set({
             optIn: optIn,
-            scenarios: dbArrayUnion(scenarioUid)
+            urlIds: dbArrayUnion(urlId)
           }, {merge: true })
         } else {
           console.log('user dont exists')
           docRef.set({
-            scenarios: ['scenario uid goes here'],
+            urlIds: [urlId],
             email: userEmail,
             optIn: props.query.optin
           })
@@ -49,7 +51,7 @@ const SignIn = props => {
         console.log(userEmail)
         dbUpdate()
       } else {
-        // if no user proceed with email link validation 
+        // if no user proceed with email link validation *
         console.log('no user')
         if (fbAuth.isSignInWithEmailLink(window.location.href)) {
           console.log('if')
