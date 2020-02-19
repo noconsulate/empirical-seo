@@ -39,6 +39,7 @@ const SignIn = props => {
           })
         }
       })
+      // add user id to scenario?
     }
 
     let user, uid, userEmail
