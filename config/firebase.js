@@ -23,4 +23,6 @@ if (!firebase.apps.length) {
 
 export const db = firebase.firestore()
 
+export const dbArrayUnion = firebase.firestore.FieldValue.arrayUnion
+
 export const fbAuth = firebase.auth()

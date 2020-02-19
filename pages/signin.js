@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { fbAuth, db } from '../config/firebase'
+import { fbAuth, db, dbArrayUnion } from '../config/firebase'
 
 import Layout from '../components/Layout'
-
-
 
 const useStyles = makeStyles(theme => ({
   signup: {
@@ -17,6 +15,8 @@ const SignIn = props => {
   console.log(props)
   const optIn = props.query.optin
   console.log(optIn)
+  const scenarioUid = props.query.scenario
+  console.log(scenarioUid)
 
   useEffect(() => {
     const dbUpdate = () => {
@@ -24,10 +24,14 @@ const SignIn = props => {
       docRef.get().then(doc => {
         if (doc.exists) {
           console.log('user exists')
+          docRef.set({
+            optIn: optIn,
+            scenarios: dbArrayUnion(scenarioUid)
+          }, {merge: true })
         } else {
           console.log('user dont exists')
-          db.collection('users').doc(uid).set({
-            scenarios: 'scenario uid goes here',
+          docRef.set({
+            scenarios: ['scenario uid goes here'],
             email: userEmail,
             optIn: props.query.optin
           })
@@ -45,7 +49,7 @@ const SignIn = props => {
         console.log(userEmail)
         dbUpdate()
       } else {
-        // if no user proceed with email link validation lala
+        // if no user proceed with email link validation 
         console.log('no user')
         if (fbAuth.isSignInWithEmailLink(window.location.href)) {
           console.log('if')

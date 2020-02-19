@@ -16,7 +16,7 @@ const Accounts = props => {
   }
 
   const actionCodeSettings = {
-    url: `http://localhost:3000/signin?optin=${optIn}`,
+    url: `http://localhost:3000/signin?optin=${optIn}&scenario=morefakestrings123`,
     handleCodeInApp: true,
   }
   
