@@ -1,11 +1,10 @@
 ** TO DO **
 
 Loading animations (npm skelton?)
-fix ErrorMessage in survey.js
-
-Custom scenarios
 
 Error handling, especially for query params
   (Handle pages with params missing/invalid)
 
-change NextJS Link to ../src/Link
+change NextJS Link to ../src/Link ?
+
+environment variables for dev/production

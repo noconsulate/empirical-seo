@@ -114,7 +114,7 @@ const SignIn = props => {
           <List>
             {scenarios.map(item => (
               <ListItem key={item}>
-                <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+                <Link href={{ pathname: '/results', query: { urlid: item } }}>
                 {`${prodUrl}/results?urlid=${item}`}
                 </Link>
               </ListItem>
