@@ -6,3 +6,4 @@ fix ErrorMessage in survey.js
 Custom scenarios
 
 Error handling, especially for query params
+  (Handle pages with params missing/invalid)
