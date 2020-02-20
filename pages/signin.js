@@ -10,7 +10,7 @@ import Layout from '../components/Layout'
 const prodUrl = process.env.prodUrl
 
 const useStyles = makeStyles(theme => ({
-  signup: {
+  results: {
     backgroundColor: 'yellow',
   },
 }))
@@ -129,7 +129,9 @@ const SignIn = props => {
 
   const pageContent = (
     <>
-      {resultsRows()}
+      <div className={classes.results}>
+        {resultsRows()}
+      </div>
     </>
   )
   return (
