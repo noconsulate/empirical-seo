@@ -7,3 +7,5 @@ Custom scenarios
 
 Error handling, especially for query params
   (Handle pages with params missing/invalid)
+
+change NextJS Link to ../src/Link
