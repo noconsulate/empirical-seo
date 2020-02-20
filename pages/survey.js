@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
@@ -19,12 +20,15 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const prodUrl = process.env.prodUrl
+
 const Survey = props => {
 
   const [scenarioId, setScenarioId] = React.useState('')
   const [scenarioText, setScenarioText] = React.useState('')
   const [formText, setFormText] = React.useState('')
   const [pageControl, setPageControl] = React.useState(0)
+  const [privateResults, setPrivateResults] = React.useState(false)
 
   const urlId = props.query.urlid
 
@@ -39,8 +43,11 @@ const Survey = props => {
           snapshot.forEach(doc => {
             console.log(doc.id, doc.data())
             const scenarioValue = doc.data().scenario
+            const privateValue = doc.data().private
+            console.log(privateValue)
             setScenarioText(scenarioValue)
             setScenarioId(doc.id)
+            setPrivateResults(privateValue)
           })
         })
         .catch(error => {
@@ -109,6 +116,18 @@ const Survey = props => {
             Thank you for your submission.
           </Typography>
         </div>
+        {
+          privateResults == false ? 
+          <div className={classes.thankYou}>
+            <Typography variant='body1'>
+              You can see the results of the survey here:
+            </Typography>
+            <Link href={{ pathname: '/results', query: { urlid: urlId }}}>
+                <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
+              </Link>
+          </div> :
+          null
+        }
       </>
     )
   }
