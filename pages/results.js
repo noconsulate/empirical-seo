@@ -3,9 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography
 } from '@material-ui/core'
+import Link from '../src/Link'
 import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
+
+const prodUrl = process.env.prodUrl
 
 const useStyles = makeStyles(theme => ({
   keywords: {
@@ -16,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   extra: {
     backgroundColor: 'yellow',
+  },
+  subHeader: {
+    backgroundColor: 'grey'
   },
 }))
 
@@ -47,6 +53,19 @@ const Results = (props) => {
             </ListItem>
           )}
         </List>
+      </div>
+    )
+  }
+
+  const SubHeaderPane = () => {
+    return (
+      <div className={classes.subHeader}>
+        <Typography variant='h4'>
+          Results for:
+        </Typography>
+        <Link href={{ pathname: '/survey', query: {urlid: props.urlId } }}>
+          `${prodUrl}/survey?urlid=${props.urlId}`
+        </Link>
       </div>
     )
   }
@@ -85,6 +104,7 @@ const Results = (props) => {
 
   const pageContent = (
     <div>
+      <SubHeaderPane />
       <KeywordsPane />
       <PhrasesPane />
       <ExtraPane />
@@ -150,6 +170,7 @@ Results.getInitialProps = async ({ query }) => {
   })
   return { 
     keywords: keywordsObj,
-    phrases: phrases
+    phrases: phrases,
+    urlId
   }
 }
