@@ -68,7 +68,7 @@ const Create = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `http://localhost:3000/signin?optin=${checked}&urlid=${urlId}`,
+      url: `http://localhost:3000/signin?optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 

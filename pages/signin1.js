@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from '../src/Link'
-import { List, ListItemText, ListItem, Typography } from '@material-ui/core'
+import { List, ListItem, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { fbAuth, db, dbArrayUnion } from '../config/firebase'
@@ -61,18 +61,6 @@ const SignIn = props => {
     } else {
       return <p>noscenarios</p>
     }
-  //   <List>
-  //   {
-  //     scenarios.map(item => {
-  //       <ListItem>
-  //         <Link href='/results' color='textPrimary' 
-  //         >
-  //           {`${prodUrl}\results?urlid=${item}`}
-  //         </Link>
-  //       </ListItem>
-  //     })
-  //   }
-  // </List>
   }
 
   const pageContent = (

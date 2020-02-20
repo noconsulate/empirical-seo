@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import Link from '../src/Link'
+import { List, ListItem, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { fbAuth, db, dbArrayUnion } from '../config/firebase'
 
 import Layout from '../components/Layout'
+
+const prodUrl = process.env.prodUrl
 
 const useStyles = makeStyles(theme => ({
   signup: {
@@ -15,14 +19,17 @@ const SignIn = props => {
   console.log(props)
   const optIn = props.query.optin
   console.log(optIn)
-  // const scenarioUid = props.query.scenario 
-  // console.log(scenarioUid)
+  const scenarioId = props.query.scenarioid 
+  console.log(scenarioId)
   const urlId = props.query.urlid
   console.log(urlId)
 
+  const [scenarios, setScenarios] = useState([])
+
   useEffect(() => {
+    // update 'users' collection in database, get data for render 
     const dbUpdate = () => {
-      const docRef = db.collection('users').doc(uid)
+      let docRef = db.collection('users').doc(uid)
       docRef.get().then(doc => {
         if (doc.exists) {
           console.log('user exists')
@@ -38,10 +45,29 @@ const SignIn = props => {
             optIn: props.query.optin
           })
         }
+        // get urlids for render
+        let urlsGet
+        db.collection('users').doc(uid).get()
+          .then(doc => {
+            urlsGet = doc.data().urlIds
+            console.log(urlsGet)
+            setScenarios(urlsGet)
+            console.log(scenarios)
+          })
       })
-      // add user id to scenario?
+      // add user id to scenario  
+      db.collection('scenarios').doc(scenarioId).update({
+        "owner": uid,
+        "private": true,
+      })
+        .then(() => {
+          console.log('scenario uptdated')
+        })
+        .catch(error => {
+          console.log('error', error)
+        }) 
     }
-
+    // firebase authentication
     let user, uid, userEmail
     const userProcess = async () => {
       user = await fbAuth.currentUser
@@ -72,29 +98,40 @@ const SignIn = props => {
               console.log('signin with email error', error)
             })
         }
-
       }
-      console.log(uid)
-      // check if user exists in db
-
     }
-
     userProcess()
-
-
-
-    // check if user is in db, if so add new scenario to doc lal
-
   }, [])
+
+  const resultsRows = () => {
+    console.log(scenarios)
+    if (scenarios) {
+      return (
+        <>
+          <Typography variant='body1'>
+            The results to all of your scenarios:
+          </Typography>
+          <List>
+            {scenarios.map(item => (
+              <ListItem key={item}>
+                <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+                {`${prodUrl}/results?urlid=${item}`}
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )
+    } else {
+      return <p>noscenarios</p>
+    }
+  }
 
   const pageContent = (
     <>
-      <div className={classes.signup}>
-        hello please continue signing up
-      </div>
+      {resultsRows()}
     </>
   )
-
   return (
     <>
       <Layout
