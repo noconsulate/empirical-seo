@@ -1,6 +1,8 @@
+// prototype for signin.js without validation
+
 import React, { useEffect, useState } from 'react'
 import Link from '../src/Link'
-import { List, ListItemText, ListItem } from '@material-ui/core'
+import { List, ListItemText, ListItem, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { fbAuth, db, dbArrayUnion } from '../config/firebase'
@@ -12,8 +14,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'yellow',
   },
 }))
+
+const prodUrl = process.env.prodUrl
+
 const SignIn = props => {
-  const [scenarios, setScenarios] = []
+  const [scenarios, setScenarios] = useState([])
 
   const classes = useStyles()
   
@@ -28,32 +33,46 @@ const SignIn = props => {
       const scenarioDoc = await db.collection('users').doc(uid).get()
       const urlIds = scenarioDoc.data().urlIds
       console.log(urlIds)
-
+      setScenarios(urlIds)
     }
 
     dbQuery()
   }, [])
 
-  const ListItemLink = props => {
-    return (
-      <ListItem button component='Link' {...props} />
-    )
-  }
-
   const resultsRows = () => {
-    return (
-      <>
-        what
-        <Link href={{ pathname: '/create' }}>
-          <a>hi</a>
-        </Link>
-        <List>
-          <ListItem>
-            <Link href='/create'>hi</Link>
-          </ListItem>
-        </List>
-      </>
-    )
+    console.log(scenarios)
+    if (scenarios) {
+      return (
+        <>
+          <Typography variant='body1'>
+            The results to all of your scenarios:
+          </Typography>
+          <List>
+            {scenarios.map(item => (
+              <ListItem key={item}>
+                <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+                {`${prodUrl}/results?urlid=${item}`}
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )
+    } else {
+      return <p>noscenarios</p>
+    }
+  //   <List>
+  //   {
+  //     scenarios.map(item => {
+  //       <ListItem>
+  //         <Link href='/results' color='textPrimary' 
+  //         >
+  //           {`${prodUrl}\results?urlid=${item}`}
+  //         </Link>
+  //       </ListItem>
+  //     })
+  //   }
+  // </List>
   }
 
   const pageContent = (
