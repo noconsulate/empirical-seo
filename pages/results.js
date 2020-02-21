@@ -4,7 +4,7 @@ import {
   ListItem, List, ListItemText, Typography
 } from '@material-ui/core'
 import Link from '../src/Link'
-import { db } from '../config/firebase'
+import { db } from '../utl/firebase'
 
 import Layout from '../components/Layout'
 
@@ -64,7 +64,7 @@ const Results = (props) => {
           Results for:
         </Typography>
         <Link href={{ pathname: '/survey', query: {urlid: props.urlId } }}>
-          `${PROD_URL}/survey?urlid=${props.urlId}`
+          `{PROD_URL}/survey?urlid=${props.urlId}`
         </Link>
       </div>
     )
@@ -73,6 +73,7 @@ const Results = (props) => {
   const KeywordsPane = () => {
     return (
       <div className={classes.keywords}>
+        {process.env.SECRET}
         <Typography variant='h4'>
           Keywords
        </Typography>
