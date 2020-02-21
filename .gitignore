@@ -17,4 +17,7 @@ yarn-error.log*
 # Next.js
 /.next
 
+# Secrets
+/config/firebaseconfig.js
+
 .now

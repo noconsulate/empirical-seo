@@ -5,7 +5,7 @@ import Link from '../src/Link'
 import { List, ListItem, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { fbAuth, db, dbArrayUnion } from '../config/firebase'
+import { fbAuth, db, dbArrayUnion } from '../utl/firebase'
 
 import Layout from '../components/Layout'
 

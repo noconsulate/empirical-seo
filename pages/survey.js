@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
-import { db } from '../config/firebase'
+import { db } from '../utl/firebase'
 
 import Layout from '../components/Layout'
 

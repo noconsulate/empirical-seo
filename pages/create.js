@@ -6,7 +6,7 @@ import {
   FormGroup, FormControlLabel
 } from '@material-ui/core'
 import shortid from 'shortid'
-import { db, fbAuth } from '../config/firebase'
+import { db, fbAuth } from '../utl/firebase'
 
 import Layout from '../components/Layout'
 
