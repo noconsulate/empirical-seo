@@ -8,7 +8,7 @@ import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-const prodUrl = process.env.prodUrl
+const PROD_URL = process.env.PROD_URL
 
 const useStyles = makeStyles(theme => ({
   keywords: {
@@ -64,7 +64,7 @@ const Results = (props) => {
           Results for:
         </Typography>
         <Link href={{ pathname: '/survey', query: {urlid: props.urlId } }}>
-          `${prodUrl}/survey?urlid=${props.urlId}`
+          `${PROD_URL}/survey?urlid=${props.urlId}`
         </Link>
       </div>
     )
@@ -121,6 +121,7 @@ const Results = (props) => {
 
 export default Results
 
+// this is probably gonna break with firestore rules
 Results.getInitialProps = async ({ query }) => {
   const urlId = query.urlid
   console.log(urlId)

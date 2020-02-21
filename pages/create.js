@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const prodUrl = process.env.prodUrl
-console.log(prodUrl)
+const PROD_URL = process.env.PROD_URL
+console.log(PROD_URL)
 
 const Create = props => {
   const [urlId, setUrlId] = useState('')
@@ -114,13 +114,13 @@ const Create = props => {
           Here's the link to your survey.
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
+          <a>{`${PROD_URL}/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           Here's the results page. Please note anyone with this link can see your results, unless you create an account.
         </Typography>
         <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
-          <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
+          <a>{`${PROD_URL}/results?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!

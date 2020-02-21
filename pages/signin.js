@@ -7,7 +7,7 @@ import { fbAuth, db, dbArrayUnion } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-const prodUrl = process.env.prodUrl
+const PROD_URL = process.env.PROD_URL
 
 const useStyles = makeStyles(theme => ({
   results: {
@@ -115,7 +115,7 @@ const SignIn = props => {
             {scenarios.map(item => (
               <ListItem key={item}>
                 <Link href={{ pathname: '/results', query: { urlid: item } }}>
-                {`${prodUrl}/results?urlid=${item}`}
+                {`${PROD_URL}/results?urlid=${item}`}
                 </Link>
               </ListItem>
             ))}

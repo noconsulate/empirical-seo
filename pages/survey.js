@@ -10,17 +10,16 @@ import Layout from '../components/Layout'
 const useStyles = makeStyles(theme => ({
   form: {
     backgroundColor: 'red',
-    alignItems: 'center',
   },
   content: {
     backgroundColor: 'yellow',
   },
   thankYou: {
-    backgroundColor: 'green',
+    backgroundColor: 'yellow',
   },
 }))
 
-const prodUrl = process.env.prodUrl
+const PROD_URL = process.env.PROD_URL
 
 const Survey = props => {
 
@@ -115,19 +114,20 @@ const Survey = props => {
           <Typography variant='body1'>
             Thank you for your submission.
           </Typography>
-        </div>
-        {
+          {
           privateResults == false ? 
-          <div className={classes.thankYou}>
+          <>
             <Typography variant='body1'>
               You can see the results of the survey here:
             </Typography>
             <Link href={{ pathname: '/results', query: { urlid: urlId }}}>
-                <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
+                <a>{`${PROD_URL}/results?urlid=${urlId}`}</a>
               </Link>
-          </div> :
+          </> :
           null
         }
+        </div>
+        
       </>
     )
   }

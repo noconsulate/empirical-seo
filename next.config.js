@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    prodUrl: 'https://empirical-seo.noconsulate.now.sh'
+    PROD_URL: 'https://empirical-seo.noconsulate.now.sh'
   }
 };

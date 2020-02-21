@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const prodUrl = process.env.prodUrl
+const PROD_URL = process.env.PROD_URL
 
 const SignIn = props => {
   const [scenarios, setScenarios] = useState([])
@@ -51,7 +51,7 @@ const SignIn = props => {
             {scenarios.map(item => (
               <ListItem key={item}>
                 <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-                {`${prodUrl}/results?urlid=${item}`}
+                {`${PROD_URL}/results?urlid=${item}`}
                 </Link>
               </ListItem>
             ))}
