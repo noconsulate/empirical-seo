@@ -7,6 +7,7 @@ import Link from '../src/Link'
 import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
+import PermissionDenied from '../components/PermissionDenied'
 
 const prodUrl = process.env.prodUrl
 
@@ -26,6 +27,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Results = (props) => {
+  if (props.permissionDenied) {
+    return (
+      <PermissionDenied />
+    )
+  }
   const classes = useStyles()
 
   const rowsKeywords = () => {
@@ -131,7 +137,11 @@ Results.getInitialProps = async ({ query }) => {
   try {
     scenario = await scenarioQuery.get()
   } catch (error) {
+    //private == true or !user
     console.log('private scenario', error)
+    return {
+      permissionDenied: true
+    }
   }
 
   let scenarioId

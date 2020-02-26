@@ -4,6 +4,7 @@ Loading animations (npm skelton?)
 
 Error handling, especially for query params
   (Handle pages with params missing/invalid)
+  (Handle pages that break rules, EG results for private scenario)
 
 change NextJS Link to ../src/Link ?
 
@@ -11,21 +12,7 @@ deleting results for owners
 
 hide firebase config
 
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /scenarios/{scenario} {
-      allow read: 
-        if (private == false) || request.auth.uid == request.resource.data.owner;
-      allow write:
-        if request.auth.id == request.resource.data.owner;
-
-      match /keywords
-        allow create: if request.auth.uid != null
-    }
-
-    
-  }
-}
+after survey is submitted
 
 QUESTIONS ABOUT FIRESTORE RULES:
   *how to store keywords. if using anonymous user to write directly to keywords could malicious person run the data?
