@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
-import { db } from '../config/firebase'
+import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
@@ -64,8 +64,11 @@ const Survey = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log('submit', formText)
-
+    
+    fbAuth.signInAnonymously().catch(error => {
+      console.log(error)
+    })
+    
     const keywords = formText.split(' ').filter(item => item != '')
     console.log('keywords', keywords)
     db.collection('scenarios').doc(scenarioId).collection('keywords').add({

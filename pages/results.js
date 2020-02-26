@@ -127,7 +127,12 @@ Results.getInitialProps = async ({ query }) => {
 
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
-  const scenario = await scenarioQuery.get()
+  let scenario
+  try {
+    scenario = await scenarioQuery.get()
+  } catch (error) {
+    console.log('private scenario', error)
+  }
 
   let scenarioId
   scenario.forEach(doc => {
