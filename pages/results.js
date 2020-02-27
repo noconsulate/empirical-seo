@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  ListItem, List, ListItemText, Typography
+  ListItem, List, ListItemText, Typography, TextField, Button,
 } from '@material-ui/core'
 import Link from '../src/Link'
-import { db } from '../config/firebase'
+import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
-import PermissionDenied from '../components/PermissionDenied'
 
 const prodUrl = process.env.prodUrl
 
@@ -24,14 +23,14 @@ const useStyles = makeStyles(theme => ({
   subHeader: {
     backgroundColor: 'grey'
   },
+  emailForm: {
+    backgroundColor: 'green',
+  },
 }))
 
 const Results = (props) => {
-  if (props.permissionDenied) {
-    return (
-      <PermissionDenied />
-    )
-  }
+  const [email, setEmail] = useState('')
+
   const classes = useStyles()
 
   const rowsKeywords = () => {
@@ -69,7 +68,7 @@ const Results = (props) => {
         <Typography variant='h4'>
           Results for:
         </Typography>
-        <Link href={{ pathname: '/survey', query: {urlid: props.urlId } }}>
+        <Link href={{ pathname: '/survey', query: { urlid: props.urlId } }}>
           `${prodUrl}/survey?urlid=${props.urlId}`
         </Link>
       </div>
@@ -116,6 +115,79 @@ const Results = (props) => {
       <ExtraPane />
     </div>
   )
+  const handleChange = event => {
+    setEmail(event.target.value)
+  }
+
+  const handleSignIn = event => {
+    event.preventDefault()
+    console.log(email)
+
+    const actionCodeSettings = {
+      url: `${process.env.prodUrl}/foobar?urlid=${props.urlId}`,
+      handleCodeInApp: true,
+    }
+
+    fbAuth.sendSignInLinkToEmail(email, actionCodeSettings)
+      .then(() => {
+        console.log('link sent')
+        window.localStorage.setItem('emailForSignIn', email)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  //need to add flow for sign in 
+  const permissionDenied =
+    (
+      <>
+        <div className={classes.extra}>
+          <Typography variant='body1'>
+            Sorry, you don't have the correct permission. If this is your scenario, you can login below with your email address.
+        </Typography>
+        </div>
+        <div className={classes.emailForm}>
+          <form onSubmit={handleSignIn}>
+            <TextField
+              label='email'
+              value={email}
+              onChange={handleChange}
+              type='email'
+            />
+            <Button type='submit'>
+              Sign in!
+          </Button>
+          </form>
+        </div>
+      </>
+    )
+
+  const badUrl = (
+    <div className={classes.extra}>
+      <Typography variant='body1'>
+        Sorry, there's something wrong with your url. If you typed in manually, please check it again, especially the part after the "?" mark!
+      </Typography>
+    </div>
+  )
+
+  if (props.badUrl) {
+    return (
+      <Layout
+        content={badUrl}
+        title='Bad URl :('
+      />
+    )
+  }
+
+  if (props.permissionDenied) {
+    return (
+      <Layout
+        content={permissionDenied}
+        title='Survey results - permission denied!'
+      />
+    )
+  }
 
   return (
     <Layout
@@ -127,28 +199,34 @@ const Results = (props) => {
 
 export default Results
 
+
 Results.getInitialProps = async ({ query }) => {
   const urlId = query.urlid
   console.log(urlId)
 
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
-  let scenario
-  try {
-    scenario = await scenarioQuery.get()
-  } catch (error) {
-    //private == true or !user
-    console.log('private scenario', error)
-    return {
-      permissionDenied: true
-    }
-  }
+  const scenario = await scenarioQuery.get()
 
   let scenarioId
   scenario.forEach(doc => {
     scenarioId = doc.id
   })
   console.log(scenarioId)
+  if (!scenarioId) {
+    return {
+      //change to different error eg 'misformed url'
+      badUrl: true
+    }
+  }
+
+  const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
+  if (scenDoc.data().private == true) {
+    console.log('PRIVATE THING')
+    return {
+      permissionDenied: true
+    }
+  }
 
   const keywords = await db.collection('scenarios').doc(scenarioId).collection('keywords').get()
 
@@ -176,14 +254,13 @@ Results.getInitialProps = async ({ query }) => {
   keywords.forEach(doc => {
     phrase = ''
     doc.data().keywords.forEach(word => {
-      console.log(word)
       parseWords(word)
       phrase += ' ' + word
     })
 
     phrases.push(phrase)
   })
-  return { 
+  return {
     keywords: keywordsObj,
     phrases: phrases,
     urlId

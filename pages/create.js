@@ -80,7 +80,7 @@ const Create = props => {
       .catch(error => {
         console.log(error)
       })
-      // set scenario to private
+      // set scenario to private <<<+++ !!!!!
   }
 
   const ScenarioForm = () => {
