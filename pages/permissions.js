@@ -2,8 +2,8 @@ import { db, fbAuth } from '../config/firebase'
 import React, {useEffect, useState} from 'react'
 
 const permissions = props => {
-  const SCENARIOUID = 'cCImPNu7asQzg81HRFpr'
-  const URLID = '8Zb9dGe7'
+  const SCENARIOUID = 'pH3crYcy2PMAvhaKJhdw'
+  const URLID = '6qWopKlL'
 
   let keywords, anId
 
