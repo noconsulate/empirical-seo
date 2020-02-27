@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Typography,
+  Typography, List, ListItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
+import Link from '../src/Link'
 import { fbAuth, db, dbArrayUnion} from '../config/firebase'
 
 import PortalCreate from '../components/PortalCreate'
@@ -14,6 +15,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'red',
   },
 }))
+
+const prodUrl = process.env.prodUrl
 
 const portal = props => {
   const classes = useStyles()
@@ -112,10 +115,34 @@ const portal = props => {
     console.log(scenarios)
   }, [])
 
+  const resultsRows = () => {
+    console.log(scenarios)
+    if (scenarios) {
+      return (
+        <>
+          <Typography variant='body1'>
+            The results to all of your scenarios:
+          </Typography>
+          <List>
+            {scenarios.map(item => (
+              <ListItem key={item}>
+                <Link href={{ pathname: '/results', query: { urlid: item } }}>
+                {`${prodUrl}/results?urlid=${item}`}
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )
+    } else {
+      return <p>noscenarios</p>
+    }
+  }
+
   const pageContent = (
     <>
       <div className={classes.main}>
-        hi
+        {resultsRows()}
       </div>
     </>
   )
