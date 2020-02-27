@@ -3,7 +3,7 @@ if (process.env.NODE_ENV == 'development') {
   console.log('development')
   module.exports = {
     env: {
-      prodUrl: 'https://localhost:3000'
+      prodUrl: 'http://localhost:3000'
     }
   };  
 } else {

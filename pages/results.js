@@ -9,7 +9,6 @@ import { db, fbAuth } from '../config/firebase'
 import Layout from '../components/Layout'
 
 const prodUrl = process.env.prodUrl
-console.log(prodUrl)
 
 const useStyles = makeStyles(theme => ({
   keywords: {
@@ -34,7 +33,17 @@ const Results = (props) => {
 
   const classes = useStyles()
 
-  console.log(props)
+  React.useEffect(() => {
+      // initialize fbAuth?
+  fbAuth.onAuthStateChanged(user => {
+    if (user) {
+      console.log(user)
+    } else {
+      console.log('no user')
+    }
+  })
+  }, [])
+
   const rowsKeywords = () => {
     let listKey = 0
     return (
@@ -203,8 +212,18 @@ export default Results
 
 
 Results.getInitialProps = async ({ query }) => {
+
+  // get user
+  let user, userId
+  const getUser = async () => {
+    const response = fbAuth.currentUser
+    user = response
+    userId = user.uid
+  }
+  getUser()
+  console.log(user, userId)
+
   const urlId = query.urlid
-  console.log(urlId)
 
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
@@ -214,7 +233,6 @@ Results.getInitialProps = async ({ query }) => {
   scenario.forEach(doc => {
     scenarioId = doc.id
   })
-  console.log(scenarioId)
   if (!scenarioId) {
     return {
       //change to different error eg 'misformed url'
@@ -223,11 +241,10 @@ Results.getInitialProps = async ({ query }) => {
   }
 
   const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
-  if (scenDoc.data().private == true) {
-    console.log('PRIVATE THING')
+  if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
     return {
       permissionDenied: true,
-      
+
     }
   }
 
