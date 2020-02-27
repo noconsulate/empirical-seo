@@ -34,7 +34,7 @@ const portal = props => {
   
 
   useEffect(() => {
-    // update 'users' collection in database, get data for render 
+    // update 'users' collection in database, get data for render d
     const dbUpdate = () => {
       let docRef = db.collection('users').doc(uid)
       docRef.get().then(doc => {
@@ -52,12 +52,14 @@ const portal = props => {
             optIn: optin
           })
         }
-        // get urlids for render
+        // get urlids for render **not working for some reason. maybe refactor to async function?
         let urlsGet
         db.collection('users').doc(uid).get()
           .then(doc => {
             urlsGet = doc.data().urlIds
             console.log(urlsGet)
+          })
+          .then(doc => {
             setScenarios(urlsGet)
             console.log(scenarios)
           })
@@ -107,6 +109,7 @@ const portal = props => {
       }
     }
     userProcess()
+    console.log(scenarios)
   }, [])
 
   const pageContent = (
