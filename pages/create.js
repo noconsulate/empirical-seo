@@ -23,8 +23,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const prodUrl = process.env.prodUrl
-console.log(prodUrl)
+console.log('url ENV variable', prodUrl)
 
+fbAuth.signInAnonymously().catch(error => {
+  console.log(error)
+})
 const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')
@@ -80,7 +83,10 @@ const Create = props => {
       .catch(error => {
         console.log(error)
       })
-      // set scenario to private <<<+++ !!!!!
+      // set scenario to private
+      db.collection('scenarios').doc(scenarioUid).update({
+        private: true,
+      })
   }
 
   const ScenarioForm = () => {
