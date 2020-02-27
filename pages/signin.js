@@ -148,4 +148,5 @@ export default SignIn
 
 SignIn.getInitialProps = ({ query }) => {
   return ({ query })
+  console.log('server side')
 }

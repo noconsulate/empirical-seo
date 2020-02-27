@@ -71,7 +71,7 @@ const Create = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${process.env.prodUrl}/signin?optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
+      url: `${prodUrl}/signin?optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 
