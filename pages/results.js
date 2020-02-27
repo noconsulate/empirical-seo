@@ -33,16 +33,9 @@ const Results = (props) => {
 
   const classes = useStyles()
 
-  React.useEffect(() => {
-      // initialize fbAuth?
-  fbAuth.onAuthStateChanged(user => {
-    if (user) {
-      console.log(user)
-    } else {
-      console.log('no user')
-    }
-  })
-  }, [])
+  console.log(props.user)
+
+
 
   const rowsKeywords = () => {
     let listKey = 0
@@ -225,21 +218,22 @@ Results.getInitialProps = async ({ query }) => {
 
   const urlId = query.urlid
 
+  // get scenario uid from urlid query
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
   const scenario = await scenarioQuery.get()
-
   let scenarioId
   scenario.forEach(doc => {
     scenarioId = doc.id
   })
+  // urlid not found
   if (!scenarioId) {
     return {
-      //change to different error eg 'misformed url'
       badUrl: true,
     }
   }
 
+  // check permission 
   const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
   if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
     return {
@@ -283,6 +277,7 @@ Results.getInitialProps = async ({ query }) => {
   return {
     keywords: keywordsObj,
     phrases: phrases,
-    urlId
+    urlId,
+    user
   }
 }
