@@ -9,6 +9,7 @@ import { db, fbAuth } from '../config/firebase'
 import Layout from '../components/Layout'
 
 const prodUrl = process.env.prodUrl
+console.log(prodUrl)
 
 const useStyles = makeStyles(theme => ({
   keywords: {
@@ -33,6 +34,7 @@ const Results = (props) => {
 
   const classes = useStyles()
 
+  console.log(props)
   const rowsKeywords = () => {
     let listKey = 0
     return (
@@ -124,7 +126,7 @@ const Results = (props) => {
     console.log(email)
 
     const actionCodeSettings = {
-      url: `${process.env.prodUrl}/foobar?urlid=${props.urlId}`,
+      url: `${prodUrl}/results?urlid=${props.urlId}`,
       handleCodeInApp: true,
     }
 
@@ -216,7 +218,7 @@ Results.getInitialProps = async ({ query }) => {
   if (!scenarioId) {
     return {
       //change to different error eg 'misformed url'
-      badUrl: true
+      badUrl: true,
     }
   }
 
@@ -224,7 +226,8 @@ Results.getInitialProps = async ({ query }) => {
   if (scenDoc.data().private == true) {
     console.log('PRIVATE THING')
     return {
-      permissionDenied: true
+      permissionDenied: true,
+      
     }
   }
 
