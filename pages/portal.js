@@ -33,6 +33,7 @@ const portal = props => {
   console.log(mode)
   let user, uid, userEmail
   const [scenarios, setScenarios] = useState([])
+  const [userError, setUserError] = useState(false)
 
   useEffect(() => {
     console.log(mode)
@@ -66,16 +67,16 @@ const portal = props => {
             })
         })
         // add user id to scenario  
-        db.collection('scenarios').doc(scenarioId).update({
-          "owner": uid,
-          "private": true,
-        })
-          .then(() => {
-            console.log('scenario uptdated')
-          })
-          .catch(error => {
-            console.log('error', error)
-          })
+        // db.collection('scenarios').doc(scenarioId).update({
+        //   "owner": uid,
+        //   "private": true,
+        // })
+        //   .then(() => {
+        //     console.log('scenario uptdated')
+        //   })
+        //   .catch(error => {
+        //     console.log('error', error)
+        //   })
       }
       // firebase authentication
 
@@ -105,6 +106,7 @@ const portal = props => {
               })
               .catch(error => {
                 console.log('signin with email error', error)
+                setUserError(true)
               })
           }
         }
@@ -196,7 +198,7 @@ const portal = props => {
     console.log(scenarios)
     if (scenarios) {
       return (
-        <>
+        <div className={classes.main}>
           <Typography variant='body1'>
             The results to all of your scenarios:
           </Typography>
@@ -209,27 +211,47 @@ const portal = props => {
               </ListItem>
             ))}
           </List>
-        </>
+        </div>
       )
     } else {
       return <p>noscenarios</p>
     }
   }
 
+  const userErrorPane = () => {
+    return (
+      <div className={classes.main}>
+        <Typography variant='h3'>
+          Authentication error!
+    </Typography>
+        <Typography variant='body1'>
+          Something went wrong with the authentication process. Please try again.
+    </Typography>
+      </div>
+    )
+  }
+
+  const ViewControl = () => {
+    switch (userError) {
+      case true:
+        return userErrorPane()
+      case false:
+        return resultsRows()
+    }
+  }
+
   const pageContent = (
     <>
-      <div className={classes.main}>
-        {resultsRows()}
-      </div>
+    {ViewControl()}
     </>
   )
 
-  return (
-    <Layout
-      content={pageContent}
-      title='sigin portal'
-    />
-  )
+return (
+  <Layout
+    content={pageContent}
+    title='sigin portal'
+  />
+)
 }
 
 export default portal
