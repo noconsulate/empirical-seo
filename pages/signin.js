@@ -129,9 +129,10 @@ const SignIn = props => {
 
   const pageContent = (
     <>
-      <div className={classes.results}>
-        {resultsRows()}
-      </div>
+      <PortalCreate
+        scenarioId={scenarioId}
+        urlId={urlId}
+      />
     </>
   )
   return (

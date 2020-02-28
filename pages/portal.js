@@ -5,7 +5,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 
 import Link from '../src/Link'
-import { fbAuth, db, dbArrayUnion} from '../config/firebase'
+import { fbAuth, db, dbArrayUnion,} from '../config/firebase'
 
 import PortalCreate from '../components/PortalCreate'
 import Layout from '../components/Layout'
@@ -29,12 +29,9 @@ const portal = props => {
   const urlId = props.query.urlid
   console.log(urlId)
   //portal mode for signin flow
-  const portalMode = props.query.portal
+  const portalMode = props.query.mode
   let user, uid, userEmail
   const [scenarios, setScenarios] = useState([])
-  
-  //fb auth
-  
 
   useEffect(() => {
     // update 'users' collection in database, get data for render d
@@ -84,7 +81,7 @@ const portal = props => {
     const userProcess = async () => {
       user = await fbAuth.currentUser
       if (user) {
-        console.log('hooray', user)
+        console.log('user already signed in', user)
         uid = user.uid
         userEmail = user.email
         console.log(userEmail)
