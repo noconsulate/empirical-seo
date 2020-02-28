@@ -1,153 +1,101 @@
-import React, { useEffect, useState } from 'react'
-import Link from '../src/Link'
-import { List, ListItem, Typography } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import {
+  Typography, Button, TextField, FormGroup, FormControlLabel, Checkbox
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import Link from '../src/Link'
 
-import { fbAuth, db, dbArrayUnion } from '../config/firebase'
+import { fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
+import { defaultHead } from 'next/head'
 
 const prodUrl = process.env.prodUrl
 
 const useStyles = makeStyles(theme => ({
-  results: {
-    backgroundColor: 'yellow',
+  main: {
+    backgroundColor: 'brown',
   },
 }))
-const SignIn = props => {
+
+const signin = props => {
   const classes = useStyles()
-  console.log(props)
-  const optIn = props.query.optin
-  console.log(optIn)
-  const scenarioId = props.query.scenarioid 
-  console.log(scenarioId)
-  const urlId = props.query.urlid
-  console.log(urlId)
+// development defautl
+  const [formText, setFormText] = useState('noconsulate@gmail.com')
+  const [checked, setChecked] = useState(false)
 
-  const [scenarios, setScenarios] = useState([])
-
-  useEffect(() => {
-    // update 'users' collection in database, get data for render 
-    const dbUpdate = () => {
-      let docRef = db.collection('users').doc(uid)
-      docRef.get().then(doc => {
-        if (doc.exists) {
-          console.log('user exists')
-          docRef.set({
-            optIn: optIn,
-            urlIds: dbArrayUnion(urlId)
-          }, {merge: true })
-        } else {
-          console.log('user dont exists')
-          docRef.set({
-            urlIds: [urlId],
-            email: userEmail,
-            optIn: props.query.optin
-          })
-        }
-        // get urlids for render
-        let urlsGet
-        db.collection('users').doc(uid).get()
-          .then(doc => {
-            urlsGet = doc.data().urlIds
-            console.log(urlsGet)
-            setScenarios(urlsGet)
-            console.log(scenarios)
-          })
-      })
-      // add user id to scenario  
-      db.collection('scenarios').doc(scenarioId).update({
-        "owner": uid,
-        "private": true,
-      })
-        .then(() => {
-          console.log('scenario uptdated')
-        })
-        .catch(error => {
-          console.log('error', error)
-        }) 
-    }
-    // firebase authentication
-    let user, uid, userEmail
-    const userProcess = async () => {
-      user = await fbAuth.currentUser
-      if (user) {
-        console.log('hooray', user)
-        uid = user.uid
-        userEmail = user.email
-        console.log(userEmail)
-        dbUpdate()
-      } else {
-        // if no user proceed with email link validation *
-        console.log('no user')
-        if (fbAuth.isSignInWithEmailLink(window.location.href)) {
-          console.log('if')
-          let email = window.localStorage.getItem('emailForSignIn')
-          if (!email) {
-            email = window.prompt('please provide email for account confirmation')
-          }
-          fbAuth.signInWithEmailLink(email, window.location.href)
-            .then(result => {
-              console.log('signed in', result.user)
-              uid = result.user.uid
-              userEmail = result.user.email
-              console.log(uid, userEmail)
-              dbUpdate()
-            })
-            .catch(error => {
-              console.log('signin with email error', error)
-            })
-        }
-      }
-    }
-    userProcess()
-  }, [])
-
-  const resultsRows = () => {
-    console.log(scenarios)
-    if (scenarios) {
-      return (
-        <>
-          <Typography variant='body1'>
-            The results to all of your scenarios:
-          </Typography>
-          <List>
-            {scenarios.map(item => (
-              <ListItem key={item}>
-                <Link href={{ pathname: '/results', query: { urlid: item } }}>
-                {`${prodUrl}/results?urlid=${item}`}
-                </Link>
-              </ListItem>
-            ))}
-          </List>
-        </>
-      )
-    } else {
-      return <p>noscenarios</p>
-    }
+  const handleChange = event => {
+    setFormText(event.target.value)
   }
+  const handleSignIn = event => {
+    event.preventDefault()
+    console.log('opt in?', checked)
+
+    const actionCodeSettings = {
+      url: `${prodUrl}/portal?mode='signin'&optin=${checked}`,
+      handleCodeInApp: true,
+    }
+
+    fbAuth.sendSignInLinkToEmail(formText, actionCodeSettings)
+      .then(() => {
+        console.log('link sent')
+        window.localStorage.setItem('emailForSignIn', formText)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const handleCheckbox = event => {
+    setChecked(event.target.checked)
+  }
+
+  const signInForm = (
+    <>
+      <div className={classes.main}>
+        <Typography variant='body1'>
+          Enter your email address below and you'll be sent a link to your page.
+        </Typography>
+        <form onSubmit={handleSignIn}>
+          <TextField
+            label='email'
+            value={formText}
+            onChange={handleChange}
+            type='email'
+          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheckbox}
+                  valiue='primary'
+                />
+              }
+              label='Opt in?'
+            />
+          </FormGroup>
+          <Button type='submit'>
+            Sign in!
+          </Button>
+        </form>
+      </div>
+    </>
+  )
 
   const pageContent = (
     <>
-      <PortalCreate
-        scenarioId={scenarioId}
-        urlId={urlId}
-      />
+      {signInForm}
     </>
   )
+
   return (
-    <>
-      <Layout
-        content={pageContent}
-        title='Finish signup'
-      />
-    </>
+    <Layout
+      content={pageContent}
+      title='Sign in to your page'
+    />
   )
 }
 
-export default SignIn
+export default signin
 
-SignIn.getInitialProps = ({ query }) => {
-  return ({ query })
-  console.log('server side')
-}
