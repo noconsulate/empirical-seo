@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -25,9 +25,11 @@ const useStyles = makeStyles(theme => ({
 const prodUrl = process.env.prodUrl
 console.log('url ENV variable', prodUrl)
 
-fbAuth.signInAnonymously().catch(error => {
-  console.log(error)
-})
+// check for user, otherwise sign in anon
+
+// fbAuth.signInAnonymously().catch(error => {
+//   console.log(error)
+// })
 const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')
@@ -36,6 +38,18 @@ const Create = props => {
   const [checked, setChecked] = useState(false)
 
   const classes = useStyles()
+
+  // check user
+  useEffect(() => {
+    const userProcess = async () => {
+      const user = fbAuth.currentUser
+      if (!user) {
+        fbAuth.signInAnonymously().catch(error => {
+          console.log('anon signin error', error)
+        })
+      }
+    }
+  }, [])
 
   const handleCheckbox = event => {
     setChecked(event.target.checked)
