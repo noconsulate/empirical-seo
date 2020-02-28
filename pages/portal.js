@@ -29,12 +29,89 @@ const portal = props => {
   const urlId = props.query.urlid
   console.log(urlId)
   //portal mode for signin flow
-  const portalMode = props.query.mode
+  const mode = props.query.portalMode
+  console.log(mode)
   let user, uid, userEmail
   const [scenarios, setScenarios] = useState([])
 
   useEffect(() => {
-    // update 'users' collection in database, get data for render d
+    console.log(mode)
+    if (mode == 'signin') {
+      const dbUpdate = () => {
+        let docRef = db.collection('users').doc(uid)
+        docRef.get().then(doc => {
+          if (doc.exists) {
+            console.log('user exists')
+            docRef.set({
+              optIn: optIn,
+            }, {merge: true })
+          } else {
+            console.log('user dont exists')
+            docRef.set({
+              email: userEmail,
+              optIn: optin
+            })
+          }
+          // get urlids for render **not working for some reason. maybe refactor to async function?
+          let urlsGet
+          db.collection('users').doc(uid).get()
+            .then(doc => {
+              urlsGet = doc.data().urlIds
+              console.log(urlsGet)
+            })
+            .then(doc => {
+              setScenarios(urlsGet)
+              console.log(scenarios)
+            })
+        })
+        // add user id to scenario  
+        db.collection('scenarios').doc(scenarioId).update({
+          "owner": uid,
+          "private": true,
+        })
+          .then(() => {
+            console.log('scenario uptdated')
+          })
+          .catch(error => {
+            console.log('error', error)
+          }) 
+      }
+      // firebase authentication
+      
+      const userProcess = async () => {
+        user = await fbAuth.currentUser
+        if (user) {
+          console.log('user already signed in', user)
+          uid = user.uid
+          userEmail = user.email
+          console.log(userEmail)
+          dbUpdate()
+        } else {
+          // if no user proceed with email link validation *
+          console.log('no user')
+          if (fbAuth.isSignInWithEmailLink(window.location.href)) {
+            let email = window.localStorage.getItem('emailForSignIn')
+            if (!email) {
+              email = window.prompt('please provide email for account confirmation')
+            }
+            fbAuth.signInWithEmailLink(email, window.location.href)
+              .then(result => {
+                console.log('signed in', result.user)
+                uid = result.user.uid
+                userEmail = result.user.email
+                console.log(uid, userEmail)
+                dbUpdate()
+              })
+              .catch(error => {
+                console.log('signin with email error', error)
+              })
+          }
+        }
+      }
+      userProcess()
+      console.log(scenarios)
+    } else {
+       // update 'users' collection in database, get data for render d
     const dbUpdate = () => {
       let docRef = db.collection('users').doc(uid)
       docRef.get().then(doc => {
@@ -65,17 +142,17 @@ const portal = props => {
           })
       })
       // add user id to scenario  
-      db.collection('scenarios').doc(scenarioId).update({
-        "owner": uid,
-        "private": true,
-      })
-        .then(() => {
-          console.log('scenario uptdated')
-        })
-        .catch(error => {
-          console.log('error', error)
-        }) 
-    }
+    //   db.collection('scenarios').doc(scenarioId).update({
+    //     "owner": uid,
+    //     "private": true,
+    //   })
+    //     .then(() => {
+    //       console.log('scenario uptdated')
+    //     })
+    //     .catch(error => {
+    //       console.log('error', error)
+    //     }) 
+     }
     // firebase authentication
     
     const userProcess = async () => {
@@ -110,6 +187,8 @@ const portal = props => {
     }
     userProcess()
     console.log(scenarios)
+    }
+   
   }, [])
 
   const resultsRows = () => {

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const signin = props => {
   const classes = useStyles()
-// development defautl
+  // development defautl
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
 
@@ -32,7 +32,7 @@ const signin = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${prodUrl}/portal?mode='signin'&optin=${checked}`,
+      url: `${prodUrl}/portal?portalMode=signin&optin=${checked}`,
       handleCodeInApp: true,
     }
 
