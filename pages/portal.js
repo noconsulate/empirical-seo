@@ -125,6 +125,7 @@ const portal = props => {
               urlIds: dbArrayUnion(urlId)
             }, { merge: true })
           } else {
+            //user non in db
             console.log('user dont exists')
             docRef.set({
               urlIds: [urlId],
@@ -132,7 +133,6 @@ const portal = props => {
               optIn: optin
             })
           }
-          // get urlids for render **not working for some reason. maybe refactor to async function?
           let urlsGet
           db.collection('users').doc(uid).get()
             .then(doc => {

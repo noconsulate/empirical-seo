@@ -26,9 +26,9 @@ const NavBar = props => {
           <Link href='/survey' color='textPrimary' className={classes.navButton}>
             Survey
           </Link>
-          <Link href='/results' color='textPrimary' className={classes.navButton}
+          <Link href='/signin' color='textPrimary' className={classes.navButton}
           >
-            Results
+            sign in
           </Link>
           <Link href='/about' color='textPrimary' className={classes.navButton}
           >
