@@ -17,4 +17,4 @@ after survey is submitted
 QUESTIONS ABOUT FIRESTORE RULES:
   *how to store keywords. if using anonymous user to write directly to keywords could malicious person run the data?
   
-More DB rules, esp 'users'
+make results page the list of results if user, otherwise redirect to login page

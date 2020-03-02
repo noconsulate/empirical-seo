@@ -49,6 +49,7 @@ const Create = props => {
         })
       }
     }
+    userProcess()
   }, [])
 
   const handleCheckbox = event => {
