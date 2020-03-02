@@ -18,3 +18,7 @@ QUESTIONS ABOUT FIRESTORE RULES:
   *how to store keywords. if using anonymous user to write directly to keywords could malicious person run the data?
   
 make results page the list of results if user, otherwise redirect to login page
+
+make back navigation from results or survey back to create retain the option to sign in
+
+when in create and click create the page resets

@@ -210,11 +210,14 @@ Results.getInitialProps = async ({ query }) => {
   let user, userId
   user = await fbAuth.currentUser
   if (user == null)
-  user = await fbAuth.signInAnonymously
-  userId = await user.uid
+  {
+    user = await fbAuth.signInAnonymously
+    userId = await user.uid
+  }
+ 
   console.log('user.uid', user.uid)
-
   const urlId = query.urlid
+  console.log(urlId)
 
   // get scenario uid from urlid query
   const scenariosRef = db.collection('scenarios')
@@ -239,7 +242,6 @@ Results.getInitialProps = async ({ query }) => {
 
   // check permission 
   const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
-  console.log('initial permission check', scenDoc)
   if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
     console.log('bad permission')
     return {
