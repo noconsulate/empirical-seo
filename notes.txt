@@ -12,7 +12,7 @@ deleting results for owners
 
 hide firebase config
 
-after survey is submitted
+after survey is submitted link to results page if public?
 
 QUESTIONS ABOUT FIRESTORE RULES:
   *how to store keywords. if using anonymous user to write directly to keywords could malicious person run the data?
