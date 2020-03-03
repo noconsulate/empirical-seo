@@ -53,6 +53,8 @@ const Survey = props => {
         .catch(error => {
           console.log('error', error)
         })
+    } else {
+      setPageControl(-1)
     }
   }, [])
 
@@ -64,11 +66,11 @@ const Survey = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    
+
     fbAuth.signInAnonymously().catch(error => {
       console.log(error)
     })
-    
+
     const keywords = formText.split(' ').filter(item => item != '')
     console.log('keywords', keywords)
     db.collection('scenarios').doc(scenarioId).collection('keywords').add({
@@ -120,26 +122,44 @@ const Survey = props => {
           </Typography>
         </div>
         {
-          privateResults == false ? 
-          <div className={classes.thankYou}>
-            <Typography variant='body1'>
-              You can see the results of the survey here:
+          privateResults == false ?
+            <div className={classes.thankYou}>
+              <Typography variant='body1'>
+                You can see the results of the survey here:
             </Typography>
-            <Link href={{ pathname: '/results', query: { urlid: urlId }}}>
+              <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
                 <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
               </Link>
-          </div> :
-          null
+            </div> :
+            null
         }
       </>
     )
   }
 
+  const NoSurvey = () => {
+    return (
+      <>
+        <div className={classes.content}>
+          <Typography variant='h5'>
+            There is nothing here! :()
+          </Typography>
+          <Typography variant='body1'>
+            Please make sure the url is correct.
+          </Typography>
+        </div>
+      </>
+
+    )
+  }
+
   const ViewControl = () => {
     switch (pageControl) {
-      case 0: 
+      case -1:
+        return NoSurvey()
+      case 0:
         return SurveyForm()
-      case 1: 
+      case 1:
         return ThankYou()
     }
   }
@@ -162,6 +182,6 @@ const Survey = props => {
 
 export default Survey
 
-Survey.getInitialProps = ({query}) => {
-  return {query}
+Survey.getInitialProps = ({ query }) => {
+  return { query }
 }

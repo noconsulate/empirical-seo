@@ -41,6 +41,8 @@ const Create = props => {
 
   // check user
   useEffect(() => {
+    // reset state
+    setPageControl(0)
     const userProcess = async () => {
       const user = fbAuth.currentUser
       if (!user) {
