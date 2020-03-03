@@ -142,7 +142,7 @@ const Survey = props => {
       <>
         <div className={classes.content}>
           <Typography variant='h5'>
-            There is nothing here! :()
+            There is nothing here! :(
           </Typography>
           <Typography variant='body1'>
             Please make sure the url is correct.
