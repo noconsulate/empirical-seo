@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const Results = (props) => {
   const [email, setEmail] = useState('')
+  const [badPermissionControl, setBadPermissionControl] = useState(0)
 
   const classes = useStyles()
 
@@ -136,6 +137,7 @@ const Results = (props) => {
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', email)
+        setBadPermissionControl(1)
       })
       .catch(error => {
         console.log(error)
@@ -143,8 +145,9 @@ const Results = (props) => {
   }
 
   //need to add flow for sign in 
-  const permissionDenied =
-    (
+
+  const PermissionDeniedPre = () => {
+    return (
       <>
         <div className={classes.extra}>
           <Typography variant='body1'>
@@ -166,6 +169,36 @@ const Results = (props) => {
         </div>
       </>
     )
+  }
+
+  const PermissionDeniedPost = () => {
+    return (
+      <>
+        <div className={classes.extra}>
+          <Typography variant='body1'>
+            Thank you, please check your email for a link to coninue signing in.
+          </Typography>
+        </div>
+      </>
+    )
+  }
+
+  const permissionViewControl = () => {
+    switch (badPermissionControl) {
+      case 0:
+        return PermissionDeniedPre()
+      case 1: 
+        return PermissionDeniedPost()
+    }
+  }
+
+  const permissionDenied = () => {
+    return (
+      <>
+        {permissionViewControl()}
+      </>
+    )
+  }
 
   const badUrl = (
     <div className={classes.extra}>
@@ -187,7 +220,7 @@ const Results = (props) => {
   if (props.permissionDenied) {
     return (
       <Layout
-        content={permissionDenied}
+        content={permissionDenied()}
         title='Survey results - permission denied!'
       />
     )
