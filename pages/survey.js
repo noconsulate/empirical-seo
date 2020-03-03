@@ -40,15 +40,18 @@ const Survey = props => {
       const query = scenariosRef.where('urlId', '==', urlId)
       query.get()
         .then(snapshot => {
-          snapshot.forEach(doc => {
-            console.log(doc.id, doc.data())
-            const scenarioValue = doc.data().scenario
-            const privateValue = doc.data().private
-            console.log(privateValue)
-            setScenarioText(scenarioValue)
-            setScenarioId(doc.id)
-            setPrivateResults(privateValue)
-          })
+          if (snapshot.size > 0) {
+            snapshot.forEach(doc => {
+              const scenarioValue = doc.data().scenario
+              const privateValue = doc.data().private
+              setScenarioText(scenarioValue)
+              setScenarioId(doc.id)
+              setPrivateResults(privateValue)
+            })
+          } else {
+            setPageControl(-1)
+          }
+          
         })
         .catch(error => {
           console.log('error', error)
@@ -68,20 +71,16 @@ const Survey = props => {
     event.preventDefault()
 
     fbAuth.signInAnonymously().catch(error => {
-      console.log(error)
     })
 
     const keywords = formText.split(' ').filter(item => item != '')
-    console.log('keywords', keywords)
     db.collection('scenarios').doc(scenarioId).collection('keywords').add({
       keywords
     })
       .then(docRef => {
-        console.log("Keywords written to: ", docRef.id)
         setPageControl(1)
       })
       .catch(error => {
-        console.error("Error adding document: ", error.message);
       })
   }
 
