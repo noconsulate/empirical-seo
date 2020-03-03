@@ -23,6 +23,7 @@ const signin = props => {
   // development defautl
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
+  const [pageControl, setPageControl] = useState(0)
 
   const handleChange = event => {
     setFormText(event.target.value)
@@ -40,6 +41,7 @@ const signin = props => {
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', formText)
+        setPageControl(1)
       })
       .catch(error => {
         console.log(error)
@@ -50,7 +52,7 @@ const signin = props => {
     setChecked(event.target.checked)
   }
 
-  const signInForm = (
+  const SignInForm = (
     <>
       <div className={classes.main}>
         <Typography variant='body1'>
@@ -83,9 +85,31 @@ const signin = props => {
     </>
   )
 
+  const LinkSent = (
+    <>
+      <div className={classes.main}>
+        <Typography variant='h4'>
+          Please check your email
+        </Typography>
+        <Typography variant='body1'>
+          An email has been sent to {formText}. Please follow the link it contains to gain access to your private scenario results and more.
+        </Typography>
+      </div>
+    </>
+  )
+
+  const viewControl = () => {
+    switch (pageControl) {
+      case 0:
+        return SignInForm
+      case 1:
+        return LinkSent
+    }
+  }
+
   const pageContent = (
     <>
-      {signInForm}
+      {viewControl()}
     </>
   )
 

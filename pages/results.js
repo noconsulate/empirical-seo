@@ -205,20 +205,20 @@ export default Results
 
 
 Results.getInitialProps = async ({ query }) => {
+  const urlId = query.urlid
 
   // get user
   let user, userId
   user = await fbAuth.currentUser
-  if (user == null)
-  {
-    user = await fbAuth.signInAnonymously
-    userId = await user.uid
+  if (user != null) {
+    userId = user.uid
+  } else {
+    console.log('user else')
+    user = fbAuth.signInAnonymously
+    userId = 'anon'
   }
- 
-  console.log('user.uid', user.uid)
-  const urlId = query.urlid
-  console.log(urlId)
-
+  console.log('userId', userId)
+  
   // get scenario uid from urlid query
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
@@ -242,11 +242,11 @@ Results.getInitialProps = async ({ query }) => {
 
   // check permission 
   const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
+  console.log('scenDoc', scenDoc.data().owner)
   if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
     console.log('bad permission')
     return {
       permissionDenied: true,
-
     }
   }
 
