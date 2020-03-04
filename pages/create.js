@@ -9,6 +9,7 @@ import shortid from 'shortid'
 import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
+import Survey from '../components/Survey'
 
 const useStyles = makeStyles(theme => ({
   extra: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
   description: {
     backgroundColor: 'orange',
   },
+  draft: {
+    border: 'solid'
+  }
 }))
 
 const prodUrl = process.env.prodUrl
@@ -36,13 +40,14 @@ const Create = props => {
   const [pageControl, setPageControl] = useState(0)
   const [formText, setFormText] = useState('')
   const [checked, setChecked] = useState(false)
+  const [scenarioText, setScenarioText] = useState('')
 
   const classes = useStyles()
 
   // check user
   useEffect(() => {
-    // reset state
-    setPageControl(0)
+    // reset state (i think this was to deal with back click or refresh?)
+    //  setPageControl(0)
     const userProcess = async () => {
       const user = fbAuth.currentUser
       if (!user) {
@@ -77,6 +82,7 @@ const Create = props => {
         setUrlId(urlIdGen)
         setPageControl(1)
         setFormText('')
+        setScenarioText(formText)
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
@@ -100,9 +106,38 @@ const Create = props => {
       .catch(error => {
         console.log(error)
       })
-      // set scenario to private
-      db.collection('scenarios').doc(scenarioUid).update({
-        private: true,
+    // set scenario to private
+    db.collection('scenarios').doc(scenarioUid).update({
+      private: true,
+    })
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    setScenarioText(formText)
+    setPageControl(1)
+  }
+
+  const handlePublish = () => {
+    event.preventDefault()
+    const urlIdGen = shortid.generate()
+    console.log(urlId)
+
+    db.collection('scenarios').add({
+      scenario: formText,
+      urlId: urlIdGen,
+      private: false,
+    })
+      .then(docRef => {
+        console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
+        setScenarioUid(docRef.id)
+        setUrlId(urlIdGen)
+        setPageControl(2)
+        setFormText('')
+        setScenarioText(formText)
+      })
+      .catch(error => {
+        console.error('error adding document: ', error.message)
       })
   }
 
@@ -114,7 +149,7 @@ const Create = props => {
             Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
           </Typography>
         </div>
-        <form autoComplete='off' className={classes.form} onSubmit={handleSubmitScenario}>
+        <form autoComplete='off' className={classes.form} onSubmit={handleSubmit}>
           <TextField id='foo'
             label="scenario"
             multiline
@@ -134,7 +169,7 @@ const Create = props => {
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
-          Here's the link to your survey.
+          Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate. 
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
@@ -142,11 +177,11 @@ const Create = props => {
         <Typography variant='body1'>
           Here's the results page. Please note anyone with this link can see your results, unless you create an account.
         </Typography>
-        <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
+        <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
           <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
-          In order for us to secure your results so that only you can see them, you need to make an account with us. Don't worry, we won't ever email you unless you opt in and we won't share your information with anyone!
+          In order for us to secure your results so that only you can see them, all we need is your email address. 
         </Typography>
         <form onSubmit={handleSignIn}>
           <TextField
@@ -164,7 +199,7 @@ const Create = props => {
                   valiue='primary'
                 />
               }
-              label='Opt in?'
+              label='AUSTIN COME UP WITH SOMETHING HERE'
             />
           </FormGroup>
           <Button type='submit'>
@@ -175,12 +210,32 @@ const Create = props => {
     )
   }
 
+  const Draft = () => {
+    console.log('surveypane')
+    return (
+      <>
+        <Typography varaint='body1'>
+          Here is what your survey will look like.
+        </Typography>
+        <div className={classes.draft}>
+          <Survey scenario={scenarioText} />
+        </div>
+        <Typography variant='bod1'>
+          After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
+        </Typography>
+        <Button onClick={handlePublish}>publish!</Button>
+      </>
+    )
+  }
+
   const viewControl = () => {
     switch (pageControl) {
       case 0:
         return ScenarioForm()
-      case 1:
+      case 2:
         return LoginForm()
+      case 1:
+        return Draft()
     }
   }
 
