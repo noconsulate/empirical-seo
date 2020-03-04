@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Typography, Button, Grid, FormControl, TextField, Checkbox,
@@ -79,6 +79,7 @@ const Create = props => {
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', formText)
+        setPageControl(3)
       })
       .catch(error => {
         console.log(error)
@@ -118,6 +119,16 @@ const Create = props => {
       })
   }
 
+  const handleGoBack = event => {
+    event.preventDefault()
+    setPageControl(pageControl - 1)
+  }
+
+  const handleReset = event => {
+    event.preventDefault()
+    setPageControl(0)
+    setFormText('')
+  }
   const ScenarioForm = () => {
     return (
       <>
@@ -152,7 +163,7 @@ const Create = props => {
           <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
-          Here's the results page. Please note anyone with this link can see your results, unless you create an account.
+          Here's the results page. Please note anyone with this link can see your results, unless you provide your email address below.
         </Typography>
         <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
           <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
@@ -176,13 +187,16 @@ const Create = props => {
                   valiue='primary'
                 />
               }
-              label='AUSTIN COME UP WITH SOMETHING HERE'
+              label='AUSTIN COME UP WITH SOMETHING HERE for OPT IN language'
             />
           </FormGroup>
           <Button type='submit'>
             Sign in!
           </Button>
         </form>
+        <Button onClick={handleGoBack}>
+          Go Back
+        </Button>
       </div>
     )
   }
@@ -202,6 +216,32 @@ const Create = props => {
             After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
         </Typography>
           <Button onClick={handlePublish}>publish!</Button>
+          <Button onClick={handleGoBack}>
+            Edit
+          </Button>
+        </div>
+      </>
+    )
+  }
+
+  const ThankYou = () => {
+    return (
+      <>
+        <div className={classes.description}>
+          <Typography variant='h4'>
+            Thank you!
+        </Typography>
+          <Typography varaint='body1'>
+            Please follow the link we just emailed to you. Austin needs to write copy for this part.
+  
+            Here is the link to your new survey for you to keep and share.
+        </Typography>
+          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+            {`${prodUrl}/results?urlid=${urlId}`}
+          </Link>
+          <Button onClick={handleReset}>
+            Create a new scenario
+        </Button>
         </div>
       </>
     )
@@ -215,6 +255,8 @@ const Create = props => {
         return LoginForm()
       case 1:
         return Draft()
+      case 3:
+        return ThankYou()
     }
   }
 
