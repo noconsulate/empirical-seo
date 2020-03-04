@@ -66,29 +66,6 @@ const Create = props => {
     setFormText(event.target.value)
   }
 
-  const handleSubmitScenario = event => {
-    event.preventDefault()
-    const urlIdGen = shortid.generate()
-    console.log(urlId)
-
-    db.collection('scenarios').add({
-      scenario: formText,
-      urlId: urlIdGen,
-      private: false,
-    })
-      .then(docRef => {
-        console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
-        setScenarioUid(docRef.id)
-        setUrlId(urlIdGen)
-        setPageControl(1)
-        setFormText('')
-        setScenarioText(formText)
-      })
-      .catch(error => {
-        console.error('error adding document: ', error.message)
-      })
-  }
-
   const handleSignIn = event => {
     event.preventDefault()
     console.log('opt in?', checked)
@@ -214,16 +191,18 @@ const Create = props => {
     console.log('surveypane')
     return (
       <>
+        <div className={classes.description}>
         <Typography varaint='body1'>
           Here is what your survey will look like.
         </Typography>
         <div className={classes.draft}>
           <Survey scenario={scenarioText} />
         </div>
-        <Typography variant='bod1'>
+        <Typography variant='body1'>
           After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
         </Typography>
         <Button onClick={handlePublish}>publish!</Button>
+        </div>
       </>
     )
   }
