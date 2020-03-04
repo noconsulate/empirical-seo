@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Link from '../src/Link'
+import Router from 'next/router'
 
 import { fbAuth } from '../config/firebase'
 
@@ -19,6 +20,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const signin = props => {
+  useEffect(() => {
+    const user = fbAuth.currentUser
+    if (user) {
+      Router.push('/portal?portalMode=continue')
+    }
+  }, [])
   const classes = useStyles()
   // development defautl
   const [formText, setFormText] = useState('noconsulate@gmail.com')

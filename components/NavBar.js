@@ -23,20 +23,9 @@ const NavBar = props => {
           <Link href='/create' color='textPrimary' className={classes.navButton}>
             Create
           </Link>
-          <Link href='/survey' color='textPrimary' className={classes.navButton}>
-            Survey
-          </Link>
           <Link href='/signin' color='textPrimary' className={classes.navButton}
           >
-            sign in
-          </Link>
-          <Link href='/about' color='textPrimary' className={classes.navButton}
-          >
-            About
-          </Link>
-          <Link href='/privacy' color='textPrimary' className={classes.navButton}
-          >
-            Privacy
+            profile
           </Link>
       </Toolbar>
     </AppBar>

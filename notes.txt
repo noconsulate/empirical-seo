@@ -23,4 +23,10 @@ make back navigation from results or survey back to create retain the option to 
 
 when in create and click create the page resets
 
-create ~ edit scenario draft
+create 
+  ~ check fbuser to avoid uncesseary signin
+
+
+put about and profile in footer, make footer
+
+put some user info in header for dev purposes, maybe make the navbar conditional on user . display user's email and offer option to log out

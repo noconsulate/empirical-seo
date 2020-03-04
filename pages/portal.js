@@ -37,8 +37,31 @@ const portal = props => {
 
   useEffect(() => {
     console.log(mode)
+    if (mode == 'continue') {
+      console.log('continue mode')
+      const dbUpdate = () => {
+        let urlsGet
+        let docRef = db.collection('users').doc(uid)
+        docRef.get().then(doc => {
+          console.log('user found')
+          urlsGet = doc.data().urlIds
+          setScenarios(urlsGet)
+        })
+          .catch(error => { console.log('users db error') })
+
+        
+      }
+      // get user from fbAuth and db
+      user = fbAuth.currentUser
+      if (user) {
+        console.log('user logged in', user)
+        uid = user.uid
+        dbUpdate()
+      }
+    }
     // auth and db operation for signin mode
     if (mode == 'signin') {
+      console.log('sign in mode')
       const dbUpdate = () => {
         let docRef = db.collection('users').doc(uid)
         docRef.get().then(doc => {
@@ -66,22 +89,11 @@ const portal = props => {
               console.log(scenarios)
             })
         })
-        // add user id to scenario  
-        // db.collection('scenarios').doc(scenarioId).update({
-        //   "owner": uid,
-        //   "private": true,
-        // })
-        //   .then(() => {
-        //     console.log('scenario uptdated')
-        //   })
-        //   .catch(error => {
-        //     console.log('error', error)
-        //   })
       }
       // firebase authentication
 
       const userProcess = async () => {
-        user = await fbAuth.currentUser
+        user = fbAuth.currentUser
         if (user) {
           console.log('user already signed in', user)
           uid = user.uid
@@ -113,7 +125,9 @@ const portal = props => {
       }
       userProcess()
       console.log(scenarios)
-    } else {
+    }
+    if (mode == 'create') {
+      console.log('create mode')
       // auth/db operations for create mode
       const dbUpdate = () => {
         let docRef = db.collection('users').doc(uid)
@@ -148,17 +162,6 @@ const portal = props => {
           .catch(error => {
             console.log('users db error', error)
           })
-        // add user id to scenario  /
-        //   db.collection('scenarios').doc(scenarioId).update({
-        //     "owner": uid,
-        //     "private": true,
-        //   })
-        //     .then(() => {
-        //       console.log('scenario uptdated')
-        //     })
-        //     .catch(error => {
-        //       console.log('error', error)
-        //     }) 
       }
       // firebase authentication
 

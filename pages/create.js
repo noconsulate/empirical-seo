@@ -72,7 +72,7 @@ const Create = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${prodUrl}/portal?mode='create'&optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
+      url: `${prodUrl}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 
@@ -85,7 +85,8 @@ const Create = props => {
       .catch(error => {
         console.log(error)
       })
-    // set scenario to private
+    // set scenario to private 
+    // *** THIS NEEDS TO HAPPEN AFTER SIGNIN IS COMPLETED OR URLID NEEDS TO BE ADDED TO USER DOC OTHERWISE COULD GET PRIVATED WITH NO ENTRY IN USER DOC ***
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
