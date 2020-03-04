@@ -117,34 +117,38 @@ const portal = props => {
       // auth/db operations for create mode
       const dbUpdate = () => {
         let docRef = db.collection('users').doc(uid)
-        docRef.get().then(doc => {
-          if (doc.exists) {
-            console.log('user exists')
-            docRef.set({
-              optIn: optIn,
-              urlIds: dbArrayUnion(urlId)
-            }, { merge: true })
-          } else {
-            //user non in db
-            console.log('user dont exists')
-            docRef.set({
-              urlIds: [urlId],
-              email: userEmail,
-              optIn: optin
-            })
-          }
-          let urlsGet
-          db.collection('users').doc(uid).get()
-            .then(doc => {
-              urlsGet = doc.data().urlIds
-              console.log(urlsGet)
-            })
-            .then(doc => {
-              setScenarios(urlsGet)
-              console.log(scenarios)
-            })
-        })
-        // add user id to scenario  
+        docRef.get()
+          .then(doc => {
+            if (doc.exists) {
+              console.log('user exists')
+              docRef.set({
+                optIn: optIn,
+                urlIds: dbArrayUnion(urlId)
+              }, { merge: true })
+            } else {
+              //user non in db
+              console.log('user dont exists')
+              docRef.set({
+                urlIds: [urlId],
+                email: userEmail,
+                optIn: optIn
+              })
+            }
+            let urlsGet
+            db.collection('users').doc(uid).get()
+              .then(doc => {
+                urlsGet = doc.data().urlIds
+                console.log(urlsGet)
+                setScenarios(urlsGet)
+              })
+              .catch(error => {
+                console.log('deep nested users db error', error)
+              })
+          })
+          .catch(error => {
+            console.log('users db error', error)
+          })
+        // add user id to scenario  /
         //   db.collection('scenarios').doc(scenarioId).update({
         //     "owner": uid,
         //     "private": true,
@@ -242,16 +246,16 @@ const portal = props => {
 
   const pageContent = (
     <>
-    {ViewControl()}
+      {ViewControl()}
     </>
   )
 
-return (
-  <Layout
-    content={pageContent}
-    title='sigin portal'
-  />
-)
+  return (
+    <Layout
+      content={pageContent}
+      title='sigin portal'
+    />
+  )
 }
 
 export default portal

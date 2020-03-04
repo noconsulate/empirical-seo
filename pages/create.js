@@ -146,7 +146,7 @@ const Create = props => {
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
-          Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate. 
+          Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate.
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           <a>{`${prodUrl}/survey?urlid=${urlId}`}</a>
@@ -158,7 +158,7 @@ const Create = props => {
           <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
         </Link>
         <Typography variant='body1'>
-          In order for us to secure your results so that only you can see them, all we need is your email address. 
+          In order for us to secure your results so that only you can see them, all we need is your email address.
         </Typography>
         <form onSubmit={handleSignIn}>
           <TextField
@@ -192,16 +192,16 @@ const Create = props => {
     return (
       <>
         <div className={classes.description}>
-        <Typography varaint='body1'>
-          Here is what your survey will look like.
+          <Typography varaint='body1'>
+            Here is what your survey will look like.
         </Typography>
-        <div className={classes.draft}>
-          <Survey scenario={scenarioText} />
-        </div>
-        <Typography variant='body1'>
-          After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
+          <div className={classes.draft}>
+            <Survey scenario={scenarioText} />
+          </div>
+          <Typography variant='body1'>
+            After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
         </Typography>
-        <Button onClick={handlePublish}>publish!</Button>
+          <Button onClick={handlePublish}>publish!</Button>
         </div>
       </>
     )
