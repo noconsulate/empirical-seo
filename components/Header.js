@@ -13,14 +13,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 const Header = () => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(null)
   let user
 
   useEffect(() => {
     user = fbAuth.currentUser
-    console.log(user)
-    if (user)
-      setEmail(user.email)
+    if (user) {
+      if (user.email) {
+        setEmail(user.email)
+      }
+    }
   }, [])
   const classes = useStyles()
 
@@ -36,7 +38,7 @@ const Header = () => {
       })
   }
   const UserInfo = () => {
-    if (email == '') {
+    if (email == null) {
       return null
     }
     

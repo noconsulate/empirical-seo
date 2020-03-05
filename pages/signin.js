@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
 const signin = props => {
   useEffect(() => {
     const user = fbAuth.currentUser
-    if (user) {
+    console.log(user)
+    if (user.email) {
       Router.push('/portal?portalMode=continue')
     }
   }, [])

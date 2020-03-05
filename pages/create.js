@@ -28,13 +28,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const prodUrl = process.env.prodUrl
-console.log('url ENV variable', prodUrl)
 
-// check for user, otherwise sign in anon
-
-// fbAuth.signInAnonymously().catch(error => {
-//   console.log(error)
-// })
 const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')
@@ -45,10 +39,10 @@ const Create = props => {
 
   const classes = useStyles()
 
-  // check user
   useEffect(() => {
-    // reset state (i think this was to deal with back click or refresh?)
-    //  setPageControl(0)
+    // reset state for when user clicks on create button
+    setPageControl(0)
+    setFormText('')
     const userProcess = async () => {
       const user = fbAuth.currentUser
       if (!user) {
@@ -255,10 +249,10 @@ const Create = props => {
     switch (pageControl) {
       case 0:
         return ScenarioForm()
-      case 2:
-        return LoginForm()
       case 1:
         return Draft()
+      case 2:
+        return LoginForm()
       case 3:
         return ThankYou()
     }
