@@ -13,54 +13,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 const Header = () => {
-  const [email, setEmail] = useState(null)
-  let user
-
-  useEffect(() => {
-    user = fbAuth.currentUser
-    if (user) {
-      if (user.email) {
-        setEmail(user.email)
-      }
-    }
-  }, [])
   const classes = useStyles()
 
-  const handleClick = event => {
-    event.preventDefault()
-    console.log('logout')
-    fbAuth.signOut()
-      .then(res => {
-        console.log('signed out')
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-  const UserInfo = () => {
-    if (email == null) {
-      return null
-    }
-    
-    return (
-      <>
-        <div className={classes.user}>
-        <Typography variant='body1'>
-          {email}
-        </Typography>
-        <Button onClick={handleClick}>
-          Logout!
-        </Button>
-        </div>
-      </>
-    )
-  }
+  
   return (
     <div className={classes.root}>
       <Typography variant='h3'>
         Empirical SEO
       </Typography>
-      <UserInfo />
     </div>
   )
 }
