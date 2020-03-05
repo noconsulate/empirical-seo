@@ -23,8 +23,11 @@ const signin = props => {
   useEffect(() => {
     const user = fbAuth.currentUser
     console.log(user)
-    if (user.email) {
-      Router.push('/portal?portalMode=continue')
+    if (user) {
+      console.log(user.email)
+      if (user.email) {
+        Router.push('/portal?portalMode=continue')
+      }
     }
   }, [])
   const classes = useStyles()
@@ -60,39 +63,41 @@ const signin = props => {
     setChecked(event.target.checked)
   }
 
-  const SignInForm = (
-    <>
-      <div className={classes.main}>
-        <Typography variant='body1'>
-          Enter your email address below and you'll be sent a link to your page.
-        </Typography>
-        <form onSubmit={handleSignIn}>
-          <TextField
-            label='email'
-            value={formText}
-            onChange={handleChange}
-            type='email'
-          />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleCheckbox}
-                  valiue='primary'
-                />
-              }
-              label='Opt in?'
-            />
-          </FormGroup>
-          <Button type='submit'>
-            Sign in!
-          </Button>
-        </form>
-      </div>
-    </>
-  )
+  const SignInForm = () => {
 
+    return (
+      <>
+        <div className={classes.main}>
+          <Typography variant='body1'>
+            Enter your email address below and you'll be sent a link to your page.
+        </Typography>
+          <form onSubmit={handleSignIn}>
+            <TextField
+              label='email'
+              value={formText}
+              onChange={handleChange}
+              type='email'
+            />
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleCheckbox}
+                    valiue='primary'
+                  />
+                }
+                label='Opt in?'
+              />
+            </FormGroup>
+            <Button type='submit'>
+              Sign in!
+          </Button>
+          </form>
+        </div>
+      </>
+    )
+  }
   const LinkSent = (
     <>
       <div className={classes.main}>
@@ -109,7 +114,7 @@ const signin = props => {
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return SignInForm
+        return SignInForm()
       case 1:
         return LinkSent
     }

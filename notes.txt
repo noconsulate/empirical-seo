@@ -27,3 +27,5 @@ create
 put about and profile in footer, make footer
 
 put some user info in header for dev purposes, maybe make the navbar conditional on user . display user's email and offer option to log out
+
+i really don't wanna, but I really ought to figure out redux with firebase

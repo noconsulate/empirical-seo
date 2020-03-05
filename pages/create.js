@@ -36,6 +36,8 @@ const Create = props => {
   const [formText, setFormText] = useState('')
   const [checked, setChecked] = useState(false)
   const [scenarioText, setScenarioText] = useState('')
+  const [email, setEmail] = useState('')
+  let user
 
   const classes = useStyles()
 
@@ -43,15 +45,14 @@ const Create = props => {
     // reset state for when user clicks on create button
     setPageControl(0)
     setFormText('')
-    const userProcess = async () => {
-      const user = fbAuth.currentUser
-      if (!user) {
-        fbAuth.signInAnonymously().catch(error => {
-          console.log('anon signin error', error)
-        })
+    user = fbAuth.currentUser
+    if (user) {
+      if (user.email) {
+        setEmail(user.email)
+        console.log(email)
       }
     }
-    userProcess()
+    console.log(email)
   }, [])
 
   const handleCheckbox = event => {
@@ -80,7 +81,6 @@ const Create = props => {
         console.log(error)
       })
     // set scenario to private 
-    // *** THIS NEEDS TO HAPPEN AFTER SIGNIN IS COMPLETED OR URLID NEEDS TO BE ADDED TO USER DOC OTHERWISE COULD GET PRIVATED WITH NO ENTRY IN USER DOC ***
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
@@ -150,6 +150,23 @@ const Create = props => {
     )
   }
   const LoginForm = () => {
+    if (email != '') {
+      return (
+        <>
+          <div className={classes.extra}>
+            <Typography variant='body1'>
+              You are logged in as {email}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+            </Typography>
+            <Button>
+              Continue
+            </Button>
+            <Button>
+              Logout
+            </Button>
+          </div>
+        </>
+      )
+    }
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
