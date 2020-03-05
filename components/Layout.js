@@ -10,6 +10,7 @@ import theme from '../src/theme'
 
 import NavBar from './NavBar'
 import Header from './Header'
+import Footer from './Footer'
 
 const useStyles = makeStyles(theme => ({
   slab: {
@@ -38,6 +39,7 @@ const Layout = props => {
               {props.content}
             </Grid>
           </main>
+          <Footer />
         </Container>
       </div>
     </ThemeProvider>
