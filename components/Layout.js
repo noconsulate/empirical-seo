@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     border: 'dashed',
   },
   pageContent: {
-    padding: 10,
+    padding: 3,
   }
 }))
 

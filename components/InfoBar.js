@@ -44,7 +44,11 @@ const InfoBar = props => {
     if (email == null) {
       return (
         <>
-            <p>no user info</p>
+          <div className={classes.user}>
+            <Typography variant='body1'>
+              No User
+            </Typography>
+          </div>
         </>
       )
     }
@@ -65,7 +69,7 @@ const InfoBar = props => {
 
   return (
     <>
-      <div className={classes.root}>
+      <div >
         {UserInfo()}
       </div>
     </>
