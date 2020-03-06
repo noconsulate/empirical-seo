@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import UserContext from '../components/UserContext'
 
 import { fbAuth } from '../config/firebase'
 
@@ -15,33 +16,16 @@ const useStyles = makeStyles(theme => ({
 
 const InfoBar = props => {
   const classes = useStyles()
-
-  const [email, setEmail] = useState(null)
-  let user
-
-  useEffect(() => {
-    user = fbAuth.currentUser
-    if (user) {
-      if (user.email) {
-        setEmail(user.email)
-      }
-    }
-  }, [])
+  const { userEmail, userUid, fbSignOut } = useContext(UserContext)
+  console.log(userEmail)
 
   const handleLogout = event => {
     event.preventDefault()
-    console.log('logout')
-    fbAuth.signOut()
-      .then(res => {
-        console.log('signed out')
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    fbSignOut()
   }
 
   const UserInfo = () => {
-    if (email == null) {
+    if (userEmail == null) {
       return (
         <>
           <div className={classes.user}>
@@ -57,7 +41,9 @@ const InfoBar = props => {
       <>
         <div className={classes.user}>
           <Typography variant='body1'>
-            {email}
+            {userEmail} 
+            <br />
+            {userUid}
           </Typography>
           <Button onClick={handleLogout}>
             Logout!

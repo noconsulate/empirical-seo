@@ -26,12 +26,11 @@ const Layout = props => {
   const classes = useStyles()
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Head>
         <title>{props.title}</title>
       </Head>
       <div>
-        <CssBaseline />
         <Container maxWidth="lg" className={classes.slab}>
           <NavBar />
           <Header />
@@ -44,7 +43,7 @@ const Layout = props => {
           <Footer />
         </Container>
       </div>
-    </ThemeProvider>
+    </>
   )
 }
 
