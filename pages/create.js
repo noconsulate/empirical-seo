@@ -150,23 +150,23 @@ const Create = props => {
     )
   }
   const LoginForm = () => {
-    if (email != '') {
-      return (
-        <>
-          <div className={classes.extra}>
-            <Typography variant='body1'>
-              You are logged in as {email}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
-            </Typography>
-            <Button>
-              Continue
-            </Button>
-            <Button>
-              Logout
-            </Button>
-          </div>
-        </>
-      )
-    }
+    // if (email != '') {
+    //   return (
+    //     <>
+    //       <div className={classes.extra}>
+    //         <Typography variant='body1'>
+    //           You are logged in as {email}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+    //         </Typography>
+    //         <Button>
+    //           Continue
+    //         </Button>
+    //         <Button>
+    //           Logout
+    //         </Button>
+    //       </div>
+    //     </>
+    //   )
+    // }
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
