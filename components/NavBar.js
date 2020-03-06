@@ -23,7 +23,7 @@ const NavBar = props => {
           <Link href='/create' color='textPrimary' className={classes.navButton}>
             Create
           </Link>
-          <Link href='/signin' color='textPrimary' className={classes.navButton}
+          <Link href='/profile' color='textPrimary' className={classes.navButton}
           >
             profile
           </Link>

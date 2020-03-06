@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   Typography, List, ListItem
 } from '@material-ui/core'
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Link from '../src/Link'
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
+import UserContext from '../components/UserContext'
 
 import PortalCreate from '../components/PortalCreate'
 import Layout from '../components/Layout'
@@ -20,7 +21,7 @@ const prodUrl = process.env.prodUrl
 
 const portal = props => {
   const classes = useStyles()
-
+  const { userEmail, userUid } = useContext(UserContext)
   //url querys
   console.log(props.query)
   const optIn = props.query.optin
@@ -31,7 +32,7 @@ const portal = props => {
   //portal mode for signin flow
   const mode = props.query.portalMode
   console.log(mode)
-  let user, uid, userEmail
+  let uid = userUid
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
@@ -48,14 +49,11 @@ const portal = props => {
           setScenarios(urlsGet)
         })
           .catch(error => { console.log('users db error') })
-
-        
       }
       // get user from fbAuth and db
       user = fbAuth.currentUser
-      if (user) {
-        console.log('user logged in', user)
-        uid = user.uid
+      if (userEmail != 'no user') {
+        console.log('user logged in', userEmail)
         dbUpdate()
       }
     }
@@ -74,7 +72,7 @@ const portal = props => {
             console.log('user dont exists')
             docRef.set({
               email: userEmail,
-              optIn: optin
+              optIn: optIn
             })
           }
           // get urlids for render **not working for some reason. maybe refactor to async function?
@@ -93,12 +91,8 @@ const portal = props => {
       // firebase authentication
 
       const userProcess = async () => {
-        user = fbAuth.currentUser
-        if (user) {
-          console.log('user already signed in', user)
-          uid = user.uid
-          userEmail = user.email
-          console.log(userEmail)
+        if (userEmail != 'no email' && userEmail != 'init userEmail') {
+          console.log('user already signed in', userEmail)
           dbUpdate()
         } else {
           // if no user proceed with email link validation *
@@ -110,19 +104,17 @@ const portal = props => {
             }
             fbAuth.signInWithEmailLink(email, window.location.href)
               .then(result => {
-                console.log('signed in', result.user)
+                console.log('signed in', result)
                 uid = result.user.uid
-                userEmail = result.user.email
-                console.log(uid, userEmail)
                 dbUpdate()
               })
               .catch(error => {
                 console.log('signin with email error', error)
-                setUserError(true)
               })
           }
         }
       }
+      
       userProcess()
       console.log(scenarios)
     }

@@ -4,14 +4,15 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import UserContext from '../components/UserContext'
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Router from 'next/router'
 import theme from '../src/theme';
 
 import { fBauth, fbAuth } from '../config/firebase'
 
 export default class MyApp extends App {
   state = {
-    userUid: 'initial user UID',
-    userEmail: 'initial user email',
+    userUid: 'init Uid',
+    userEmail: 'init userEmail',
   }
   componentDidMount() {
     // Remove the server-side injected CSS.
@@ -28,9 +29,10 @@ export default class MyApp extends App {
         })
       } else {
         this.setState({
-          userEmail: 'no user',
-          userUid: 'no user'
-      })
+          userEmail: 'no email',
+          userUid: 'no uid'
+        })
+        fbAuth.signInAnonymously()
       }
     })
   }
@@ -39,17 +41,12 @@ export default class MyApp extends App {
     fbAuth.signOut()
       .then(res => {
         console.log('signed out')
+        Router.push('/create')
       })
       .catch(error => {
         console.log(error)
       })
   }
-
-  // contextObj = {
-  //   userUid: this.state.userUid,
-  //   userEmail: this.state.userEmail,
-  //   fbSignOut: this.fbSignOut,
-  // }
 
   render() {
     const { Component, pageProps } = this.props;

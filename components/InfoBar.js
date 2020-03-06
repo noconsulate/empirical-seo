@@ -43,7 +43,7 @@ const InfoBar = props => {
           <Typography variant='body1'>
             {userEmail} 
             <br />
-            {userUid}
+            uid: {userUid}
           </Typography>
           <Button onClick={handleLogout}>
             Logout!

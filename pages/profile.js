@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   Typography, Button, TextField, FormGroup, FormControlLabel, Checkbox
 } from '@material-ui/core'
@@ -6,10 +6,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Link from '../src/Link'
 import Router from 'next/router'
 
+import UserContext from '../components/UserContext'
 import { fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
-import { defaultHead } from 'next/head'
 
 const prodUrl = process.env.prodUrl
 
@@ -20,21 +20,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const signin = props => {
-  useEffect(() => {
-    const user = fbAuth.currentUser
-    console.log(user)
-    if (user) {
-      console.log(user.email)
-      if (user.email) {
-        Router.push('/portal?portalMode=continue')
-      }
-    }
-  }, [])
   const classes = useStyles()
-  // development defautl
+  const { userEmail } = useContext(UserContext)
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
+
+  // ** trying to push to actual profile if user is signed in
+
+  // useEffect(() => {
+  //   if (userEmail != 'no email' || userEmail != 'init userEmail') {
+  //     Router.push('/portal?portalMode=continue')
+  //   }
+  // }, [])
 
   const handleChange = event => {
     setFormText(event.target.value)
