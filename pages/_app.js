@@ -27,8 +27,13 @@ export default class MyApp extends App {
         this.setState({
           userEmail: user.email,
           userUid: user.uid,
-          isUser: true,
+          
         })
+        if (user.email) {
+          this.setState({
+            isUser: true
+          })
+        }
       } else {
         this.setState({
           userEmail: 'no email',
