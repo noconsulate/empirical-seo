@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core'
 import shortid from 'shortid'
 import { db, fbAuth } from '../config/firebase'
+import UserContext from '../components/UserContext'
 
 import Layout from '../components/Layout'
 import Survey from '../components/Survey'
@@ -38,6 +39,7 @@ const Create = props => {
   const [scenarioText, setScenarioText] = useState('')
   const [email, setEmail] = useState('')
   let user
+  const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
 
   const classes = useStyles()
 
@@ -62,6 +64,7 @@ const Create = props => {
     setFormText(event.target.value)
   }
 
+  // put this in UserContext.js
   const handleSignIn = event => {
     event.preventDefault()
     console.log('opt in?', checked)
@@ -80,10 +83,17 @@ const Create = props => {
       .catch(error => {
         console.log(error)
       })
-    // set scenario to private 
+    // set scenario to private, this should be done after sign in is complete so that it doens't get lost
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
+  }
+  
+  const handleContinue = () => {
+    db.collection('scenarios').doc(scenarioUid).update({
+      private: true,
+    })
+    setPageControl(4)
   }
 
   const handleSubmit = event => {
@@ -150,23 +160,23 @@ const Create = props => {
     )
   }
   const LoginForm = () => {
-    // if (email != '') {
-    //   return (
-    //     <>
-    //       <div className={classes.extra}>
-    //         <Typography variant='body1'>
-    //           You are logged in as {email}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
-    //         </Typography>
-    //         <Button>
-    //           Continue
-    //         </Button>
-    //         <Button>
-    //           Logout
-    //         </Button>
-    //       </div>
-    //     </>
-    //   )
-    // }
+    if (isUser) {
+      return (
+        <>
+          <div className={classes.extra}>
+            <Typography variant='body1'>
+              You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+            </Typography>
+            <Button onClick={handleContinue}>
+              Continue
+            </Button>
+            <Button onClick={fbSignOut}>
+              Logout
+            </Button>
+          </div>
+        </>
+      )
+    }
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
@@ -262,6 +272,28 @@ const Create = props => {
     )
   }
 
+  const Success = () => {
+    return (
+      <>
+      <div className={classes.description}>
+        <Typography variant='h4'>
+          Thank you!
+      </Typography>
+        <Typography variant='body1'>
+          Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. And whenever you're logged in you'll see a link to your results anytime you visit one of your surveys!
+      </Typography>
+        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+          {`${prodUrl}/results?urlid=${urlId}`}
+        </Link>
+        <br />
+        <Button onClick={handleReset}>
+          Create a new scenario
+        </Button>
+      </div>
+    </>
+    )
+  }
+
   const viewControl = () => {
     switch (pageControl) {
       case 0:
@@ -272,6 +304,8 @@ const Create = props => {
         return LoginForm()
       case 3:
         return ThankYou()
+      case 4: 
+        return Success()
     }
   }
 
