@@ -98,6 +98,8 @@ const portal = props => {
       userProcess()
     }, [isUser])
   }
+
+  // from profile if user
   if (mode == 'continue') {
     useEffect(() => {
       console.log('continue mode')
@@ -121,31 +123,74 @@ const portal = props => {
       //   
     }, [isUser])
   }
+  // from create
+  if (mode == 'create') {
+    useEffect(() => {
+      console.log('create mode')
+      // auth/db operations for create mode
+      const dbUpdate = () => {
+        let docRef = db.collection('users').doc(uid)
+        docRef.get()
+          .then(doc => {
+            if (doc.exists) {
+              console.log('user exists')
+              docRef.set({
+                optIn: optIn,
+                urlIds: dbArrayUnion(urlId)
+              }, { merge: true })
+            } else {
+              //user non in db
+              console.log('user dont exists')
+              docRef.set({
+                urlIds: [urlId],
+                email: userEmail,
+                optIn: optIn
+              })
+            }
+            let urlsGet
+            db.collection('users').doc(uid).get()
+              .then(doc => {
+                urlsGet = doc.data().urlIds
+                console.log(urlsGet)
+                setScenarios(urlsGet)
+              })
+              .catch(error => {
+                console.log('deep nested users db error', error)
+              })
+          })
+          .catch(error => {
+            console.log('users db error', error)
+          })
+      }
+      // firebase authentication
 
-  const resultsRows = () => {
-    console.log(scenarios)
-    if (scenarios) {
-      return (
-        <div className={classes.main}>
-          <Typography variant='body1'>
-            The results to all of your scenarios:
-          </Typography>
-          <List>
-            {scenarios.map(item => (
-              <ListItem key={item}>
-                <Link href={{ pathname: '/results', query: { urlid: item } }}>
-                  {`${prodUrl}/results?urlid=${item}`}
-                </Link>
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      )
-    } else {
-      return <p>noscenarios</p>
-    }
+      const userProcess = async () => {
+        if (isUser) {
+          console.log('user already signed in', userEmail)
+          dbUpdate()
+        } else {
+          // if no user proceed with email link validation *
+          console.log('no user')
+          if (fbAuth.isSignInWithEmailLink(window.location.href)) {
+            let email = window.localStorage.getItem('emailForSignIn')
+            if (!email) {
+              email = window.prompt('please provide email for account confirmation')
+            }
+            fbAuth.signInWithEmailLink(email, window.location.href)
+              .then(result => {
+                console.log('signed in', result.user)
+                dbUpdate()
+              })
+              .catch(error => {
+                console.log('signin with email error', error)
+              })
+          }
+        }
+      }
+      userProcess()
+      console.log(scenarios)
+    }, [])
   }
-
   const userErrorPane = () => {
     return (
       <div className={classes.main}>

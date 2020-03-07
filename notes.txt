@@ -36,3 +36,6 @@ make sure contents pane reflects sign out
 
 put more stuff in InfoBar, out of content pane
 
+click 'create' in navbar should reset create form?
+
+create form is rerendering
