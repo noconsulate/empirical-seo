@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 const signin = props => {
   const classes = useStyles()
-  const { userEmail } = useContext(UserContext)
+  const { isUser } = useContext(UserContext)
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
@@ -29,10 +29,10 @@ const signin = props => {
 //  ** trying to push to actual profile if user is signed in
 
   useEffect(() => {
-    if (userEmail != 'no email' || userEmail != 'init userEmail') {
+    if (isUser) {
       Router.push('/portal?portalMode=continue')
     }
-  }, [])
+  }, [isUser])
 
   const handleChange = event => {
     setFormText(event.target.value)

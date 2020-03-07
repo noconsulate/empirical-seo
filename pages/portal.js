@@ -71,7 +71,7 @@ const portal = props => {
       }
       //sign in with firebase auth
       const userProcess = async () => {
-        if (userEmail != 'no email' && userEmail != 'init userEmail') {
+        if (isUser) {
           console.log('user already signed in', userEmail)
           dbUpdate()
         } else {
@@ -96,7 +96,7 @@ const portal = props => {
         }
       }
       userProcess()
-    }, [])
+    }, [isUser])
   }
   if (mode == 'continue') {
     useEffect(() => {
