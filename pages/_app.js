@@ -13,6 +13,7 @@ export default class MyApp extends App {
   state = {
     userUid: 'init Uid',
     userEmail: 'init userEmail',
+    isUser: false
   }
   componentDidMount() {
     // Remove the server-side injected CSS.
@@ -25,12 +26,14 @@ export default class MyApp extends App {
       if (user) {
         this.setState({
           userEmail: user.email,
-          userUid: user.uid
+          userUid: user.uid,
+          isUser: true,
         })
       } else {
         this.setState({
           userEmail: 'no email',
-          userUid: 'no uid'
+          userUid: 'no uid',
+          isUser: false,
         })
         fbAuth.signInAnonymously()
       }
@@ -63,6 +66,7 @@ export default class MyApp extends App {
           <UserContext.Provider value={{
             userEmail: this.state.userEmail,
             userUid: this.state.userUid,
+            isUser: this.state.isUser,
             fbSignOut: this.fbSignOut,
           }}>
             <Component {...pageProps} />

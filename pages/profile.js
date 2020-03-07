@@ -26,13 +26,13 @@ const signin = props => {
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
 
-  // ** trying to push to actual profile if user is signed in
+//  ** trying to push to actual profile if user is signed in
 
-  // useEffect(() => {
-  //   if (userEmail != 'no email' || userEmail != 'init userEmail') {
-  //     Router.push('/portal?portalMode=continue')
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (userEmail != 'no email' || userEmail != 'init userEmail') {
+      Router.push('/portal?portalMode=continue')
+    }
+  }, [])
 
   const handleChange = event => {
     setFormText(event.target.value)
