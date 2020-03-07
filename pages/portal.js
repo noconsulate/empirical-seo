@@ -129,7 +129,7 @@ const portal = props => {
       console.log('create mode')
       // auth/db operations for create mode
       const dbUpdate = () => {
-        let docRef = db.collection('users').doc(uid)
+        let docRef = db.collection('users').doc(userUid)
         docRef.get()
           .then(doc => {
             if (doc.exists) {
@@ -138,6 +138,7 @@ const portal = props => {
                 optIn: optIn,
                 urlIds: dbArrayUnion(urlId)
               }, { merge: true })
+                .catch(error => console.log(error))
             } else {
               //user non in db
               console.log('user dont exists')
@@ -146,6 +147,7 @@ const portal = props => {
                 email: userEmail,
                 optIn: optIn
               })
+                .catch(error => console.log(error))
             }
             let urlsGet
             db.collection('users').doc(uid).get()

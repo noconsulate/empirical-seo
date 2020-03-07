@@ -38,4 +38,6 @@ put more stuff in InfoBar, out of content pane
 
 click 'create' in navbar should reset create form?
 
-create form is rerendering
+create form is rerendering (also login)
+
+draft survey should not be interactive

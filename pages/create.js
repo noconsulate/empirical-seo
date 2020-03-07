@@ -100,6 +100,8 @@ const Create = props => {
     event.preventDefault()
     setScenarioText(formText)
     setPageControl(1)
+    // for dev
+    setFormText('noconsulate@gmail.com')
   }
 
   const handlePublish = () => {
