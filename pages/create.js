@@ -100,8 +100,7 @@ const Create = props => {
     event.preventDefault()
     setScenarioText(formText)
     setPageControl(1)
-    // for dev
-    setFormText('noconsulate@gmail.com')
+    
   }
 
   const handlePublish = () => {
@@ -121,6 +120,7 @@ const Create = props => {
         setPageControl(2)
         setFormText('')
         setScenarioText(formText)
+        setFormText('noconsulate@gmail.com')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)

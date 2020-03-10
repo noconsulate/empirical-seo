@@ -24,15 +24,11 @@ const portal = props => {
   const classes = useStyles()
   const { userEmail, userUid, isUser, } = useContext(UserContext)
   //url querys
-  console.log(props.query)
   const optIn = props.query.optin
   const scenarioId = props.query.scenarioid
-  console.log(scenarioId)
   const urlId = props.query.urlid
-  console.log(urlId)
   //portal mode for signin flow
   const mode = props.query.portalMode
-  console.log(mode)
   let uid = userUid
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
@@ -129,7 +125,12 @@ const portal = props => {
       console.log('create mode')
       // auth/db operations for create mode
       const dbUpdate = () => {
-        let docRef = db.collection('users').doc(userUid)
+        console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
+        const fooUser = fbAuth.currentUser
+        if (fooUser) {
+          console.log(fooUser.uid)
+        }
+        let docRef = db.collection('users').doc(uid)
         docRef.get()
           .then(doc => {
             if (doc.exists) {
@@ -180,7 +181,8 @@ const portal = props => {
             }
             fbAuth.signInWithEmailLink(email, window.location.href)
               .then(result => {
-                console.log('signed in', result.user)
+                console.log('signed in', result.user.email, result.user.uid)
+                uid = result.user.uid
                 dbUpdate()
               })
               .catch(error => {
@@ -217,6 +219,7 @@ const portal = props => {
 
   const pageContent = (
     <>
+    {userEmail}
       {ViewControl()}
     </>
   )

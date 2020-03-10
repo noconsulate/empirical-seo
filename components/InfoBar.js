@@ -16,8 +16,8 @@ const useStyles = makeStyles(theme => ({
 
 const InfoBar = props => {
   const classes = useStyles()
-  const { userEmail, userUid, fbSignOut } = useContext(UserContext)
-  console.log(userEmail)
+  const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
+  console.log(userEmail, isUser)
 
   const handleLogout = event => {
     event.preventDefault()

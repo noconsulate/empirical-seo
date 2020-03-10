@@ -38,6 +38,6 @@ put more stuff in InfoBar, out of content pane
 
 click 'create' in navbar should reset create form?
 
-create form is rerendering (also login)
+infobar is rerendering during form inputs on create. possible elsewhere? check all components for excessive rendering
 
 draft survey should not be interactive
