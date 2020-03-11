@@ -6,7 +6,7 @@ import {
   FormGroup, FormControlLabel
 } from '@material-ui/core'
 import shortid from 'shortid'
-import { db, fbAuth } from '../config/firebase'
+import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 import UserContext from '../components/UserContext'
 
 import Layout from '../components/Layout'
@@ -37,8 +37,6 @@ const Create = props => {
   const [formText, setFormText] = useState('')
   const [checked, setChecked] = useState(false)
   const [scenarioText, setScenarioText] = useState('')
-  const [email, setEmail] = useState('')
-  let user
   const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
 
   const classes = useStyles()
@@ -47,13 +45,7 @@ const Create = props => {
     // reset state for when user clicks on create button
     setPageControl(0)
     setFormText('')
-    if (isUser) {
-      if (user.email) {
-        setEmail(user.email)
-        console.log(email)
-      }
-    }
-    console.log(email)
+    
   }, [])
 
   const handleCheckbox = event => {
@@ -92,6 +84,11 @@ const Create = props => {
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
+    .catch(error => console.log(error))
+    db.collection('users').doc(userUid).update({
+      urlIds: dbArrayUnion(urlId)
+    })
+    .catch(error => console.log(error))
     setPageControl(4)
   }
 
