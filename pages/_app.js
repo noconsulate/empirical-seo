@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Router from 'next/router'
 import theme from '../src/theme';
 
-import { fBauth, fbAuth } from '../config/firebase'
+import { fbAuth } from '../config/firebase'
 
 export default class MyApp extends App {
   state = {

@@ -29,6 +29,7 @@ const portal = props => {
   const urlId = props.query.urlid
   //portal mode for signin flow
   const mode = props.query.portalMode
+  console.log(mode)
   let uid = userUid
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
@@ -127,9 +128,6 @@ const portal = props => {
       const dbUpdate = () => {
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
         const fooUser = fbAuth.currentUser
-        if (fooUser) {
-          console.log(fooUser.uid)
-        }
         let docRef = db.collection('users').doc(uid)
         docRef.get()
           .then(doc => {
@@ -182,6 +180,7 @@ const portal = props => {
             fbAuth.signInWithEmailLink(email, window.location.href)
               .then(result => {
                 console.log('signed in', result.user.email, result.user.uid)
+                // userContext isn't updating for some reason, so this is a hack
                 uid = result.user.uid
                 dbUpdate()
               })
@@ -193,7 +192,7 @@ const portal = props => {
       }
       userProcess()
       console.log(scenarios)
-    }, [])
+    }, [isUser])
   }
   const userErrorPane = () => {
     return (
@@ -219,7 +218,6 @@ const portal = props => {
 
   const pageContent = (
     <>
-    {userEmail}
       {ViewControl()}
     </>
   )
@@ -237,161 +235,3 @@ export default portal
 portal.getInitialProps = ({ query }) => {
   return ({ query })
 }
-
-// useEffect(() => {
-  //   console.log(mode)
-  //   if (mode == 'continue') {
-  //     console.log('continue mode')
-  //     const dbUpdate = () => {
-  //       let urlsGet
-  //       let docRef = db.collection('users').doc(uid)
-  //       docRef.get().then(doc => {
-  //         console.log('user found')
-  //         urlsGet = doc.data().urlIds
-  //         setScenarios(urlsGet)
-  //       })
-  //         .catch(error => { console.log('users db error') })
-  //     }
-  //     // get user from fbAuth and db
-  //     user = fbAuth.currentUser
-  //     if (userEmail != 'no user') {
-  //       console.log('user logged in', userEmail)
-  //       dbUpdate()
-  //     }
-  //   }
-  //   // auth and db operation for signin mode
-  //   if (mode == 'signin') {
-  //     console.log('sign in mode')
-  //     const dbUpdate = () => {
-  //       let docRef = db.collection('users').doc(uid)
-  //       docRef.get().then(doc => {
-  //         if (doc.exists) {
-  //           console.log('user exists')
-  //           docRef.set({
-  //             optIn: optIn,
-  //           }, { merge: true })
-  //         } else {
-  //           console.log('user dont exists')
-  //           docRef.set({
-  //             email: userEmail,
-  //             optIn: optIn
-  //           })
-  //         }
-  //         // get urlids for render **not working for some reason. maybe refactor to async function?
-  //         let urlsGet
-  //         db.collection('users').doc(uid).get()
-  //           .then(doc => {
-  //             urlsGet = doc.data().urlIds
-  //             console.log(urlsGet)
-  //           })
-  //           .then(doc => {
-  //             setScenarios(urlsGet)
-  //             console.log(scenarios)
-  //           })
-  //       })
-  //     }
-  //     // firebase authentication
-
-  //     const userProcess = async () => {
-  //       if (userEmail != 'no email' && userEmail != 'init userEmail') {
-  //         console.log('user already signed in', userEmail)
-  //         dbUpdate()
-  //       } else {
-  //         // if no user proceed with email link validation *
-  //         console.log('no user')
-  //         if (fbAuth.isSignInWithEmailLink(window.location.href)) {
-  //           let email = window.localStorage.getItem('emailForSignIn')
-  //           if (!email) {
-  //             email = window.prompt('please provide email for account confirmation')
-  //           }
-  //           fbAuth.signInWithEmailLink(email, window.location.href)
-  //             .then(result => {
-  //               console.log('signed in', result)
-  //               uid = result.user.uid
-  //               dbUpdate()
-  //             })
-  //             .catch(error => {
-  //               console.log('signin with email error', error)
-  //             })
-  //         }
-  //       }
-  //     }
-
-  //     userProcess()
-  //     console.log(scenarios)
-  //   }
-  //   if (mode == 'create') {
-  //     console.log('create mode')
-  //     // auth/db operations for create mode
-  //     const dbUpdate = () => {
-  //       let docRef = db.collection('users').doc(uid)
-  //       docRef.get()
-  //         .then(doc => {
-  //           if (doc.exists) {
-  //             console.log('user exists')
-  //             docRef.set({
-  //               optIn: optIn,
-  //               urlIds: dbArrayUnion(urlId)
-  //             }, { merge: true })
-  //           } else {
-  //             //user non in db
-  //             console.log('user dont exists')
-  //             docRef.set({
-  //               urlIds: [urlId],
-  //               email: userEmail,
-  //               optIn: optIn
-  //             })
-  //           }
-  //           let urlsGet
-  //           db.collection('users').doc(uid).get()
-  //             .then(doc => {
-  //               urlsGet = doc.data().urlIds
-  //               console.log(urlsGet)
-  //               setScenarios(urlsGet)
-  //             })
-  //             .catch(error => {
-  //               console.log('deep nested users db error', error)
-  //             })
-  //         })
-  //         .catch(error => {
-  //           console.log('users db error', error)
-  //         })
-  //     }
-  //     // firebase authentication
-
-  //     const userProcess = async () => {
-  //       user = await fbAuth.currentUser
-  //       if (user) {
-  //         console.log('user already signed in', user)
-  //         uid = user.uid
-  //         userEmail = user.email
-  //         console.log(userEmail)
-  //         dbUpdate()
-  //       } else {
-  //         // if no user proceed with email link validation *
-  //         console.log('no user')
-  //         if (fbAuth.isSignInWithEmailLink(window.location.href)) {
-  //           let email = window.localStorage.getItem('emailForSignIn')
-  //           if (!email) {
-  //             email = window.prompt('please provide email for account confirmation')
-  //           }
-  //           fbAuth.signInWithEmailLink(email, window.location.href)
-  //             .then(result => {
-  //               console.log('signed in', result.user)
-  //               uid = result.user.uid
-  //               userEmail = result.user.email
-  //               console.log(uid, userEmail)
-  //               dbUpdate()
-  //             })
-  //             .catch(error => {
-  //               console.log('signin with email error', error)
-  //             })
-  //         }
-  //       }
-  //     }
-  //     userProcess()
-  //     console.log(scenarios)
-  //   }
-
-  // }, [])
-
