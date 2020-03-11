@@ -49,9 +49,10 @@ const Survey = props => {
               setPrivateResults(privateValue)
             })
           } else {
+            // invalid urlId, set error view
             setPageControl(-1)
           }
-          
+
         })
         .catch(error => {
           console.log('error', error)
@@ -69,10 +70,6 @@ const Survey = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-
-    fbAuth.signInAnonymously().catch(error => {
-    })
-
     const keywords = formText.split(' ').filter(item => item != '')
     db.collection('scenarios').doc(scenarioId).collection('keywords').add({
       keywords

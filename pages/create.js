@@ -47,8 +47,7 @@ const Create = props => {
     // reset state for when user clicks on create button
     setPageControl(0)
     setFormText('')
-    user = fbAuth.currentUser
-    if (user) {
+    if (isUser) {
       if (user.email) {
         setEmail(user.email)
         console.log(email)

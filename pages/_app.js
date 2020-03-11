@@ -33,6 +33,7 @@ export default class MyApp extends App {
           this.setState({
             isUser: true
           })
+          console.log(this.state.userUid)
         }
       } else {
         this.setState({

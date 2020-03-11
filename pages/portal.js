@@ -35,7 +35,7 @@ const portal = props => {
   const [userError, setUserError] = useState(false)
 
   // for signin (from /profile)
-  if (mode == 'sigin') {
+  if (mode == 'signin') {
     useEffect(() => {
       console.log('sigin in mode (from /profle)')
       const dbUpdate = () => {
