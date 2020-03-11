@@ -11,9 +11,11 @@ import { fbAuth } from '../config/firebase'
 
 export default class MyApp extends App {
   state = {
-    userUid: 'init Uid',
-    userEmail: 'init userEmail',
-    isUser: false
+    value: {
+      userUid: 'init Uid',
+      userEmail: 'init userEmail',
+      isUser: false
+    }
   }
   componentDidMount() {
     // Remove the server-side injected CSS.
@@ -25,21 +27,27 @@ export default class MyApp extends App {
     fbAuth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
-          userEmail: user.email,
-          userUid: user.uid,
-          
+          value: { ...this.state.value,
+            userEmail: user.email,
+            userUid: user.uid,
+          }
+
         })
         if (user.email) {
           this.setState({
-            isUser: true
+            value: { ...this.state.value,
+              isUser: true
+            }
           })
           console.log(this.state.userUid)
         }
       } else {
         this.setState({
-          userEmail: 'no email',
-          userUid: 'no uid',
-          isUser: false,
+          value: { ...this.state.value,
+            userEmail: 'no email',
+            userUid: 'no uid',
+            isUser: false,
+          }
         })
         fbAuth.signInAnonymously()
       }
@@ -70,9 +78,9 @@ export default class MyApp extends App {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <UserContext.Provider value={{
-            userEmail: this.state.userEmail,
-            userUid: this.state.userUid,
-            isUser: this.state.isUser,
+            userUid: this.state.value.userUid,
+            userEmail: this.state.value.userEmail,
+            isUser: this.state.value.isUser,
             fbSignOut: this.fbSignOut,
           }}>
             <Component {...pageProps} />

@@ -40,6 +40,12 @@ const InfoBar = props => {
     return (
       <>
         <div className={classes.user}>
+          <Typography variant='h4'>
+            You are logged in as {userEmail}
+          </Typography>
+          <Typography variant='h5'>
+            For dev, plz ignore:
+          </Typography>
           <Typography variant='body1'>
             {userEmail} 
             <br />
