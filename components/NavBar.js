@@ -16,6 +16,7 @@ const useStyles = makeStyles({
 })
 
 const NavBar = props => {
+  console.log('render!')
   const classes = useStyles()
   return (
     <AppBar position='static'>

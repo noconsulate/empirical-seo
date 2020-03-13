@@ -3,8 +3,6 @@ import { Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserContext from '../components/UserContext'
 
-import { fbAuth } from '../config/firebase'
-
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: 'aqua'

@@ -41,6 +41,8 @@ const Create = props => {
 
   const classes = useStyles()
 
+  console.log('render!')
+
   useEffect(() => {
     // reset state for when user clicks on create button
     setPageControl(0)
