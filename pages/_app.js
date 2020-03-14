@@ -3,6 +3,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import UserContext from '../components/UserContext'
+import ScenarioContext from '../components/ScenarioContext'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Router from 'next/router'
 import theme from '../src/theme';
@@ -12,9 +13,12 @@ import { fbAuth } from '../config/firebase'
 export default class MyApp extends App {
   state = {
     value: {
+      // state for UserContext
       userUid: 'init Uid',
       userEmail: 'init userEmail',
-      isUser: false
+      isUser: false,
+      // state for ScenarioContext
+      scenarioTextContext: 'init Scenario Text',
     }
   }
   componentDidMount() {
@@ -27,7 +31,8 @@ export default class MyApp extends App {
     fbAuth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
-          value: { ...this.state.value,
+          value: {
+            ...this.state.value,
             userEmail: user.email,
             userUid: user.uid,
           }
@@ -35,7 +40,8 @@ export default class MyApp extends App {
         })
         if (user.email) {
           this.setState({
-            value: { ...this.state.value,
+            value: {
+              ...this.state.value,
               isUser: true
             }
           })
@@ -43,7 +49,8 @@ export default class MyApp extends App {
         }
       } else {
         this.setState({
-          value: { ...this.state.value,
+          value: {
+            ...this.state.value,
             userEmail: 'no email',
             userUid: 'no uid',
             isUser: false,
@@ -65,6 +72,15 @@ export default class MyApp extends App {
       })
   }
 
+  scenarioTextUpdate = string => {
+    this.setState({
+      value: {
+        ...this.state.value,
+        scenarioTextContext: string
+      }
+    })
+  }
+
   render() {
     const { Component, pageProps } = this.props;
 
@@ -77,14 +93,19 @@ export default class MyApp extends App {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <UserContext.Provider value={{
-            userUid: this.state.value.userUid,
-            userEmail: this.state.value.userEmail,
-            isUser: this.state.value.isUser,
-            fbSignOut: this.fbSignOut,
+          <ScenarioContext.Provider value={{
+            scenarioTextContext: this.state.value.scenarioTextContext,
+            scenarioTextUpdate: this.scenarioTextUpdate,
           }}>
-            <Component {...pageProps} />
-          </UserContext.Provider>
+            <UserContext.Provider value={{
+              userUid: this.state.value.userUid,
+              userEmail: this.state.value.userEmail,
+              isUser: this.state.value.isUser,
+              fbSignOut: this.fbSignOut,
+            }}>
+              <Component {...pageProps} />
+            </UserContext.Provider>
+          </ScenarioContext.Provider>
         </ThemeProvider>
       </React.Fragment>
     );

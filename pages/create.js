@@ -8,6 +8,7 @@ import {
 import shortid from 'shortid'
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 import UserContext from '../components/UserContext'
+import ScenarioContext from '../components/ScenarioContext'
 
 import Layout from '../components/Layout'
 import Survey from '../components/Survey'
@@ -38,6 +39,7 @@ const Create = props => {
   const [checked, setChecked] = useState(false)
   const [scenarioText, setScenarioText] = useState('')
   const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
+  const { scenarioTextUpdate } = useContext(ScenarioContext)
 
   const classes = useStyles()
 

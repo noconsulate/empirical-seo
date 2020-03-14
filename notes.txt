@@ -41,3 +41,7 @@ click 'create' in navbar should reset create form?
 infobar is rerendering during form inputs on create. possible elsewhere? check all components for excessive rendering
 
 draft survey should not be interactive
+
+ScenarioContext to display scenario info in infobar such as link to results, etc...
+
+profile button confused between signin process and already signed in? the problem may not exist in production
