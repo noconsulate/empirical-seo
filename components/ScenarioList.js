@@ -16,6 +16,7 @@ const prodUrl = process.env.prodUrl
 const SurveyList = (props) => {
   const classes = useStyles()
   const scenarios = props.scenarios
+
   const resultsRows = () => {
     console.log(scenarios)
     if (scenarios) {
@@ -24,6 +25,7 @@ const SurveyList = (props) => {
           <Typography variant='body1'>
             The results to all of your scenarios:
           </Typography>
+          {scenarios.length}
           <List>
             {scenarios.map(item => (
               <ListItem key={item}>
@@ -33,6 +35,10 @@ const SurveyList = (props) => {
               </ListItem>
             ))}
           </List>
+          <List>
+            {scenarios.map(item => <p>a thing</p>)}
+          </List>
+          {scenarios}
         </div>
       )
     } else {
