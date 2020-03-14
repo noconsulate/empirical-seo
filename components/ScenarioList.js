@@ -18,6 +18,9 @@ const SurveyList = (props) => {
   const scenarios = props.scenarios
 
   const resultsRows = () => {
+    useEffect(() => {
+      console.log('fuckin shit')
+    }, scenarios)
     console.log(scenarios)
     if (scenarios) {
       return (
@@ -25,7 +28,7 @@ const SurveyList = (props) => {
           <Typography variant='body1'>
             The results to all of your scenarios:
           </Typography>
-          {scenarios.length}
+          {scenarios}
           <List>
             {scenarios.map(item => (
               <ListItem key={item}>
