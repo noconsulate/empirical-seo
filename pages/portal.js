@@ -35,26 +35,9 @@ const portal = props => {
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
-  //process scenario URLS with complete information
-  const processUrls = () => {
-    let scenariosArray
-    console.log(scenarioUrls)
-    scenarioUrls.forEach(item => {
-      console.log(item)
-      const query = db.collection('scenarios').where('urlId', '==', item)
-      query.get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
-            const scenarioText = doc.data().scenario
-            scenariosArray.push({
-              urlId,
-              scenarioText,
-            })
-          })
-        })
-    })
-    setScenarios(scenariosArray)
-    console.log(scenariosArray)
+  const processScenarios = urls => {
+    console.log('proccess scenarios', urls)
+    const query = 
   }
 
   // for signin (from /profile)
@@ -84,8 +67,7 @@ const portal = props => {
                 console.log(urlsGet)
               }).then(doc => {
                 setScenarioUrls(urlsGet)
-                // get and process scenario texts
-                processUrls()
+                console.log(scenarioUrls)
               })
           })
           .catch(error => { console.log(error) })
@@ -131,8 +113,7 @@ const portal = props => {
           console.log('user found')
           urlsGet = doc.data().urlIds
           setScenarioUrls(urlsGet)
-          console.log(scenarioUrls)
-          setTimeout(console.log(scenarioUrls), 2000)
+          processScenarios(urlsGet)
         })
           .catch(error => { console.log('users db error') })
       }
@@ -180,6 +161,7 @@ const portal = props => {
                 urlsGet = doc.data().urlIds
                 console.log(urlsGet)
                 setScenarioUrls(urlsGet)
+                processScenarios()
               })
               .catch(error => {
                 console.log('deep nested users db error', error)
@@ -233,25 +215,17 @@ const portal = props => {
     )
   }
 
-  const foo = () => {
-    if (!scenarios) return null
-    return (
-      <ul>
-        {scenarios.map(item => (
-          <li key={item.urlId}>
-            {item.scenarioText}
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
   const ViewControl = () => {
     switch (userError) {
       case true:
         return userErrorPane()
       case false:
-        return <ScenarioList scenarios={scenarioUrls} />
+        return (
+          <>
+            <ScenarioList scenarios={scenarioUrls} />
+            {scenarios}
+          </>
+        )
     }
   }
 
@@ -263,7 +237,7 @@ const portal = props => {
 
   return (
     <Layout
-      content={foo()}
+      content={pageContent}
       title='sigin portal'
     />
   )
