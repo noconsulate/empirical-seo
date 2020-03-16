@@ -2,8 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
+import { ScenarioContext } from '../components/ScenarioContext'
 
-import { db, fbAuth } from '../config/firebase'
+import { db, } from '../config/firebase'
 
 import Layout from '../components/Layout'
 

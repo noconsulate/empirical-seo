@@ -18,6 +18,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const portal = props => {
+  const classes = useStyles()
+  const { userEmail, userUid, isUser, } = useContext(UserContext)
+  //url querys
+  const optIn = props.query.optin
+  const urlId = props.query.urlid
+  //portal mode for signin flow
+  const mode = props.query.portalMode
+  console.log(mode)
+  const scenarioUid = props.query.scenarioUid
+  let uid = userUid
+  const [scenarios, setScenarios] = useState([])
+  const [userError, setUserError] = useState(false)
+
   const processScenarios = async urls => {
     console.log('processUrls', urls)
     await urls.forEach(item => {
@@ -40,18 +53,6 @@ const portal = props => {
         .catch(error => console.log(error))
     })
   }
-
-  const classes = useStyles()
-  const { userEmail, userUid, isUser, } = useContext(UserContext)
-  //url querys
-  const optIn = props.query.optin
-  const urlId = props.query.urlid
-  //portal mode for signin flow
-  const mode = props.query.portalMode
-  console.log(mode)
-  let uid = userUid
-  const [scenarios, setScenarios] = useState([])
-  const [userError, setUserError] = useState(false)
 
   // for signin (from /profile)
   if (mode == 'signin') {
@@ -147,7 +148,6 @@ const portal = props => {
       // auth/db operations for create mode
       const dbUpdate = () => {
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
-        const fooUser = fbAuth.currentUser
         let docRef = db.collection('users').doc(uid)
         docRef.get()
           .then(doc => {
@@ -182,6 +182,11 @@ const portal = props => {
           .catch(error => {
             console.log('users db error', error)
           })
+        docRef = db.collection('scenarios').doc(scenarioUid)
+        docRef.set({
+          owner: userUid,
+        }, {merge: true})  
+          
       }
       // firebase authentication
 

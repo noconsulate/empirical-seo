@@ -35,22 +35,16 @@ const SurveyList = (props) => {
         <div className={classes.main}>
           <Typography variant='body1'>
             The results to all of your scenarios:
-          </Typography>
-          {scenarios.length}
-          <List>
+            <List>
             {scenarios.map(item => (
               <ListItem key={item.urlId}>
-                {item.scenario}
+                <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }}>
+                  {item.scenario}
+                </Link>
               </ListItem>
             ))}
           </List>
-          <List>
-            {fakeScenarios.map(item => (
-              <ListItem key={item.urlId}>
-                {item.scenario}
-              </ListItem>
-            ))}
-          </List>
+          </Typography>
         </div>
       )
     } else {

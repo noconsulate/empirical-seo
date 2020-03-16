@@ -17,7 +17,6 @@ const InfoBar = props => {
   const classes = useStyles()
   const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
   const { scenarioTextContext } = useContext(ScenarioContext)
-  console.log(userEmail, isUser)
 
   const handleLogout = event => {
     event.preventDefault()
@@ -42,9 +41,6 @@ const InfoBar = props => {
         <div className={classes.user}>
           <Typography variant='h4'>
             You are logged in as {userEmail}
-          </Typography>
-          <Typography variant='h5'>
-            For dev, plz ignore:
           </Typography>
           <Typography variant='body1'>
             {userEmail} 

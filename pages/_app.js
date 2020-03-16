@@ -18,7 +18,7 @@ export default class MyApp extends App {
       userEmail: 'init userEmail',
       isUser: false,
       // state for ScenarioContext
-      scenarioTextContext: 'init Scenario Text',
+      scenarioUid: 'init Scenario Text',
     }
   }
   componentDidMount() {
@@ -72,11 +72,11 @@ export default class MyApp extends App {
       })
   }
 
-  scenarioTextUpdate = string => {
+  scenarioUidUpdate = string => {
     this.setState({
       value: {
         ...this.state.value,
-        scenarioTextContext: string
+        scenarioUid: string
       }
     })
   }

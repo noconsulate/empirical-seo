@@ -43,8 +43,6 @@ const Create = props => {
 
   const classes = useStyles()
 
-  console.log('render!')
-
   useEffect(() => {
     // reset state for when user clicks on create button
     setPageControl(0)
@@ -65,7 +63,7 @@ const Create = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${prodUrl}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioid=${scenarioUid}`,
+      url: `${prodUrl}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioUid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 
@@ -112,6 +110,7 @@ const Create = props => {
       scenario: formText,
       urlId: urlIdGen,
       private: false,
+      owner: userUid,
     })
       .then(docRef => {
         console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
@@ -282,7 +281,7 @@ const Create = props => {
           Thank you!
       </Typography>
         <Typography variant='body1'>
-          Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. And whenever you're logged in you'll see a link to your results anytime you visit one of your surveys!
+          Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
       </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           {`${prodUrl}/results?urlid=${urlId}`}
