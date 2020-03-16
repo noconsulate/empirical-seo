@@ -18,12 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const prodUrl = process.env.prodUrl
-
 const portal = props => {
   const processScenarios = urls => {
     console.log('processUrls', urls)
-    const scenariosObj = []
+    let scenariosObj = []
     urls.forEach(item => {
       console.log(item)
       const query = db.collection('scenarios').where('urlId', '==', item)
@@ -31,7 +29,6 @@ const portal = props => {
         .then(snapshot => {
           snapshot.forEach(doc => {
             const scenario = doc.data().scenario
-            console.log(scenario)
             scenariosObj.push({
               urlId: item,
               scenario,
@@ -42,7 +39,20 @@ const portal = props => {
     })
     console.log(scenariosObj)
     setScenarios(scenariosObj)
+    console.log(scenarios, scenarios.length)
   }
+
+  // debugging
+  const fakeScenarios = [
+    {
+      urlId: 'xxx',
+      scenario: 'fake scenario PROP 1',
+    },
+    {
+      urlId: 'yyy',
+      scenario: 'fake scenario PROP 2'
+    }
+  ]
 
   const classes = useStyles()
   const { userEmail, userUid, isUser, } = useContext(UserContext)
@@ -54,7 +64,7 @@ const portal = props => {
   const mode = props.query.portalMode
   console.log(mode)
   let uid = userUid
-  const [scenarios, setScenarios] = useState([])
+  const [scenarios, setScenarios] = useState(fakeScenarios)
   const [userError, setUserError] = useState(false)
 
   // for signin (from /profile)
@@ -236,7 +246,8 @@ const portal = props => {
       case true:
         return userErrorPane()
       case false:
-        return <ScenarioList scenarios={scenarios} />
+        if (scenarios.length > 0) return <ScenarioList scenarios={scenarios} />
+        return <p>blaaahgaddi</p>
     }
   }
 

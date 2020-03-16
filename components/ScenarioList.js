@@ -16,32 +16,41 @@ const prodUrl = process.env.prodUrl
 const SurveyList = (props) => {
   const classes = useStyles()
   const scenarios = props.scenarios
+  console.log(scenarios)
+
+  const fakeScenarios = [
+    {
+      urlId: 'xxxx',
+      scenario: 'fake scenario'
+    },
+    {
+      urlId: 'yyy',
+      scenario: 'fake scenario 2'
+    }
+  ]
 
   const resultsRows = () => {
-    useEffect(() => {
-      console.log('fuckin shit')
-    }, scenarios)
-    console.log(scenarios)
     if (scenarios) {
       return (
         <div className={classes.main}>
           <Typography variant='body1'>
             The results to all of your scenarios:
           </Typography>
-          {scenarios}
+          {scenarios.length}
           <List>
             {scenarios.map(item => (
-              <ListItem key={item}>
-                <Link href={{ pathname: '/results', query: { urlid: item } }}>
-                  {`${prodUrl}/results?urlid=${item}`}
-                </Link>
+              <ListItem key={item.urlId}>
+                {item.scenario}
               </ListItem>
             ))}
           </List>
           <List>
-            {scenarios.map(item => <p>a thing</p>)}
+            {fakeScenarios.map(item => (
+              <ListItem key={item.urlId}>
+                {item.scenario}
+              </ListItem>
+            ))}
           </List>
-          {scenarios}
         </div>
       )
     } else {
