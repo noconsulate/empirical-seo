@@ -45,7 +45,7 @@ export default class MyApp extends App {
               isUser: true
             }
           })
-          console.log(this.state.userUid)
+          console.log(this.state.value.userUid)
         }
       } else {
         this.setState({
@@ -94,8 +94,8 @@ export default class MyApp extends App {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <ScenarioContext.Provider value={{
-            scenarioTextContext: this.state.value.scenarioTextContext,
-            scenarioTextUpdate: this.scenarioTextUpdate,
+            scenarioTextContext: this.state.value.scenarioUid,
+            scenarioTextUpdate: this.scenarioUidUpdate,
           }}>
             <UserContext.Provider value={{
               userUid: this.state.value.userUid,

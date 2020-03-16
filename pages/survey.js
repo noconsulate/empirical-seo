@@ -1,8 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
+import React, {useState, useContext } from 'react'
+import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
-import { ScenarioContext } from '../components/ScenarioContext'
+import UserContext from '../components/UserContext'
 
 import { db, } from '../config/firebase'
 
@@ -19,17 +19,23 @@ const useStyles = makeStyles(theme => ({
   thankYou: {
     backgroundColor: 'green',
   },
+  note: {
+    backgroundColor: 'aqua'
+  }
 }))
 
 const prodUrl = process.env.prodUrl
 
 const Survey = props => {
 
-  const [scenarioId, setScenarioId] = React.useState('')
-  const [scenarioText, setScenarioText] = React.useState('')
-  const [formText, setFormText] = React.useState('')
-  const [pageControl, setPageControl] = React.useState(0)
-  const [privateResults, setPrivateResults] = React.useState(false)
+  const [scenarioUid, setScenarioUid] = useState('')
+  const [scenarioText, setScenarioText] = useState('')
+  const [formText, setFormText] = useState('')
+  const [pageControl, setPageControl] = useState(0)
+  const [privateResults, setPrivateResults] = useState(false)
+  const [owner, setOwner] = useState('')
+
+  const { userUid } = useContext(UserContext)
 
   const urlId = props.query.urlid
 
@@ -45,9 +51,14 @@ const Survey = props => {
             snapshot.forEach(doc => {
               const scenarioValue = doc.data().scenario
               const privateValue = doc.data().private
+              const ownerValue = doc.data().owner
+              console.log(ownerValue)
+              console.log(privateValue)
               setScenarioText(scenarioValue)
-              setScenarioId(doc.id)
+              setScenarioUid(doc.id)
               setPrivateResults(privateValue)
+              setOwner(ownerValue)
+              console.log(owner)
             })
           } else {
             // invalid urlId, set error view
@@ -72,7 +83,7 @@ const Survey = props => {
   const handleSubmit = event => {
     event.preventDefault()
     const keywords = formText.split(' ').filter(item => item != '')
-    db.collection('scenarios').doc(scenarioId).collection('keywords').add({
+    db.collection('scenarios').doc(scenarioUid).collection('keywords').add({
       keywords
     })
       .then(docRef => {
@@ -87,6 +98,14 @@ const Survey = props => {
     return (
       <>
         <Grid container direction='column'>
+          <div className={classes.note}>
+            <Typography variant='body1'>
+              This survey belongs to you. You can see the results 
+              <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
+               {' '} here.
+              </Link>
+            </Typography>
+          </div>
           <div className={classes.content}>
             <Typography variant='body1'>
               {scenarioText}
@@ -119,13 +138,13 @@ const Survey = props => {
           </Typography>
         </div>
         {
-          privateResults == false ?
+          privateResults == false || owner == userUid ?
             <div className={classes.thankYou}>
               <Typography variant='body1'>
                 You can see the results of the survey here:
             </Typography>
               <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-                <a>{`${prodUrl}/results?urlid=${urlId}`}</a>
+                {`${prodUrl}/results?urlid=${urlId}`}
               </Link>
             </div> :
             null

@@ -127,7 +127,7 @@ const portal = props => {
           console.log('user found')
           urlsGet = doc.data().urlIds
           processScenarios(urlsGet)
-        //  setScenarios(urlsGet)
+          //  setScenarios(urlsGet)
         })
           .catch(error => { console.log('users db error') })
       }
@@ -173,7 +173,7 @@ const portal = props => {
               .then(doc => {
                 urlsGet = doc.data().urlIds
                 console.log(urlsGet)
-                setScenarios(urlsGet)
+                processScenarios(urlsGet)
               })
               .catch(error => {
                 console.log('deep nested users db error', error)
@@ -182,11 +182,10 @@ const portal = props => {
           .catch(error => {
             console.log('users db error', error)
           })
-        docRef = db.collection('scenarios').doc(scenarioUid)
-        docRef.set({
+        db.collection('scenarios').doc(scenarioUid).set({
           owner: userUid,
-        }, {merge: true})  
-          
+        }, { merge: true })
+
       }
       // firebase authentication
 
