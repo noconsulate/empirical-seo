@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const prodUrl = process.env.prodUrl
+const domain = process.env.domain
 
 const Survey = props => {
 
@@ -144,7 +144,7 @@ const Survey = props => {
                 You can see the results of the survey here:
             </Typography>
               <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-                {`${prodUrl}/results?urlid=${urlId}`}
+                {`${domain}/results?urlid=${urlId}`}
               </Link>
             </div> :
             null

@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const prodUrl = process.env.prodUrl
+const domain = process.env.domain
 
 const SurveyList = (props) => {
   const classes = useStyles()
@@ -34,7 +34,7 @@ const SurveyList = (props) => {
       return (
         <div className={classes.main}>
           <Typography variant='body1'>
-            The results to all of your scenarios:
+            Here's a list to all of your scenarios:
             <List>
             {scenarios.map(item => (
               <ListItem key={item.urlId}>

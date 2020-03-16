@@ -11,7 +11,7 @@ import { fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-const prodUrl = process.env.prodUrl
+const domain = process.env.domain
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -42,7 +42,7 @@ const signin = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${prodUrl}/portal?portalMode=signin&optin=${checked}`,
+      url: `${domain}/portal?portalMode=signin&optin=${checked}`,
       handleCodeInApp: true,
     }
 

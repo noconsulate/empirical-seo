@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const prodUrl = process.env.prodUrl
+const domain = process.env.domain
 
 const Create = props => {
   const [urlId, setUrlId] = useState('')
@@ -63,7 +63,7 @@ const Create = props => {
     console.log('opt in?', checked)
 
     const actionCodeSettings = {
-      url: `${prodUrl}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioUid=${scenarioUid}`,
+      url: `${domain}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioUid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 
@@ -184,13 +184,13 @@ const Create = props => {
           Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate.
         </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          {`${prodUrl}/survey?urlid=${urlId}`}
+          {`${domain}/survey?urlid=${urlId}`}
         </Link>
         <Typography variant='body1'>
           Here's the results page. Please note anyone with this link can see your results, unless you provide your email address below.
         </Typography>
         <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-          {`${prodUrl}/results?urlid=${urlId}`}
+          {`${domain}/results?urlid=${urlId}`}
         </Link>
         <Typography variant='body1'>
           In order for us to secure your results so that only you can see them, all we need is your email address.
@@ -262,7 +262,7 @@ const Create = props => {
             Here is a link to the survey you just created. Be sure to bookmark it for later!
         </Typography>
           <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-            {`${prodUrl}/results?urlid=${urlId}`}
+            {`${domain}/results?urlid=${urlId}`}
           </Link>
           <br />
           <Button onClick={handleReset}>
@@ -284,7 +284,7 @@ const Create = props => {
           Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
       </Typography>
         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          {`${prodUrl}/results?urlid=${urlId}`}
+          {`${domain}/results?urlid=${urlId}`}
         </Link>
         <br />
         <Button onClick={handleReset}>
