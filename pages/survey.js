@@ -104,6 +104,8 @@ const Survey = props => {
               <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
                {' '} here.
               </Link>
+              <br />
+              ScenarioUid (for dev): {scenarioUid}
             </Typography>
           </div>
           <div className={classes.content}>

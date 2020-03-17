@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography, TextField, Button,
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@material-ui/core'
 import Link from '../src/Link'
 import { db, fbAuth } from '../config/firebase'
+import UserContext from '../components/UserContext'
 
 import Layout from '../components/Layout'
 
@@ -31,12 +33,30 @@ const useStyles = makeStyles(theme => ({
 const Results = (props) => {
   const [email, setEmail] = useState('')
   const [badPermissionControl, setBadPermissionControl] = useState(0)
+  const [open, setOpen] = useState(false)
+  const { userUid } = useContext(UserContext)
 
   const classes = useStyles()
 
   console.log(props.user)
 
+  const handleDeleteClick = event => {
+    event.preventDefault()
+    setOpen(true)
+  }
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const DeleteDialog = () => {
+    return (
+      <Dialog open={open} onClose={handleClose}
+       aria-labelledby='form-dialog-title'>
+
+      </Dialog>
+    )
+  }
 
   const rowsKeywords = () => {
     let listKey = 0
@@ -112,12 +132,22 @@ const Results = (props) => {
     )
   }
 
+  const DeleteButton = () => {
+    return (
+      <Button onClick={handleDeleteClick}>
+        Delete
+      </Button>
+    )
+  }
+
   const pageContent = (
     <div>
       <SubHeaderPane />
       <KeywordsPane />
       <PhrasesPane />
       <ExtraPane />
+      <DeleteButton />
+      <DeleteDialog />
     </div>
   )
   const handleChange = event => {
@@ -252,7 +282,7 @@ Results.getInitialProps = async ({ query }) => {
   }
   console.log('userId', userId)
   
-  // get scenario uid from urlid query
+  //get scenario uid from urlid query
   const scenariosRef = db.collection('scenarios')
   const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
   let scenarioId, scenario
@@ -275,7 +305,8 @@ Results.getInitialProps = async ({ query }) => {
 
   // check permission 
   const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
-  console.log('scenDoc', scenDoc.data().owner)
+  console.log('scenario owner', scenDoc.data().owner)
+  console.log('userId', userId)
   if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
     console.log('bad permission')
     return {
@@ -321,4 +352,5 @@ Results.getInitialProps = async ({ query }) => {
     urlId,
     user
   }
+  
 }
