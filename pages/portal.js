@@ -80,8 +80,7 @@ const portal = props => {
                 urlsGet = doc.data().urlIds
                 console.log(urlsGet)
               }).then(doc => {
-                setScenarios(urlsGet)
-                console.log(scenarios)
+                processScenarios(urlsGet)
               })
           })
           .catch(error => { console.log(error) })
@@ -113,7 +112,7 @@ const portal = props => {
         }
       }
       userProcess()
-    }, [isUser])
+    }, [])
   }
 
   // from profile if user

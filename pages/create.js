@@ -128,7 +128,8 @@ const Create = props => {
 
   const handleGoBack = event => {
     event.preventDefault()
-    setPageControl(pageControl - 1)
+    setPageControl(pageControl - 2)
+    setFormText('')
   }
 
   const handleReset = event => {
