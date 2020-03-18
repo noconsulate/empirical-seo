@@ -43,10 +43,14 @@ const Create = props => {
 
   const classes = useStyles()
 
+  const [_count, forceUpdate] = React.useReducer(x => x + 1, 0)
+
   useEffect(() => {
+    console.log('use effect')
     // reset state for when user clicks on create button
     setPageControl(0)
     setFormText('')
+    forceUpdate()
     
   }, [])
 
@@ -128,7 +132,7 @@ const Create = props => {
 
   const handleGoBack = event => {
     event.preventDefault()
-    setPageControl(pageControl - 2)
+    setPageControl(pageControl - 1)
     setFormText('')
   }
 

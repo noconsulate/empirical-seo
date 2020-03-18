@@ -45,6 +45,7 @@ const Results = (props) => {
   })
 
   const [scenarioUid, setScenarioUid] = useState('')
+  const [scenarioText, setScenarioText] = useState('')
   const [badUrl, setBadUrl] = useState(false)
   const [badPermission, setBadPermission] = useState(false)
   const [badPermissionControl, setBadPermissionControl] = useState(0)
@@ -69,6 +70,9 @@ const Results = (props) => {
       scenarioVar.forEach(doc => {
         scenarioUidVar = doc.id
         console.log('scenario uid', scenarioUidVar)
+        const textVar = doc.data().scenario
+        console.log(textVar)
+        setScenarioText(textVar)
         setScenarioUid(scenarioUidVar)
       })
 
@@ -160,21 +164,20 @@ const Results = (props) => {
           .catch(error => console.log(error))
       })
       .catch(error => console.log(error))
-    // need to delete urlId from urlIds in 'users' doc
   }
 
-  
+
   const DeleteDialog = () => {
     return (
       <Dialog open={open} onClose={handleClose}
-       aria-labelledby='form-dialog-title'
+        aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>
           Delete
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this scenario? It cannot be undone. 
+            Are you sure you want to delete this scenario? It cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -222,11 +225,13 @@ const Results = (props) => {
     return (
       <div className={classes.subHeader}>
         <Typography variant='h4'>
-          Results for: *** YO CHANGE THIS TO SCENARIO TEXT VISUALLY NOT THE UGLY URL SHIT DAWG
+          Results for:
         </Typography>
-        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          `${domain}/survey?urlid=${props.urlId}`
-        </Link>
+        <Typography variant='h5'>
+          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+            {scenarioText}
+          </Link>
+        </Typography>
       </div>
     )
   }
@@ -348,7 +353,7 @@ const Results = (props) => {
     switch (badPermissionControl) {
       case 0:
         return PermissionDeniedPre()
-      case 1: 
+      case 1:
         return PermissionDeniedPost()
     }
   }
@@ -369,7 +374,7 @@ const Results = (props) => {
     </div>
   )
 
-  if (props.badUrl) {
+  if (badUrl) {
     return (
       <Layout
         content={badUrlRender}

@@ -1,4 +1,4 @@
-import React, {useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
@@ -34,6 +34,7 @@ const Survey = props => {
   const [pageControl, setPageControl] = useState(0)
   const [privateResults, setPrivateResults] = useState(false)
   const [owner, setOwner] = useState('')
+  const [owned, setOwned] = useState(false)
 
   const { userUid } = useContext(UserContext)
 
@@ -53,12 +54,14 @@ const Survey = props => {
               const privateValue = doc.data().private
               const ownerValue = doc.data().owner
               console.log(ownerValue)
+              console.log(userUid)
               console.log(privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
-              setPrivateResults(privateValue)
-              setOwner(ownerValue)
-              console.log(owner)
+              if (privateValue == false || ownerValue == userUid) {
+                console.log('Owned!')
+                setOwned(true)
+              }
             })
           } else {
             // invalid urlId, set error view
@@ -93,21 +96,30 @@ const Survey = props => {
       })
   }
 
+  const Owned = () => {
+    console.log('Owned Render')
+    return (
+      <div className={classes.note}>
+        <Typography variant='body1'>
+          This survey belongs to you. You can see the results
+              <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+            {' '} here.
+              </Link>
+          <br />
+              ScenarioUid (for dev): {scenarioUid}
+        </Typography>
+      </div>
+    )
+  }
   const SurveyForm = () => {
-
     return (
       <>
         <Grid container direction='column'>
-          <div className={classes.note}>
-            <Typography variant='body1'>
-              This survey belongs to you. You can see the results 
-              <Link href={{ pathname: '/results', query: {urlid: urlId } }}>
-               {' '} here.
-              </Link>
-              <br />
-              ScenarioUid (for dev): {scenarioUid}
-            </Typography>
-          </div>
+          {
+            owned ?
+              <Owned /> :
+              null
+          }
           <div className={classes.content}>
             <Typography variant='body1'>
               {scenarioText}
@@ -140,7 +152,7 @@ const Survey = props => {
           </Typography>
         </div>
         {
-          privateResults == false || owner == userUid ?
+          privateResults == false || owned ?
             <div className={classes.thankYou}>
               <Typography variant='body1'>
                 You can see the results of the survey here:
