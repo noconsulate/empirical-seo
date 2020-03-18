@@ -16,6 +16,9 @@ const Footer = props => {
   return (
     <AppBar position='static'>
       <Toolbar>
+        <Link href='/help' className={classes.navButton}>
+          help
+        </Link>
         <Link href='/about' className={classes.navButton}>
           about
         </Link>

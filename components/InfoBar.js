@@ -37,6 +37,7 @@ const InfoBar = props => {
     return (
       <>
         <div className={classes.user}>
+          this stuff is for development, will be cleaned up
           <Typography variant='h4'>
             You are logged in as {userEmail}
           </Typography>

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
 import UserContext from '../components/UserContext'
 
-import { db, } from '../config/firebase'
+import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
@@ -53,12 +53,15 @@ const Survey = props => {
               const scenarioValue = doc.data().scenario
               const privateValue = doc.data().private
               const ownerValue = doc.data().owner
+              // hack because UserContext is unreliable
+              const userVar = fbAuth.currentUser.uid
+              console.log('userVar', userVar)
               console.log(ownerValue)
               console.log(userUid)
               console.log(privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
-              if (privateValue == false || ownerValue == userUid) {
+              if (privateValue == false || ownerValue == userUid || ownerValue == userVar) {
                 console.log('Owned!')
                 setOwned(true)
               }
@@ -105,8 +108,6 @@ const Survey = props => {
               <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
             {' '} here.
               </Link>
-          <br />
-              ScenarioUid (for dev): {scenarioUid}
         </Typography>
       </div>
     )
