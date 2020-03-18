@@ -242,7 +242,10 @@ const portal = props => {
 
   const pageContent = (
     <>
-      {ViewControl()}
+      <div className={classes.main}>
+        {ViewControl()}
+
+      </div>
     </>
   )
 

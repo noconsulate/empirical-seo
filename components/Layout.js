@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     border: 'dashed',
   },
   pageContent: {
-    padding: 3,
+    padding: 0,
   }
 }))
 
@@ -31,13 +31,15 @@ const Layout = props => {
         <title>{props.title}</title>
       </Head>
       <div>
-        <Container maxWidth="lg" className={classes.slab}>
+        <Container maxWidth="md" className={classes.slab}>
           <NavBar />
           <Header />
           <InfoBar />
           <main>
             <Grid container className={classes.pageContent}>
-              {props.content}
+              <Grid item>
+                {props.content}
+              </Grid>
             </Grid>
           </main>
           <Footer />
