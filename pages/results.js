@@ -47,9 +47,11 @@ const Results = (props) => {
   const [scenarioUid, setScenarioUid] = useState('')
   const [badUrl, setBadUrl] = useState(false)
   const [badPermission, setBadPermission] = useState(false)
+  const [badPermissionControl, setBadPermissionControl] = useState(0)
   const [keywords, setKeywords] = useState([])
   const [wordCount, setWordCount] = useState()
   const [phrases, setPhrases] = useState([])
+  const [email, setEmail] = useState('')
 
   const [open, setOpen] = useState(false)
 
@@ -59,13 +61,15 @@ const Results = (props) => {
       try {
         const scenarioQuery = db.collection('scenarios').where('urlId', '==', urlId)
         scenarioVar = await scenarioQuery.get()
+        console.log('scenario uid', scenarioVar)
       } catch (error) {
         console.log('scenario query error', error)
       }
 
       scenarioVar.forEach(doc => {
         scenarioUidVar = doc.id
-        console.log(scenarioUidVar)
+        console.log('scenario uid', scenarioUidVar)
+        setScenarioUid(scenarioUidVar)
       })
 
       // incorrect urlId
@@ -132,15 +136,55 @@ const Results = (props) => {
     setOpen(true)
   }
 
-  const handleClose = () => {
+  const handleClose = event => {
     setOpen(false)
+    console.log(event)
   }
 
+  const handleDelete = () => {
+    setOpen(false)
+    db.collection('scenarios').doc(scenarioUid).update({
+      owner: 'deleted'
+    })
+    let urlIds, newUrlIds
+    db.collection('users').doc(userUid).get()
+      .then(doc => {
+        urlIds = doc.data().urlIds
+        console.log(urlIds)
+        newUrlIds = urlIds.filter(item => item != urlId)
+        console.log(newUrlIds)
+        db.collection('users').doc(userUid).set({
+          urlIds: newUrlIds,
+          test: 'okay boomer'
+        }, { merge: true })
+          .catch(error => console.log(error))
+      })
+      .catch(error => console.log(error))
+    // need to delete urlId from urlIds in 'users' doc
+  }
+
+  
   const DeleteDialog = () => {
     return (
       <Dialog open={open} onClose={handleClose}
-       aria-labelledby='form-dialog-title'>
-
+       aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>
+          Delete
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this scenario? It cannot be undone. 
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDelete} color='primary'>
+            Delete
+          </Button>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+        </DialogActions>
       </Dialog>
     )
   }
@@ -178,9 +222,9 @@ const Results = (props) => {
     return (
       <div className={classes.subHeader}>
         <Typography variant='h4'>
-          Results for:
+          Results for: *** YO CHANGE THIS TO SCENARIO TEXT VISUALLY NOT THE UGLY URL SHIT DAWG
         </Typography>
-        <Link href={{ pathname: '/survey', query: { urlid: props.urlId } }}>
+        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
           `${domain}/survey?urlid=${props.urlId}`
         </Link>
       </div>
@@ -334,7 +378,7 @@ const Results = (props) => {
     )
   }
 
-  if (props.permissionDenied) {
+  if (badPermission) {
     return (
       <Layout
         content={permissionDenied()}

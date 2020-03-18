@@ -45,3 +45,5 @@ draft survey should not be interactive
 ScenarioContext to display scenario info in infobar such as link to results, etc...
 
 profile button confused between signin process and already signed in? the problem may not exist in production
+
+results page not displaying bad permissions, also deleting needs to take urlId out of 'users' db entry
