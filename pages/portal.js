@@ -71,7 +71,8 @@ const portal = props => {
               console.log('user does not exist in DB')
               docRef.set({
                 email: userEmail,
-                optIn: optIn
+                optIn: optIn,
+                urlIds: []
               })
             }
             let urlsGet
@@ -138,7 +139,7 @@ const portal = props => {
         console.log('problem with user context', isUser)
       }
       //   
-    }, [isUser])
+    }, [])
   }
   // from create
   if (mode == 'create') {
@@ -215,7 +216,7 @@ const portal = props => {
       }
       userProcess()
       console.log(scenarios)
-    }, [isUser])
+    }, [])
   }
   const userErrorPane = () => {
     return (

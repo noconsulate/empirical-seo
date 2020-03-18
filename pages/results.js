@@ -5,6 +5,7 @@ import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@material-ui/core'
 import Link from '../src/Link'
+import Router from 'next/router'
 import { db, fbAuth } from '../config/firebase'
 import UserContext from '../components/UserContext'
 
@@ -146,7 +147,6 @@ const Results = (props) => {
   }
 
   const handleDelete = () => {
-    setOpen(false)
     db.collection('scenarios').doc(scenarioUid).update({
       owner: 'deleted'
     })
@@ -164,6 +164,7 @@ const Results = (props) => {
           .catch(error => console.log(error))
       })
       .catch(error => console.log(error))
+      Router.push('/')
   }
 
 

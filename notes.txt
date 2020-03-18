@@ -8,42 +8,22 @@ Error handling, especially for query params
 
 change NextJS Link to ../src/Link ?
 
-deleting results for owners
-
 hide firebase config
 
-users db might not be secure
-  
-make results page the list of results if user, otherwise redirect to login page
-
-make back navigation from results or survey back to create retain the option to sign in
-
-when in create and click create the page resets
-
-create 
-  ~ check fbuser to avoid uncesseary signin
-
-
-put about and profile in footer, make footer
-
-put some user info in header for dev purposes, maybe make the navbar conditional on user . display user's email and offer option to log out
-
-i really don't wanna, but I really ought to figure out redux with firebase
 
 record full string and individual keywords. so just add a 'complete string' field to database and retrieve that in results
-
-make sure contents pane reflects sign out
 
 put more stuff in InfoBar, out of content pane
 
 click 'create' in navbar should reset create form?
 
-infobar is rerendering during form inputs on create. possible elsewhere? check all components for excessive rendering
+draft survey should not be interactive?
 
-draft survey should not be interactive
-
-ScenarioContext to display scenario info in infobar such as link to results, etc...
 
 profile button confused between signin process and already signed in? the problem may not exist in production
 
-results page not displaying bad permissions, also deleting needs to take urlId out of 'users' db entry
+in /survey option to submit again?
+
+forward to /profile rather than '/' after delete, which means I need to:
+
+**USE FUXORING REDUX DAMNIT YOU LAZY TARDBREATHBARRRGGGG **
