@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography, TextField, Button,
@@ -31,14 +31,101 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Results = (props) => {
-  const [email, setEmail] = useState('')
-  const [badPermissionControl, setBadPermissionControl] = useState(0)
-  const [open, setOpen] = useState(false)
-  const { userUid } = useContext(UserContext)
-
   const classes = useStyles()
 
-  console.log(props.user)
+  const urlId = props.query.urlid
+  const { userUid } = useContext(UserContext)
+  // ugly hack because UserContext is unreliable
+  let userVar
+  fbAuth.onAuthStateChanged(user => {
+    if (user) {
+      console.log('in auth listenr', user.uid)
+      userVar = user.uid
+    }
+  })
+
+  const [scenarioUid, setScenarioUid] = useState('')
+  const [badUrl, setBadUrl] = useState(false)
+  const [badPermission, setBadPermission] = useState(false)
+  const [keywords, setKeywords] = useState([])
+  const [wordCount, setWordCount] = useState()
+  const [phrases, setPhrases] = useState([])
+
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    let scenarioUidVar, scenarioVar
+    const fetchScenario = async () => {
+      try {
+        const scenarioQuery = db.collection('scenarios').where('urlId', '==', urlId)
+        scenarioVar = await scenarioQuery.get()
+      } catch (error) {
+        console.log('scenario query error', error)
+      }
+
+      scenarioVar.forEach(doc => {
+        scenarioUidVar = doc.id
+        console.log(scenarioUidVar)
+      })
+
+      // incorrect urlId
+      if (!scenarioUidVar) {
+        setBadUrl(true)
+        console.log('bad url')
+      }
+
+      // check permission
+      const scenDoc = await db.collection('scenarios').doc(scenarioUidVar).get()
+      console.log('scenario owner', scenDoc.data().owner)
+      console.log('userId', userUid)
+      if (scenDoc.data().private == true &&
+        (scenDoc.data().owner != userUid || scenDoc.data().owner != userVar)
+      ) {
+        console.log('bad permission')
+        setBadPermission(true)
+      }
+
+      // fetch and parse keywords
+      const keywords = await db.collection('scenarios').doc(scenarioUidVar).collection('keywords').get()
+
+      let keywordsObj = {
+        total: 0,
+        words: []
+      }
+      let phrase = ' '
+      const phrases = []
+
+      const parseWords = (word) => {
+        let index = keywordsObj.words.findIndex(item => item.keyword === word)
+        if (index === -1) {
+          keywordsObj.words.push({
+            keyword: word,
+            count: 1
+          })
+          keywordsObj.total += 1
+        } else {
+          keywordsObj.words[index].count += 1
+          keywordsObj.total += 1
+        }
+      }
+      keywords.forEach(doc => {
+        phrase = ''
+        doc.data().keywords.forEach(word => {
+          parseWords(word)
+          phrase += ' ' + word
+        })
+
+        phrases.push(phrase)
+      })
+      console.log(keywordsObj.words)
+      setKeywords(keywordsObj.words)
+      setWordCount(keywordsObj.total)
+      console.log(phrases)
+      setPhrases(phrases)
+    }
+
+    fetchScenario()
+  }, [])
 
   const handleDeleteClick = event => {
     event.preventDefault()
@@ -62,7 +149,7 @@ const Results = (props) => {
     let listKey = 0
     return (
       <List dense={true}>
-        {props.keywords.words.map(word =>
+        {keywords.map(word =>
           <ListItem key={listKey++}>
             <ListItemText primary={`"${word.keyword}": ${word.count} times`} />
           </ListItem>
@@ -77,7 +164,7 @@ const Results = (props) => {
 
       <div>
         <List dense={true}>
-          {props.phrases.map(phrase =>
+          {phrases.map(phrase =>
             <ListItem key={listKey++}>
               <ListItemText primary={phrase} />
             </ListItem>
@@ -126,7 +213,7 @@ const Results = (props) => {
     return (
       <div className={classes.extra}>
         <Typography variant='h4'>
-          number of words: {props.keywords.total}
+          number of words: {wordCount}
         </Typography>
       </div>
     )
@@ -230,7 +317,7 @@ const Results = (props) => {
     )
   }
 
-  const badUrl = (
+  const badUrlRender = (
     <div className={classes.extra}>
       <Typography variant='body1'>
         Sorry, there's something wrong with your url. If you typed in manually, please check it again, especially the part after the "?" mark!
@@ -241,7 +328,7 @@ const Results = (props) => {
   if (props.badUrl) {
     return (
       <Layout
-        content={badUrl}
+        content={badUrlRender}
         title='Bad URl :('
       />
     )
@@ -266,91 +353,6 @@ const Results = (props) => {
 
 export default Results
 
-
-Results.getInitialProps = async ({ query }) => {
-  const urlId = query.urlid
-
-  // get user
-  let user, userId
-  user = await fbAuth.currentUser
-  if (user != null) {
-    userId = user.uid
-  } else {
-    console.log('user else')
-    user = fbAuth.signInAnonymously
-    userId = 'anon'
-  }
-  console.log('userId', userId)
-  
-  //get scenario uid from urlid query
-  const scenariosRef = db.collection('scenarios')
-  const scenarioQuery = scenariosRef.where('urlId', '==', urlId)
-  let scenarioId, scenario
-  try {
-    scenario = await scenarioQuery.get()
-    
-  } catch (error) {
-    console.log('scenario query error', error.message)
-  }
-  
-  scenario.forEach(doc => {
-    scenarioId = doc.id
-  })
-  // urlid not found
-  if (!scenarioId) {
-    return {
-      badUrl: true,
-    }
-  }
-
-  // check permission 
-  const scenDoc = await db.collection('scenarios').doc(scenarioId).get()
-  console.log('scenario owner', scenDoc.data().owner)
-  console.log('userId', userId)
-  if (scenDoc.data().private == true && scenDoc.data().owner != userId) {
-    console.log('bad permission')
-    return {
-      permissionDenied: true,
-    }
-  }
-
-  const keywords = await db.collection('scenarios').doc(scenarioId).collection('keywords').get()
-
-  let keywordsObj = {
-    total: 0,
-    words: []
-  }
-  let phrase = ' '
-  const phrases = []
-
-  const parseWords = (word) => {
-    let index = keywordsObj.words.findIndex(item => item.keyword === word)
-    if (index === -1) {
-      keywordsObj.words.push({
-        keyword: word,
-        count: 1
-      })
-      keywordsObj.total += 1
-    } else {
-      keywordsObj.words[index].count += 1
-      keywordsObj.total += 1
-    }
-  }
-
-  keywords.forEach(doc => {
-    phrase = ''
-    doc.data().keywords.forEach(word => {
-      parseWords(word)
-      phrase += ' ' + word
-    })
-
-    phrases.push(phrase)
-  })
-  return {
-    keywords: keywordsObj,
-    phrases: phrases,
-    urlId,
-    user
-  }
-  
+Results.getInitialProps = ({ query }) => {
+  return ({ query })
 }
