@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'yellow',
   },
   thankYou: {
-    backgroundColor: 'green',
+    backgroundColor: 'orange',
   },
   note: {
     backgroundColor: 'aqua'
@@ -80,7 +80,10 @@ const Survey = props => {
     }
   }, [])
 
-
+  const handleReset = event => {
+    setFormText('')
+    setPageControl(0)
+  }
 
   const handleChange = event => {
     setFormText(event.target.value)
@@ -164,6 +167,11 @@ const Survey = props => {
             </div> :
             null
         }
+        <div className={classes.thankYou} onClick={handleReset}>
+          <Button onClick={handleReset}>
+            Return to survey
+          </Button>
+        </div>
       </>
     )
   }

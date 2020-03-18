@@ -27,3 +27,6 @@ in /survey option to submit again?
 forward to /profile rather than '/' after delete, which means I need to:
 
 **USE FUXORING REDUX DAMNIT YOU LAZY TARDBREATHBARRRGGGG **
+
+sort keywords in /results 
+put anchor in /results to phrases in case of really long results

@@ -51,7 +51,7 @@ const Create = props => {
     setPageControl(0)
     setFormText('')
     forceUpdate()
-    
+
   }, [])
 
   const handleCheckbox = event => {
@@ -85,16 +85,16 @@ const Create = props => {
       private: true,
     })
   }
-  
+
   const handleContinue = () => {
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
-    .catch(error => console.log(error))
+      .catch(error => console.log(error))
     db.collection('users').doc(userUid).update({
       urlIds: dbArrayUnion(urlId)
     })
-    .catch(error => console.log(error))
+      .catch(error => console.log(error))
     setPageControl(4)
   }
 
@@ -102,7 +102,7 @@ const Create = props => {
     event.preventDefault()
     setScenarioText(formText)
     setPageControl(1)
-    
+
   }
 
   const handlePublish = () => {
@@ -128,6 +128,36 @@ const Create = props => {
       .catch(error => {
         console.error('error adding document: ', error.message)
       })
+  }
+
+  const handlePublishIsUser = () => {
+    event.preventDefault()
+    const urlIdGen = shortid.generate()
+    console.log('handlePublishIsUser')
+
+    db.collection('scenarios').add({
+      scenario: formText,
+      urlId: urlIdGen,
+      private: true,
+      owner: userUid,
+    })
+      .then(docRef => {
+        console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
+        setScenarioUid(docRef.id)
+        setUrlId(urlIdGen)
+        setPageControl(4)
+        setFormText('')
+        setScenarioText(formText)
+        setFormText('noconsulate@gmail.com')
+      })
+      .catch(error => {
+        console.error('error adding document: ', error.message)
+      })
+      db.collection('users').doc(userUid).update({
+        urlIds: dbArrayUnion(urlIdGen)
+      })
+        .catch(error => console.log(error))
+      setPageControl(4)
   }
 
   const handleGoBack = event => {
@@ -166,23 +196,6 @@ const Create = props => {
     )
   }
   const LoginForm = () => {
-    if (isUser) {
-      return (
-        <>
-          <div className={classes.extra}>
-            <Typography variant='body1'>
-              You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
-            </Typography>
-            <Button onClick={handleContinue}>
-              Continue
-            </Button>
-            <Button onClick={fbSignOut}>
-              Logout
-            </Button>
-          </div>
-        </>
-      )
-    }
     return (
       <div className={classes.extra}>
         <Typography variant='body1'>
@@ -231,7 +244,29 @@ const Create = props => {
   }
 
   const Draft = () => {
-    console.log('surveypane')
+    if (isUser) {
+      return (
+        <>
+          <div className={classes.description}>
+            <Typography varaint='body1'>
+              Here is what your survey will look like.
+        </Typography>
+            <div className={classes.draft}>
+              <Survey scenario={scenarioText} />
+            </div>
+            <Typography variant='body1'>
+              You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+          </Typography>
+            <Button onClick={handlePublishIsUser}>
+              Continue
+          </Button>
+            <Button onClick={fbSignOut}>
+              Logout
+          </Button>
+          </div>
+        </>
+      )
+    }
     return (
       <>
         <div className={classes.description}>
@@ -281,22 +316,22 @@ const Create = props => {
   const Success = () => {
     return (
       <>
-      <div className={classes.description}>
-        <Typography variant='h4'>
-          Thank you!
+        <div className={classes.description}>
+          <Typography variant='h4'>
+            Thank you!
       </Typography>
-        <Typography variant='body1'>
-          Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
+          <Typography variant='body1'>
+            Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
       </Typography>
-        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          {`${domain}/results?urlid=${urlId}`}
-        </Link>
-        <br />
-        <Button onClick={handleReset}>
-          Create a new scenario
+          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+            {`${domain}/results?urlid=${urlId}`}
+          </Link>
+          <br />
+          <Button onClick={handleReset}>
+            Create a new scenario
         </Button>
-      </div>
-    </>
+        </div>
+      </>
     )
   }
 
@@ -310,7 +345,7 @@ const Create = props => {
         return LoginForm()
       case 3:
         return ThankYou()
-      case 4: 
+      case 4:
         return Success()
     }
   }

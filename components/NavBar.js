@@ -32,11 +32,6 @@ const NavBar = props => {
               {userEmail}
             </Link>
           </Grid>
-          <Grid item>
-            <Button onClick={fbSignOut}>
-              Logout
-            </Button>
-          </Grid>
         </>
       )
     } else {

@@ -1,7 +1,11 @@
+import React, { useContext } from 'react'
+import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { AppBar, Toolbar} from '@material-ui/core'
+import { AppBar, Toolbar } from '@material-ui/core'
 import Link from '../src/Link'
+
+import UserContext from './UserContext'
 
 const useStyles = makeStyles({
   navButton: {
@@ -12,6 +16,8 @@ const useStyles = makeStyles({
 
 const Footer = props => {
   const classes = useStyles()
+
+  const { fbSignOut, isUser } = useContext(UserContext)
 
   return (
     <AppBar position='static'>
@@ -25,6 +31,13 @@ const Footer = props => {
         <Link href='privacy' className={classes.navButton}>
           privacy
         </Link>
+        {
+          isUser ?
+          <Button onClick={fbSignOut}>
+          Logout
+        </Button> :
+        null
+        }
       </Toolbar>
     </AppBar>
   )
