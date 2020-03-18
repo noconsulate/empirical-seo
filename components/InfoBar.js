@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Typography, Button } from '@material-ui/core'
+import { Typography, Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import UserContext from '../components/UserContext'
 
@@ -37,18 +37,18 @@ const InfoBar = props => {
     return (
       <>
         <div className={classes.user}>
-          this stuff is for development, will be cleaned up
-          <Typography variant='h4'>
-            You are logged in as {userEmail}
-          </Typography>
-          <Typography variant='body1'>
-            {userEmail} 
-            <br />
-            uid: {userUid}
-          </Typography>
-          <Button onClick={handleLogout}>
-            Logout!
-        </Button>
+          <Grid container direction='column'>
+            <Grid item s>
+              <Typography variant='h6'>
+                You are logged in as {userEmail}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button onClick={handleLogout} color='primary1'>
+                Logout!
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </>
     )

@@ -50,7 +50,7 @@ const signin = props => {
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', formText)
-        setPageControl(1)
+        Router.push('/thankyou')
       })
       .catch(error => {
         console.log(error)
@@ -96,25 +96,11 @@ const signin = props => {
       </>
     )
   }
-  const LinkSent = (
-    <>
-      <div className={classes.main}>
-        <Typography variant='h4'>
-          Please check your email
-        </Typography>
-        <Typography variant='body1'>
-          An email has been sent to {formText}. Please follow the link it contains to gain access to your private scenario results and more.
-        </Typography>
-      </div>
-    </>
-  )
 
   const viewControl = () => {
     switch (pageControl) {
       case 0:
         return SignInForm()
-      case 1:
-        return LinkSent
     }
   }
 

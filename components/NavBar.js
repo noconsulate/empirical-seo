@@ -1,8 +1,10 @@
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
 import Link from '../src/Link'
+
+import UserContext from './UserContext'
 
 const useStyles = makeStyles({
   navButton: {
@@ -10,23 +12,61 @@ const useStyles = makeStyles({
     backgroundColor: 'pink',
   },
   navBar: {
-  }
+  },
+  email: {
+
+  },
 })
 
 const NavBar = props => {
+  const { userEmail, fbSignOut, isUser } = useContext(UserContext)
+  console.log(userEmail)
   const classes = useStyles()
+
+  const LoginUi = () => {
+    if (isUser) {
+      return (
+        <>
+          <Grid item>
+            <Link href='/profile' color='textPrimary'>
+              {userEmail}
+            </Link>
+          </Grid>
+          <Grid item>
+            <Button onClick={fbSignOut}>
+              Logout
+            </Button>
+          </Grid>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <Grid item>
+            <Link href='/profile' color='textPrimary'>
+              Profile
+            </Link>
+          </Grid>
+        </>
+      )
+    }
+  }
   return (
+
     <AppBar position='static'>
-      <Toolbar className={classes.navBar} >
-          <Link href='/create' color='textPrimary' className={classes.navButton}>
-            create
+      <Grid container spacing={0}>
+        <Toolbar className={classes.navBar} >
+          <Grid item>
+            <Link href='/create' color='textPrimary' className={classes.navButton}>
+              create
           </Link>
-          <Link href='/profile' color='textPrimary' className={classes.navButton}
-          >
-            profile
-          </Link>
-      </Toolbar>
+          </Grid>
+          <LoginUi />
+        </Toolbar>
+
+      </Grid>
     </AppBar>
+
   )
 }
 
