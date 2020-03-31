@@ -10,7 +10,7 @@ var firebaseConfig = {
   projectId: process.env.PROJECT_ID,
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: "1:505200545458:web:19c8fe9fde480b5bc483ab"
+  appId: process.env.APP_ID
 };
 // Initialize Firebase
 if (!firebase.apps.length) {
