@@ -51,7 +51,7 @@ const Create = props => {
     setPageControl(0)
     setFormText('')
     forceUpdate()
-    console.log(process.env.ENV_TEST, process.env.API_KEY)
+    console.log(process.env.ENV_TEST, process.env.API_KEY, process.env.DATABASE_URL)
   }, [])
 
   const handleCheckbox = event => {
@@ -371,7 +371,6 @@ const Create = props => {
 export default Create
 
 Create.getInitialProps = () => {
-  console.log(process.env.DEMO_KEY)
   console.log(process.env.ENV_TEST)
   return {}
 }
