@@ -11,7 +11,7 @@ import { fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
-const domain = process.env.domain
+const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
   main: {

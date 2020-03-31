@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const domain = process.env.domain
+const domain = process.env.DOMAIN
 
 const Survey = props => {
 

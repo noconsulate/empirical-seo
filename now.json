@@ -1,0 +1,14 @@
+{
+  "env": {
+    "DEMO_KEY": "@demo-key",
+    "ENV_TEST": "@env-test",
+
+    "API_KEY": "@api-key"
+  },
+  "build": {
+    "env": {
+      "ENV_TEST": "@env-test",
+      "API_KEY": "@api-key"
+    }
+  }
+}

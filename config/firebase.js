@@ -4,7 +4,7 @@ import 'firebase/auth'
 
 
 var firebaseConfig = {
-  apiKey: "AIzaSyDbC1jdZ8p9m6Wtx10vJh6rUAqRDQTbT3I",
+  apiKey: process.env.API_KEY,
   authDomain: "empirical-seo.firebaseapp.com",
   databaseURL: "https://empirical-seo.firebaseio.com",
   projectId: "empirical-seo",

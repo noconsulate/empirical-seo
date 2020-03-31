@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const domain = process.env.domain
+const domain = process.env.DOMAIN
 
 const Create = props => {
   const [urlId, setUrlId] = useState('')
@@ -51,7 +51,7 @@ const Create = props => {
     setPageControl(0)
     setFormText('')
     forceUpdate()
-    console.log(process.env.DEMO_KEY)
+    console.log(process.env.ENV_TEST, process.env.API_KEY)
   }, [])
 
   const handleCheckbox = event => {
