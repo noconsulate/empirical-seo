@@ -13,6 +13,7 @@ var firebaseConfig = {
   appId: process.env.APP_ID
 };
 // Initialize Firebase
+console.log('init firebase, env debug', process.env.API_KEY)
 if (!firebase.apps.length) {
   try {
       firebase.initializeApp(firebaseConfig)
