@@ -30,3 +30,5 @@ forward to /profile rather than '/' after delete, which means I need to:
 
 sort keywords in /results 
 put anchor in /results to phrases in case of really long results
+
+refresh in profile, no list. (redux will probably fix this)
