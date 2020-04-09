@@ -7,8 +7,15 @@ import ScenarioContext from '../components/ScenarioContext'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Router from 'next/router'
 import theme from '../src/theme';
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
 
+import rootRecucer from '../reducers'
 import { fbAuth } from '../config/firebase'
+
+const store = configureStore({
+  reducer: rootRecucer
+})
 
 export default class MyApp extends App {
   state = {
@@ -103,7 +110,10 @@ export default class MyApp extends App {
               isUser: this.state.value.isUser,
               fbSignOut: this.fbSignOut,
             }}>
-              <Component {...pageProps} />
+              <Provider store={store}>
+                <Component {...pageProps} />
+              </Provider>
+
             </UserContext.Provider>
           </ScenarioContext.Provider>
         </ThemeProvider>
