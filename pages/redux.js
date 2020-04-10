@@ -11,6 +11,12 @@ const Redux = props => {
   props.changeUser({userName: 'Sam'})
   console.log(props.user)
 
+  fbAuth.onAuthStateChanged(user => {
+    console.log(user.email)
+   // props.changeUser({userName: user.email})
+    console.log(props.user)
+  })
+
   const pageContent = () => {
     return (
       <>

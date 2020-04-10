@@ -13,6 +13,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import rootRecucer from '../reducers'
 import { fbAuth } from '../config/firebase'
 
+import { changeUser } from '../reducers/userSlice'
 const store = configureStore({
   reducer: rootRecucer
 })
@@ -45,6 +46,9 @@ export default class MyApp extends App {
           }
 
         })
+        
+        // using Redux
+        changeUser({ userName: user.email})
         if (user.email) {
           this.setState({
             value: {

@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { fbAuth } from '../config/firebase'
+
+const userInit = fbAuth.currentUser
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
