@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from '../src/Link'
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Typography, Button, Grid, FormControl, TextField, Checkbox,
@@ -7,8 +8,6 @@ import {
 } from '@material-ui/core'
 import shortid from 'shortid'
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
-import UserContext from '../components/UserContext'
-import ScenarioContext from '../components/ScenarioContext'
 
 import Layout from '../components/Layout'
 import Survey from '../components/Survey'
@@ -38,8 +37,7 @@ const Create = props => {
   const [formText, setFormText] = useState('')
   const [checked, setChecked] = useState(false)
   const [scenarioText, setScenarioText] = useState('')
-  const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
-  const { scenarioTextUpdate } = useContext(ScenarioContext)
+  const { userEmail, userUid, isUser, fbSignOut } = props.user
 
   const classes = useStyles()
 
@@ -368,9 +366,8 @@ const Create = props => {
   )
 }
 
-export default Create
+const mapState = state => ({
+  user: state.user
+})
 
-Create.getInitialProps = () => {
-  console.log(process.env.ENV_TEST)
-  return {}
-}
+export default connect(mapState, null)(Create)

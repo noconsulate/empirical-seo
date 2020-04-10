@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-
+import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
 import Link from '../src/Link'
 
@@ -19,7 +19,8 @@ const useStyles = makeStyles({
 })
 
 const NavBar = props => {
-  const { userEmail, fbSignOut, isUser } = useContext(UserContext)
+  console.log(props.user)
+  const { userEmail, fbSignOut, isUser } = props.user
   console.log(userEmail)
   const classes = useStyles()
 
@@ -65,4 +66,8 @@ const NavBar = props => {
   )
 }
 
-export default NavBar
+const mapState = state => ({
+  user: state.user
+})
+
+export default connect(mapState, null)(NavBar)
