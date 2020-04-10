@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { connect } from  'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography, TextField, Button,
@@ -33,9 +34,9 @@ const useStyles = makeStyles(theme => ({
 
 const Results = (props) => {
   const classes = useStyles()
-
+console.log(props)
   const urlId = props.query.urlid
-  const { userUid } = useContext(UserContext)
+  const { userUid } = props.user
   // ugly hack because UserContext is unreliable
   let userVar
   fbAuth.onAuthStateChanged(user => {
@@ -401,8 +402,18 @@ const Results = (props) => {
   )
 }
 
-export default Results
-
+let queryProp
 Results.getInitialProps = ({ query }) => {
+  queryProp = ({query})
   return ({ query })
 }
+
+console.log(queryProp)
+
+const mapState = state => ({
+  user: state.user,
+})
+
+
+export default connect(mapState, null)(Results)
+

@@ -18,78 +18,12 @@ const store = configureStore({
 })
 
 export default class MyApp extends App {
-  state = {
-    value: {
-      // state for UserContext
-      userUid: 'init Uid',
-      userEmail: 'init userEmail',
-      isUser: false,
-      // state for ScenarioContext
-      scenarioUid: 'init Scenario Text',
-    }
-  }
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-
-    this.unsubscribe = fbAuth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          value: {
-            ...this.state.value,
-            userEmail: user.email,
-            userUid: user.uid,
-          }
-
-        })
-        if (user.email) {
-          this.setState({
-            value: {
-              ...this.state.value,
-              isUser: true
-            }
-          })
-          console.log(this.state.value.userUid)
-        }
-      } else {
-        this.setState({
-          value: {
-            ...this.state.value,
-            userEmail: 'no email',
-            userUid: 'no uid',
-            isUser: false,
-          }
-        })
-        fbAuth.signInAnonymously()
-      }
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  fbSignOut = () => {
-    fbAuth.signOut()
-      .then(res => {
-        console.log('signed out')
-        Router.push('/create')
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  scenarioUidUpdate = string => {
-    this.setState({
-      value: {
-        ...this.state.value,
-        scenarioUid: string
-      }
-    })
   }
 
   render() {
@@ -104,22 +38,9 @@ export default class MyApp extends App {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <ScenarioContext.Provider value={{
-            scenarioTextContext: this.state.value.scenarioUid,
-            scenarioTextUpdate: this.scenarioUidUpdate,
-          }}>
-            <UserContext.Provider value={{
-              userUid: this.state.value.userUid,
-              userEmail: this.state.value.userEmail,
-              isUser: this.state.value.isUser,
-              fbSignOut: this.fbSignOut,
-            }}>
               <Provider store={store}>
                 <Component {...pageProps} />
               </Provider>
-
-            </UserContext.Provider>
-          </ScenarioContext.Provider>
         </ThemeProvider>
       </React.Fragment>
     );

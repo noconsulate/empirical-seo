@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
+import { connect } from 'react-redux'
 import {
   Typography, List, ListItem
 } from '@material-ui/core'
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const portal = props => {
   const classes = useStyles()
-  const { userEmail, userUid, isUser, } = useContext(UserContext)
+  const { userEmail, userUid, isUser, } = props.user
   //url querys
   const optIn = props.query.optin
   const urlId = props.query.urlid
@@ -257,8 +258,13 @@ const portal = props => {
   )
 }
 
-export default portal
-
 portal.getInitialProps = ({ query }) => {
   return ({ query })
 }
+
+const mapState = state => ({
+  user: state.user
+})
+
+export default connect(mapState, null)(portal)
+

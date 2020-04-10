@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { connect } from 'react-redux'
 import {
   Typography, Button, TextField, FormGroup, FormControlLabel, Checkbox
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import Link from '../src/Link'
 import Router from 'next/router'
 
-import UserContext from '../components/UserContext'
 import { fbAuth } from '../config/firebase'
 
 import Layout from '../components/Layout'
@@ -21,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const signin = props => {
   const classes = useStyles()
-  const { isUser } = useContext(UserContext)
+  const { isUser } = props.user
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
@@ -118,5 +117,9 @@ const signin = props => {
   )
 }
 
-export default signin
+const mapState = state => ({
+  user: state.user
+})
+
+export default connect(mapState, null)(signin)
 

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
+import Router from 'next/router'
+import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { fbAuth } from '../config/firebase'
 
 import { AppBar, Toolbar } from '@material-ui/core'
 import Link from '../src/Link'
 
-import UserContext from './UserContext'
 
 const useStyles = makeStyles({
   navButton: {
@@ -14,10 +16,21 @@ const useStyles = makeStyles({
   },
 })
 
+const fbSignOut = () => {
+  fbAuth.signOut()
+    .then(res => {
+      console.log('signed out')
+      Router.push('/create')
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
 const Footer = props => {
   const classes = useStyles()
 
-  const { fbSignOut, isUser } = useContext(UserContext)
+  const {  isUser } = props.user
 
   return (
     <AppBar position='static'>
@@ -43,4 +56,7 @@ const Footer = props => {
   )
 }
 
-export default Footer
+const mapState = state => ({
+  user: state.user
+})
+export default connect(mapState, null)(Footer)

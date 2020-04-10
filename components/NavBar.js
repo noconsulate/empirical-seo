@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
 import Link from '../src/Link'
 
-import UserContext from './UserContext'
-
 const useStyles = makeStyles({
   navButton: {
     marginRight: 15,
