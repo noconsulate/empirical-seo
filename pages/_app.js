@@ -13,7 +13,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import rootRecucer from '../reducers'
 import { fbAuth } from '../config/firebase'
 
-import { changeUser } from '../reducers/userSlice'
 const store = configureStore({
   reducer: rootRecucer
 })
@@ -36,7 +35,7 @@ export default class MyApp extends App {
       jssStyles.parentElement.removeChild(jssStyles);
     }
 
-    fbAuth.onAuthStateChanged(user => {
+    this.unsubscribe = fbAuth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
           value: {
@@ -46,9 +45,6 @@ export default class MyApp extends App {
           }
 
         })
-        
-        // using Redux
-        changeUser({ userName: user.email})
         if (user.email) {
           this.setState({
             value: {
@@ -70,6 +66,10 @@ export default class MyApp extends App {
         fbAuth.signInAnonymously()
       }
     })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   fbSignOut = () => {

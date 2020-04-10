@@ -1,9 +1,14 @@
+import React from 'react'
 import Head from 'next/head'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Grid,
   Container,
 } from '@material-ui/core'
+import { connect } from 'react-redux'
+
+import { fbAuth } from '../config/firebase'
+import { changeUser } from '../reducers/userSlice'
 
 import NavBar from './NavBar'
 import Header from './Header'
@@ -20,6 +25,23 @@ const useStyles = makeStyles(theme => ({
 
 const Layout = props => {
   const classes = useStyles()
+
+  //firebase auth listener
+  React.useEffect(() => {
+    const unsubscribe = fbAuth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('user found in Layout')
+        props.changeUser({
+          userUid: user.uid,
+          userEmail: user.email,
+          isUser: true,
+        })
+      } else {
+        console.log('no user in Layout')
+      }
+    }) 
+    return () => unsubscribe()
+  }, [])
 
   return (
     <>
@@ -44,4 +66,6 @@ const Layout = props => {
   )
 }
 
-export default Layout
+const mapDispatch = { changeUser }
+
+export default connect(null, mapDispatch)(Layout)

@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import React from 'react'
 import { fbAuth } from '../config/firebase'
-
-const userInit = fbAuth.currentUser
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    userName: 'A USER IN THE userSlice WOW'
+    userUid: 'init Uid',
+      userEmail: 'init userEmail',
+      isUser: false,
   },
   reducers: {
     changeUser(state, action) {
-      const { userName } = action.payload
-      state.userName =  userName
+      console.log(action.payload)
+      const { userEmail } = action.payload
+      state.userEmail= userEmail
     }
   }
 
