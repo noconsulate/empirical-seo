@@ -5,9 +5,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Link from '../src/Link'
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
-import UserContext from '../components/UserContext'
 
 import Layout from '../components/Layout'
 import ScenarioList from '../components/ScenarioList'
@@ -140,7 +138,7 @@ const portal = props => {
         console.log('problem with user context', isUser)
       }
       //   
-    }, [])
+    }, props.user)
   }
   // from create
   if (mode == 'create') {
@@ -226,7 +224,7 @@ const portal = props => {
           Authentication error!
     </Typography>
         <Typography variant='body1'>
-          Something went wrong with the authentication process. Please try again.
+          Something went wrong with the authentication process. Please try again. Please make sure you're logging in with the link we most recently sent you. 
     </Typography>
       </div>
     )

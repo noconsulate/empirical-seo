@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { Typography, Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import UserContext from '../components/UserContext'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 const InfoBar = props => {
   const classes = useStyles()
-  const { userEmail, userUid, isUser, fbSignOut } = useContext(UserContext)
+  const { userEmail, userUid, isUser, fbSignOut } = props.user
 
   const handleLogout = event => {
     event.preventDefault()
@@ -63,4 +64,8 @@ const InfoBar = props => {
   )
 }
 
-export default InfoBar
+const mapState = state => ({
+  user: state.user
+})
+
+export default connect(mapState, null)(InfoBar)

@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Router from 'next/router'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { fbAuth } from '../config/firebase'
+
+import { removeUser } from '../reducers/userSlice'
 
 import { AppBar, Toolbar } from '@material-ui/core'
 import Link from '../src/Link'
@@ -16,21 +18,22 @@ const useStyles = makeStyles({
   },
 })
 
-const fbSignOut = () => {
-  fbAuth.signOut()
-    .then(res => {
-      console.log('signed out')
-      Router.push('/create')
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
 const Footer = props => {
   const classes = useStyles()
 
   const {  isUser } = props.user
+
+  const fbSignOut = () => {
+    fbAuth.signOut()
+      .then(res => {
+        console.log('signed out')
+        Router.push('/create')
+        props.removeUser()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   return (
     <AppBar position='static'>
@@ -59,4 +62,6 @@ const Footer = props => {
 const mapState = state => ({
   user: state.user
 })
-export default connect(mapState, null)(Footer)
+
+const mapDispatch = { removeUser }
+export default connect(mapState, mapDispatch )(Footer)
