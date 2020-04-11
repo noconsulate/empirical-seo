@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { connect } from 'react-redux'
 import {
   Typography, List, ListItem
@@ -135,7 +135,7 @@ const portal = props => {
         console.log('user logged in', userEmail)
         dbUpdate()
       } else {
-        console.log('problem with user context', isUser)
+        console.log('problem with user state', isUser)
       }
       //   
     }, props.user)
@@ -203,7 +203,7 @@ const portal = props => {
             fbAuth.signInWithEmailLink(email, window.location.href)
               .then(result => {
                 console.log('signed in', result.user.email, result.user.uid)
-                // userContext isn't updating for some reason, so this is a hack
+                // in case of redux not working right
                 uid = result.user.uid
                 dbUpdate()
               })

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, } from 'react'
 import Link from '../src/Link'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
@@ -59,7 +59,7 @@ const Create = props => {
     setFormText(event.target.value)
   }
 
-  // put this in UserContext.js
+  // firebase email authentication
   const handleSignIn = event => {
     event.preventDefault()
     console.log('opt in?', checked)

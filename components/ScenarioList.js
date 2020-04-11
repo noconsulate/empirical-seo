@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React from 'react'
 import {
   Typography, List, ListItem
 } from '@material-ui/core'
@@ -22,7 +22,7 @@ const SurveyList = (props) => {
       return (
         <div className={classes.main}>
           <Typography variant='body1'>
-            Here's a list to all of your scenarios:
+            Here's a list of all of your scenarios:
             </Typography>
           <List>
             {scenarios.map(item => (

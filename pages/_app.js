@@ -2,16 +2,12 @@ import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
-import UserContext from '../components/UserContext'
-import ScenarioContext from '../components/ScenarioContext'
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Router from 'next/router'
 import theme from '../src/theme';
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 
 import rootRecucer from '../reducers'
-import { fbAuth } from '../config/firebase'
 
 const store = configureStore({
   reducer: rootRecucer

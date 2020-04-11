@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, TextField, Grid, Button } from '@material-ui/core'
-import UserContext from '../components/UserContext'
 
-import { db, fbAuth } from '../config/firebase'
+import { db } from '../config/firebase'
 
 import Layout from '../components/Layout'
 
@@ -33,10 +33,9 @@ const Survey = props => {
   const [formText, setFormText] = useState('')
   const [pageControl, setPageControl] = useState(0)
   const [privateResults, setPrivateResults] = useState(false)
-  const [owner, setOwner] = useState('')
   const [owned, setOwned] = useState(false)
 
-  const { userUid } = useContext(UserContext)
+  const { userUid } = props.user
 
   const urlId = props.query.urlid
 
@@ -53,15 +52,12 @@ const Survey = props => {
               const scenarioValue = doc.data().scenario
               const privateValue = doc.data().private
               const ownerValue = doc.data().owner
-              // hack because UserContext is unreliable
-              const userVar = fbAuth.currentUser.uid
-              console.log('userVar', userVar)
               console.log(ownerValue)
               console.log(userUid)
               console.log(privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
-              if (privateValue == false || ownerValue == userUid || ownerValue == userVar) {
+              if (privateValue == false || ownerValue == userUid) {
                 console.log('Owned!')
                 setOwned(true)
               }
@@ -219,8 +215,13 @@ const Survey = props => {
   )
 }
 
-export default Survey
-
 Survey.getInitialProps = ({ query }) => {
   return { query }
 }
+
+const mapState = state => ({
+  user: state.user
+})
+
+export default connect(mapState, null)(Survey)
+

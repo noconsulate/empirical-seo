@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from  'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -8,7 +8,6 @@ import {
 import Link from '../src/Link'
 import Router from 'next/router'
 import { db, fbAuth } from '../config/firebase'
-import UserContext from '../components/UserContext'
 
 import Layout from '../components/Layout'
 
@@ -37,14 +36,6 @@ const Results = (props) => {
 console.log(props)
   const urlId = props.query.urlid
   const { userUid } = props.user
-  // ugly hack because UserContext is unreliable
-  let userVar
-  fbAuth.onAuthStateChanged(user => {
-    if (user) {
-      console.log('in auth listenr', user.uid)
-      userVar = user.uid
-    }
-  })
 
   const [scenarioUid, setScenarioUid] = useState('')
   const [scenarioText, setScenarioText] = useState('')
@@ -89,7 +80,7 @@ console.log(props)
       console.log('scenario owner', scenDoc.data().owner)
       console.log('userId', userUid)
       if (scenDoc.data().private == true &&
-        (scenDoc.data().owner != userUid || scenDoc.data().owner != userVar)
+        (scenDoc.data().owner != userUid)
       ) {
         console.log('bad permission')
         setBadPermission(true)
@@ -402,13 +393,9 @@ console.log(props)
   )
 }
 
-let queryProp
 Results.getInitialProps = ({ query }) => {
-  queryProp = ({query})
   return ({ query })
 }
-
-console.log(queryProp)
 
 const mapState = state => ({
   user: state.user,
