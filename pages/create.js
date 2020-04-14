@@ -221,51 +221,6 @@ const Create = props => {
     )
   }
 
-  // const Draft = () => {
-  //   if (isUser) {
-  //     return (
-  //       <>
-  //         <div className={classes.description}>
-  //           <Typography varaint='body1'>
-  //             Here is what your survey will look like.
-  //       </Typography>
-  //           <div className={classes.draft}>
-  //             <Survey scenario={scenarioText} />
-  //           </div>
-  //           <Typography variant='body1'>
-  //             You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
-  //         </Typography>
-  //           <Button onClick={handlePublishIsUser}>
-  //             Continue
-  //         </Button>
-  //           <Button onClick={fbSignOut}>
-  //             Logout
-  //         </Button>
-  //         </div>
-  //       </>
-  //     )
-  //   }
-  //   return (
-  //     <>
-  //       <div className={classes.description}>
-  //         <Typography varaint='body1'>
-  //           Here is what your survey will look like.
-  //       </Typography>
-  //         <div className={classes.draft}>
-  //           <Survey scenario={scenarioText} />
-  //         </div>
-  //         <Typography variant='body1'>
-  //           After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
-  //       </Typography>
-  //         <Button onClick={handlePublish}>publish!</Button>
-  //         <Button onClick={handleGoBack}>
-  //           Edit
-  //         </Button>
-  //       </div>
-  //     </>
-  //   )
-  // }
-
   const ThankYou = () => {
     return (
       <>
