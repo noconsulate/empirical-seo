@@ -34,7 +34,7 @@ export default function (props) {
       <Grid container>
         <Grid item className={classes.description}>
         <Typography variant='body1'>
-            Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website. THIS IS THE COMPONENT
+            Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
           </Typography>
         </Grid>
         <Grid item className={classes.form}>

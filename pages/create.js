@@ -16,6 +16,8 @@ import ScenarioForm from '../components/create/ScenarioForm'
 import Draft from '../components/create/Draft'
 import LoginForm from '../components/create/LoginForm'
 
+import Success from '../components/create/Success'
+
 const useStyles = makeStyles(theme => ({
   extra: {
     backgroundColor: 'red',
@@ -173,52 +175,30 @@ const Create = props => {
     setFormText('')
   }
 
-  const ThankYou = () => {
-    return (
-      <>
-        <div className={classes.description}>
-          <Typography variant='h4'>
-            Thank you!
-        </Typography>
-          <Typography varaint='body1'>
-            Please follow the link we just emailed to you. Every survey you create that you choose to make private will be associated with your email address, which you can use anytime to see a list of your surveys and private results by clicking on the profile icon in the upper right.
-        </Typography>
-          <Typography variant='body1'>
-            Here is a link to the survey you just created. Be sure to bookmark it for later!
-        </Typography>
-          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-            {`${domain}/results?urlid=${urlId}`}
-          </Link>
-          <br />
-          <Button onClick={handleReset}>
-            Create a new scenario
-          </Button>
-        </div>
-      </>
-    )
-  }
-
-  const Success = () => {
-    return (
-      <>
-        <div className={classes.description}>
-          <Typography variant='h4'>
-            Thank you!
-      </Typography>
-          <Typography variant='body1'>
-            Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by going to www.domain.com/profile or click the profile link above. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
-      </Typography>
-          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-            {`${domain}/results?urlid=${urlId}`}
-          </Link>
-          <br />
-          <Button onClick={handleReset}>
-            Create a new scenario
-        </Button>
-        </div>
-      </>
-    )
-  }
+  // const ThankYou = () => {
+  //   return (
+  //     <>
+  //       <div className={classes.description}>
+  //         <Typography variant='h4'>
+  //           Thank you!
+  //       </Typography>
+  //         <Typography varaint='body1'>
+  //           Please follow the link we just emailed to you. Every survey you create that you choose to make private will be associated with your email address, which you can use anytime to see a list of your surveys and private results by clicking on the profile icon in the upper right.
+  //       </Typography>
+  //         <Typography variant='body1'>
+  //           Here is a link to the survey you just created. Be sure to bookmark it for later!
+  //       </Typography>
+  //         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+  //           {`${domain}/results?urlid=${urlId}`}
+  //         </Link>
+  //         <br />
+  //         <Button onClick={handleReset}>
+  //           Create a new scenario
+  //         </Button>
+  //       </div>
+  //     </>
+  //   )
+  // }
 
   const viewControl = () => {
     switch (pageControl) {
@@ -234,9 +214,9 @@ const Create = props => {
       case 2:
         return <LoginForm handleSignIn={handleSignIn} />
       case 3:
-        return ThankYou()
+        return <ThankYou handleReset={handleRest} urlId={urlId} />
       case 4:
-        return Success()
+        return <Success handleReset={handleReset} urlId={urlId} />
     }
   }
 
