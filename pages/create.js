@@ -12,6 +12,10 @@ import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 import Layout from '../components/Layout'
 import Survey from '../components/Survey'
 
+import ScenarioForm from '../components/create/ScenarioForm'
+import Draft from '../components/create/Draft'
+import LoginForm from '../components/create/LoginForm'
+
 const useStyles = makeStyles(theme => ({
   extra: {
     backgroundColor: 'red',
@@ -96,11 +100,10 @@ const Create = props => {
     setPageControl(4)
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = text => {
     event.preventDefault()
-    setScenarioText(formText)
+    setScenarioText(text)
     setPageControl(1)
-
   }
 
   const handlePublish = () => {
@@ -169,30 +172,7 @@ const Create = props => {
     setPageControl(0)
     setFormText('')
   }
-  const ScenarioForm = () => {
-    return (
-      <>
-        <div className={classes.description}>
-          <Typography variant='body1'>
-            Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
-          </Typography>
-        </div>
-        <form autoComplete='off' className={classes.form} onSubmit={handleSubmit}>
-          <TextField id='foo'
-            label="scenario"
-            multiline
-            fullWidth
-            rowsMax='2'
-            value={formText}
-            onChange={handleChange}
-          />
-          <Button type='submit' variant='contained'>
-            Submit
-          </Button>
-        </form>
-      </>
-    )
-  }
+
   const LoginForm = () => {
     return (
       <div className={classes.extra}>
@@ -241,50 +221,50 @@ const Create = props => {
     )
   }
 
-  const Draft = () => {
-    if (isUser) {
-      return (
-        <>
-          <div className={classes.description}>
-            <Typography varaint='body1'>
-              Here is what your survey will look like.
-        </Typography>
-            <div className={classes.draft}>
-              <Survey scenario={scenarioText} />
-            </div>
-            <Typography variant='body1'>
-              You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
-          </Typography>
-            <Button onClick={handlePublishIsUser}>
-              Continue
-          </Button>
-            <Button onClick={fbSignOut}>
-              Logout
-          </Button>
-          </div>
-        </>
-      )
-    }
-    return (
-      <>
-        <div className={classes.description}>
-          <Typography varaint='body1'>
-            Here is what your survey will look like.
-        </Typography>
-          <div className={classes.draft}>
-            <Survey scenario={scenarioText} />
-          </div>
-          <Typography variant='body1'>
-            After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
-        </Typography>
-          <Button onClick={handlePublish}>publish!</Button>
-          <Button onClick={handleGoBack}>
-            Edit
-          </Button>
-        </div>
-      </>
-    )
-  }
+  // const Draft = () => {
+  //   if (isUser) {
+  //     return (
+  //       <>
+  //         <div className={classes.description}>
+  //           <Typography varaint='body1'>
+  //             Here is what your survey will look like.
+  //       </Typography>
+  //           <div className={classes.draft}>
+  //             <Survey scenario={scenarioText} />
+  //           </div>
+  //           <Typography variant='body1'>
+  //             You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+  //         </Typography>
+  //           <Button onClick={handlePublishIsUser}>
+  //             Continue
+  //         </Button>
+  //           <Button onClick={fbSignOut}>
+  //             Logout
+  //         </Button>
+  //         </div>
+  //       </>
+  //     )
+  //   }
+  //   return (
+  //     <>
+  //       <div className={classes.description}>
+  //         <Typography varaint='body1'>
+  //           Here is what your survey will look like.
+  //       </Typography>
+  //         <div className={classes.draft}>
+  //           <Survey scenario={scenarioText} />
+  //         </div>
+  //         <Typography variant='body1'>
+  //           After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
+  //       </Typography>
+  //         <Button onClick={handlePublish}>publish!</Button>
+  //         <Button onClick={handleGoBack}>
+  //           Edit
+  //         </Button>
+  //       </div>
+  //     </>
+  //   )
+  // }
 
   const ThankYou = () => {
     return (
@@ -336,11 +316,16 @@ const Create = props => {
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return ScenarioForm()
+        return <ScenarioForm handleSubmit={handleSubmit} />
       case 1:
-        return Draft()
+        return <Draft
+                handlePublish={handlePublish}
+                handlePublishIsUser={handlePublishIsUser}
+                handleGoBack={handleGoBack}
+                scenarioText={scenarioText}
+              />
       case 2:
-        return LoginForm()
+        return <LoginForm handleSignIn={handleSignIn} />
       case 3:
         return ThankYou()
       case 4:

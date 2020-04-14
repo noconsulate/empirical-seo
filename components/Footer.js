@@ -7,7 +7,7 @@ import { fbAuth } from '../config/firebase'
 
 import { removeUser } from '../reducers/userSlice'
 
-import { AppBar, Toolbar } from '@material-ui/core'
+import { Toolbar } from '@material-ui/core'
 import Link from '../src/Link'
 
 
@@ -16,12 +16,15 @@ const useStyles = makeStyles({
     marginRight: 15,
     backgroundColor: 'cyan',
   },
+  toolbar: {
+    backgroundColor: 'green'
+  }
 })
 
 const Footer = props => {
   const classes = useStyles()
 
-  const {  isUser } = props.user
+  const { isUser } = props.user
 
   const fbSignOut = () => {
     fbAuth.signOut()
@@ -36,26 +39,24 @@ const Footer = props => {
   }
 
   return (
-    <AppBar position='static'>
-      <Toolbar>
-        <Link href='/help' className={classes.navButton}>
-          help
+    <Toolbar className={classes.toolbar}>
+      <Link href='/help' className={classes.navButton}>
+        help
         </Link>
-        <Link href='/about' className={classes.navButton}>
-          about
+      <Link href='/about' className={classes.navButton}>
+        about
         </Link>
-        <Link href='privacy' className={classes.navButton}>
-          privacy
+      <Link href='privacy' className={classes.navButton}>
+        privacy
         </Link>
-        {
-          isUser ?
+      {
+        isUser ?
           <Button onClick={fbSignOut}>
-          Logout
+            Logout
         </Button> :
-        null
-        }
-      </Toolbar>
-    </AppBar>
+          null
+      }
+    </Toolbar>
   )
 }
 
@@ -64,4 +65,4 @@ const mapState = state => ({
 })
 
 const mapDispatch = { removeUser }
-export default connect(mapState, mapDispatch )(Footer)
+export default connect(mapState, mapDispatch)(Footer)

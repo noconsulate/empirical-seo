@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 const NavBar = props => {
   console.log(props.user)
-  const { userEmail, fbSignOut, isUser } = props.user
+  const { userEmail, isUser } = props.user
   console.log(userEmail)
   const classes = useStyles()
 
@@ -48,17 +48,12 @@ const NavBar = props => {
   return (
 
     <AppBar position='static'>
-      <Grid container spacing={0}>
-        <Toolbar className={classes.navBar} >
-          <Grid item>
-            <Link href='/create' color='textPrimary' className={classes.navButton}>
-              create
+      <Toolbar className={classes.navBar} >
+        <Link href='/create' color='textPrimary' className={classes.navButton}>
+          create
           </Link>
-          </Grid>
-          <LoginUi />
-        </Toolbar>
-
-      </Grid>
+        <LoginUi />
+      </Toolbar>
     </AppBar>
 
   )

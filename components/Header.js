@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { Typography, Button } from '@material-ui/core'
+import React from 'react'
+import { Typography, Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { fbAuth } from '../config/firebase'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: 'orange'
-  },
-  user: {
-    backgroundColor: 'pink',
+    backgroundColor: 'orange',
+    paddingLeft: theme.spacing(2),
   },
 }))
 const Header = () => {
   const classes = useStyles()
 
-  
+
   return (
     <div className={classes.root}>
-      <Typography variant='h3'>
-        Empirical SEO
-      </Typography>
+      <Grid container spacing={1}>
+        <Grid item>
+          <Typography variant='h3'>
+            Empirical SEO
+          </Typography>
+        </Grid>
+      </Grid>
     </div>
   )
 }
