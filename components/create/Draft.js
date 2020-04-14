@@ -70,31 +70,28 @@ const Draft = props => {
   return (
     <div className={classes.root}>
       <Grid container>
-          <Grid item className={classes.description} xs={12}>
-            <Typography variant='body1'>
-              Here is what your survey will look like.
+        <Grid item className={classes.description} xs={12}>
+          <Typography variant='body1'>
+            Here is what your survey will look like.
           </Typography>
-          </Grid>
-          <Grid item className={classes.draft} xs={12}>
-            <Survey scenario={scenarioText} />
-          </Grid>
-          <Grid item className={classes.description}>
-            <Typography variant='body1'>
-              You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
+        </Grid>
+        <Grid item className={classes.draft} xs={12}>
+          <Survey scenario={scenarioText} />
+        </Grid>
+        <Grid item className={classes.description}>
+          <Typography variant='body1'>
+            After you click publish you'll get a link to the scenario for you to share and a link to special page where you can see all of the results. You'll also have the opportunity to make your results private.
           </Typography>
-            <Grid container>
-              <Button onClick={handlePublish}>
-                Continue
-              </Button>
-              <Button onClick={fbSignOut}>
-                Logout
-              </Button>
-              <Button onClick={handleGoBack}>
-                Edit
-              </Button>
-            </Grid>
+          <Grid container>
+           <Button onClick={handlePublish}>
+              Continue
+            </Button>
+            <Button onClick={handleGoBack}>
+              Edit              
+            </Button>
           </Grid>
         </Grid>
+      </Grid>
     </div>
   )
 }
