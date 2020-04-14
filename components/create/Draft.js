@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 
 import { fbAuth } from '../../config/firebase'
+import { removeUser } from '../../reducers/userSlice'
 
 import Survey from '../Survey'
 
@@ -21,9 +22,8 @@ const useStyles = makeStyles(theme => ({
 const Draft = props => {
   const classes = useStyles()
   const { isUser, userEmail } = props.user
+  console.log(isUser)
   const { handlePublish, handlePublishIsUser, handleGoBack, scenarioText } = props
-
-  console.log(scenarioText)
 
   if (scenarioText === null) {
     return null
@@ -31,13 +31,10 @@ const Draft = props => {
 
   //needs work probably
   const fbSignOut = () => {
-    fbAuth.signOut()
-      .then(res => {
-        console.log('signed out')
-      })
+    removeUser()
   }
 
-  if (isUser) {
+  if (isUser === true) {
     return (
       <div className={classes.root}>
         <Grid container>
@@ -86,7 +83,7 @@ const Draft = props => {
               You are logged in as {userEmail}. Your new scenario will automatically be set to private and saved to this email, unless you logout.
           </Typography>
             <Grid container>
-              <Button onClick={handlePublishIsUser}>
+              <Button onClick={handlePublish}>
                 Continue
               </Button>
               <Button onClick={fbSignOut}>
@@ -104,5 +101,7 @@ const Draft = props => {
 const mapState = state => ({
   user: state.user
 })
+
+const mapDispatch = { removeUser }
 
 export default connect(mapState, null)(Draft)

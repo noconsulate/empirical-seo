@@ -58,13 +58,6 @@ const Create = props => {
     console.log(process.env.ENV_TEST, process.env.API_KEY, process.env.DATABASE_URL)
   }, [])
 
-  const handleCheckbox = event => {
-    setChecked(event.target.checked)
-  }
-  const handleChange = event => {
-    setFormText(event.target.value)
-  }
-
   // firebase email authentication
   const handleSignIn = event => {
     event.preventDefault()

@@ -27,15 +27,8 @@ const Footer = props => {
   const { isUser } = props.user
 
   const fbSignOut = () => {
-    fbAuth.signOut()
-      .then(res => {
-        console.log('signed out')
-        Router.push('/create')
-        props.removeUser()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    props.removeUser()
+    Router.push('/create')
   }
 
   return (

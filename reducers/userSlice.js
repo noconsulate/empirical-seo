@@ -19,6 +19,8 @@ const userSlice = createSlice({
     state.isUser = isUser
   },
   removeUser() {
+    fbAuth.signOut()
+      .catch(res => console.log('signout error', res))
     return initialState
   }
 }
