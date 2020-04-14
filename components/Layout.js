@@ -31,12 +31,25 @@ const Layout = props => {
     const unsubscribe = fbAuth.onAuthStateChanged(user => {
       if (user) {
         console.log('user found in Layout')
-        props.changeUser({
-          userUid: user.uid,
-          userEmail: user.email,
-          isUser: true,
-        })
+        if (user.isAnonymous) {
+          props.changeUser({
+            userEmail: 'init userEmail',
+            userUid: user.uid,
+            isUser: false,
+            isAnon: true,
+          })
+        } else {
+          props.changeUser({
+            userUid: user.uid,
+            userEmail: user.email,
+            isUser: true,
+            isAnon: false
+          })
+        }
       } else {
+        fbAuth.signInAnonymously()
+          .then(res => console.log('anon sign in'))
+          .catch(err => console.log('anon signin error', err))
         console.log('no user in Layout')
       }
     }) 
