@@ -173,54 +173,6 @@ const Create = props => {
     setFormText('')
   }
 
-  const LoginForm = () => {
-    return (
-      <div className={classes.extra}>
-        <Typography variant='body1'>
-          Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate.
-        </Typography>
-        <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-          {`${domain}/survey?urlid=${urlId}`}
-        </Link>
-        <Typography variant='body1'>
-          Here's the results page. Please note anyone with this link can see your results, unless you provide your email address below.
-        </Typography>
-        <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-          {`${domain}/results?urlid=${urlId}`}
-        </Link>
-        <Typography variant='body1'>
-          In order for us to secure your results so that only you can see them, all we need is your email address.
-        </Typography>
-        <form onSubmit={handleSignIn}>
-          <TextField
-            label='email'
-            value={formText}
-            onChange={handleChange}
-            type='email'
-          />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleCheckbox}
-                  valiue='primary'
-                />
-              }
-              label='AUSTIN COME UP WITH SOMETHING HERE for OPT IN language'
-            />
-          </FormGroup>
-          <Button type='submit'>
-            Sign in!
-          </Button>
-        </form>
-        <Button onClick={handleGoBack}>
-          Go Back
-        </Button>
-      </div>
-    )
-  }
-
   const ThankYou = () => {
     return (
       <>
