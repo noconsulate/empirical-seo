@@ -157,8 +157,8 @@ const Create = props => {
 
   const handleGoBack = event => {
     event.preventDefault()
+    setFormText(scenarioText)
     setPageControl(pageControl - 1)
-    setFormText('')
   }
 
   const handleReset = event => {
@@ -167,35 +167,12 @@ const Create = props => {
     setFormText('')
   }
 
-  // const ThankYou = () => {
-  //   return (
-  //     <>
-  //       <div className={classes.description}>
-  //         <Typography variant='h4'>
-  //           Thank you!
-  //       </Typography>
-  //         <Typography varaint='body1'>
-  //           Please follow the link we just emailed to you. Every survey you create that you choose to make private will be associated with your email address, which you can use anytime to see a list of your surveys and private results by clicking on the profile icon in the upper right.
-  //       </Typography>
-  //         <Typography variant='body1'>
-  //           Here is a link to the survey you just created. Be sure to bookmark it for later!
-  //       </Typography>
-  //         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-  //           {`${domain}/results?urlid=${urlId}`}
-  //         </Link>
-  //         <br />
-  //         <Button onClick={handleReset}>
-  //           Create a new scenario
-  //         </Button>
-  //       </div>
-  //     </>
-  //   )
-  // }
-
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return <ScenarioForm handleSubmit={handleSubmit} />
+        return <ScenarioForm handleSubmit={handleSubmit} 
+                initialText={scenarioText} 
+              />
       case 1:
         return <Draft
                 handlePublish={handlePublish}

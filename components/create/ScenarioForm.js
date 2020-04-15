@@ -17,9 +17,9 @@ const useStyles = makeStyles(theme => ({
 export default function (props) {
   const classes = useStyles()
 
-  const {handleSubmit} = props
+  const {handleSubmit, initialText} = props
 
-  const [formText, setFormText] = useState('')
+  const [formText, setFormText] = useState(initialText)
 
   const handleChange = event => {
     setFormText(event.target.value)
