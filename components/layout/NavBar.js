@@ -9,6 +9,8 @@ const useStyles = makeStyles({
     marginRight: 15,
   },
   navBar: {
+    backgroundColor: 'white',
+    border: 'dashed',
   },
   email: {
 

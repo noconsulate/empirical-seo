@@ -6,9 +6,15 @@ import { Typography, TextField, Grid, Button } from '@material-ui/core'
 
 import { db } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
+import Survey from '../components/survey/SurveyForm'
+import ThankYou from '../components/survey/ThankYou'
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(2),
+    border: 'dashed',
+  },
   form: {
     backgroundColor: 'red',
     alignItems: 'center',
@@ -19,14 +25,14 @@ const useStyles = makeStyles(theme => ({
   thankYou: {
     backgroundColor: 'orange',
   },
-  note: {
+  owned: {
     backgroundColor: 'aqua'
   }
 }))
 
 const domain = process.env.DOMAIN
 
-const Survey = props => {
+const survey = props => {
 
   const [scenarioUid, setScenarioUid] = useState('')
   const [scenarioText, setScenarioText] = useState('')
@@ -57,7 +63,7 @@ const Survey = props => {
               console.log(privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
-              if (privateValue == false || ownerValue == userUid) {
+              if (privateValue == true && ownerValue == userUid) {
                 console.log('Owned!')
                 setOwned(true)
               }
@@ -85,9 +91,10 @@ const Survey = props => {
     setFormText(event.target.value)
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = (event, text) => {
     event.preventDefault()
-    const keywords = formText.split(' ').filter(item => item != '')
+    console.log(text)
+    const keywords = text.split(' ').filter(item => item != '')
     db.collection('scenarios').doc(scenarioUid).collection('keywords').add({
       keywords
     })
@@ -96,20 +103,23 @@ const Survey = props => {
       })
       .catch(error => {
       })
-  }
+   }
 
   const Owned = () => {
     console.log('Owned Render')
-    return (
-      <div className={classes.note}>
-        <Typography variant='body1'>
-          This survey belongs to you. You can see the results
-              <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-            {' '} here.
-              </Link>
-        </Typography>
-      </div>
-    )
+    if (owned) {
+      return (
+        <div className={classes.owned}>
+          <Typography variant='body1'>
+            This survey belongs to you. You can see the results
+                <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+              {' '} here.
+                </Link>
+          </Typography>
+        </div>
+      ) 
+    }
+    return null
   }
   const SurveyForm = () => {
     return (
@@ -143,34 +153,34 @@ const Survey = props => {
     )
   }
 
-  const ThankYou = () => {
-    return (
-      <>
-        <div className={classes.thankYou}>
-          <Typography variant='body1'>
-            Thank you for your submission.
-          </Typography>
-        </div>
-        {
-          privateResults == false || owned ?
-            <div className={classes.thankYou}>
-              <Typography variant='body1'>
-                You can see the results of the survey here:
-            </Typography>
-              <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-                {`${domain}/results?urlid=${urlId}`}
-              </Link>
-            </div> :
-            null
-        }
-        <div className={classes.thankYou} onClick={handleReset}>
-          <Button onClick={handleReset}>
-            Return to survey
-          </Button>
-        </div>
-      </>
-    )
-  }
+  // const ThankYou = () => {
+  //   return (
+  //     <>
+  //       <div className={classes.thankYou}>
+  //         <Typography variant='body1'>
+  //           Thank you for your submission.
+  //         </Typography>
+  //       </div>
+  //       {
+  //         privateResults == false || owned ?
+  //           <div className={classes.thankYou}>
+  //             <Typography variant='body1'>
+  //               You can see the results of the survey here:
+  //           </Typography>
+  //             <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
+  //               {`${domain}/results?urlid=${urlId}`}
+  //             </Link>
+  //           </div> :
+  //           null
+  //       }
+  //       <div className={classes.thankYou} onClick={handleReset}>
+  //         <Button onClick={handleReset}>
+  //           Return to survey
+  //         </Button>
+  //       </div>
+  //     </>
+  //   )
+  // }
 
   const NoSurvey = () => {
     return (
@@ -193,16 +203,25 @@ const Survey = props => {
       case -1:
         return NoSurvey()
       case 0:
-        return SurveyForm()
+        return <Survey 
+                scenario={scenarioText}
+                handleSubmit={handleSubmit}
+              />
       case 1:
-        return ThankYou()
+        return <ThankYou
+                urlId={urlId}
+                handleReset={handleReset}
+                privateResults={privateResults}
+                owned={owned}
+              />
     }
   }
 
   const pageContent = (
-    <>
+    <div className={classes.root}>
+      {Owned()}
       {ViewControl()}
-    </>
+    </div>
   )
 
   return (
@@ -215,7 +234,7 @@ const Survey = props => {
   )
 }
 
-Survey.getInitialProps = ({ query }) => {
+survey.getInitialProps = ({ query }) => {
   return { query }
 }
 
@@ -223,5 +242,5 @@ const mapState = state => ({
   user: state.user
 })
 
-export default connect(mapState, null)(Survey)
+export default connect(mapState, null)(survey)
 

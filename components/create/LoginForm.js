@@ -4,10 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(2),
-    backgroundColor: 'pink',
-  }
+  
 }))
 
 export default function (props) {
@@ -38,7 +35,7 @@ export default function (props) {
   }
 
   return (
-    <div className={classes.root}>
+    <>
       <Grid container>
         <Grid item>
           <Typography variant='body1'>
@@ -96,6 +93,6 @@ export default function (props) {
         </Button>
         </Grid>
       </Grid>
-    </div>
+    </>
   )
 }

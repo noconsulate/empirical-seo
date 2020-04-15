@@ -19,6 +19,10 @@ import ThankYou from '../components/create/ThankYou'
 import Success from '../components/create/Success'
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(2),
+    border: 'dashed',
+  },
   extra: {
     backgroundColor: 'red',
   },
@@ -41,7 +45,7 @@ const Create = props => {
   const [scenarioUid, setScenarioUid] = useState('')
   const [pageControl, setPageControl] = useState(0)
   const [formText, setFormText] = useState('')
-  const [scenarioText, setScenarioText] = useState('')
+  const [scenarioText, setScenarioText] = useState('EXAMPLE')
 
   const { userEmail, userUid, isUser, fbSignOut } = props.user
 
@@ -50,8 +54,8 @@ const Create = props => {
   const [_count, forceUpdate] = React.useReducer(x => x + 1, 0)
 
   useEffect(() => {
-    // reset state for when user clicks on create button
-    setPageControl(0)
+    // reset state for when user clicks on create button**DOESNOTWORK**
+    setPageControl(1)
     setFormText('')
     forceUpdate()
   }, [])
@@ -192,11 +196,11 @@ const Create = props => {
   }
 
   const pageContent = (
-    <>
+    <div className={classes.root}>
       {
         viewControl()
       }
-    </>
+    </div>
   )
 
   return (

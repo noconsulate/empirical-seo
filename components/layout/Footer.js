@@ -14,10 +14,9 @@ import Link from '../../src/Link'
 const useStyles = makeStyles({
   navButton: {
     marginRight: 15,
-    backgroundColor: 'cyan',
   },
   toolbar: {
-    backgroundColor: 'green'
+    border: 'dash',
   }
 })
 

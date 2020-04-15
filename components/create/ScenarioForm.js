@@ -3,14 +3,11 @@ import { Typography, TextField, Grid, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(2)
-  },
   description: {
-    backgroundColor: 'orange',
+    border: 'solid',
   },
   form: {
-    backgroundColor: 'red',
+    border: 'solid',
   }
 }))
 
@@ -30,7 +27,6 @@ export default function (props) {
   }
   return (
     <>
-    <div className={classes.root}>
       <Grid container>
         <Grid item className={classes.description}>
         <Typography variant='body1'>
@@ -53,7 +49,6 @@ export default function (props) {
         </form>
         </Grid>
       </Grid>
-    </div>
     </>
   )
 }
