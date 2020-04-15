@@ -2,12 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
-import Link from '../src/Link'
+import Link from '../../src/Link'
 
 const useStyles = makeStyles({
   navButton: {
     marginRight: 15,
-    backgroundColor: 'pink',
   },
   navBar: {
   },
@@ -19,7 +18,6 @@ const useStyles = makeStyles({
 const NavBar = props => {
   console.log(props.user)
   const { userEmail, isUser } = props.user
-  console.log(userEmail)
   const classes = useStyles()
 
   const LoginUi = () => {
@@ -37,8 +35,8 @@ const NavBar = props => {
       return (
         <>
           <Grid item>
-            <Link href='/profile' color='textPrimary'>
-              Profile
+            <Link href='/profile' color='textPrimary' className={classes.navButton}>
+              profile
             </Link>
           </Grid>
         </>

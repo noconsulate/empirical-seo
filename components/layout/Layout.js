@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core'
 import { connect } from 'react-redux'
 
-import { fbAuth } from '../config/firebase'
-import { changeUser } from '../reducers/userSlice'
+import { fbAuth } from '../../config/firebase'
+import { changeUser } from '../../reducers/userSlice'
 
 import NavBar from './NavBar'
 import Header from './Header'
@@ -29,7 +29,7 @@ const Layout = props => {
   //firebase auth listener
   React.useEffect(() => {
     const unsubscribe = fbAuth.onAuthStateChanged(user => {
-      if (user) {
+      if (user && !user.isAnonymous) {
         console.log('user found in Layout')
         props.changeUser({
           userUid: user.uid,

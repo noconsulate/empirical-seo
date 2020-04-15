@@ -9,13 +9,13 @@ import {
 import shortid from 'shortid'
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 import Survey from '../components/Survey'
 
 import ScenarioForm from '../components/create/ScenarioForm'
 import Draft from '../components/create/Draft'
 import LoginForm from '../components/create/LoginForm'
-
+import ThankYou from '../components/create/ThankYou'
 import Success from '../components/create/Success'
 
 const useStyles = makeStyles(theme => ({
@@ -50,12 +50,10 @@ const Create = props => {
   const [_count, forceUpdate] = React.useReducer(x => x + 1, 0)
 
   useEffect(() => {
-    console.log('use effect')
     // reset state for when user clicks on create button
     setPageControl(0)
     setFormText('')
     forceUpdate()
-    console.log(process.env.ENV_TEST, process.env.API_KEY, process.env.DATABASE_URL)
   }, [])
 
   // firebase email authentication
@@ -187,7 +185,7 @@ const Create = props => {
                 urlId={urlId}
               />
       case 3:
-        return <ThankYou handleReset={handleRest} urlId={urlId} />
+        return <ThankYou handleReset={handleReset} urlId={urlId} />
       case 4:
         return <Success handleReset={handleReset} urlId={urlId} />
     }

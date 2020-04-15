@@ -3,12 +3,12 @@ import Router from 'next/router'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { fbAuth } from '../config/firebase'
+import { fbAuth } from '../../config/firebase'
 
-import { removeUser } from '../reducers/userSlice'
+import { removeUser } from '../../reducers/userSlice'
 
 import { Toolbar } from '@material-ui/core'
-import Link from '../src/Link'
+import Link from '../../src/Link'
 
 
 const useStyles = makeStyles({
@@ -44,8 +44,8 @@ const Footer = props => {
         </Link>
       {
         isUser ?
-          <Button onClick={fbSignOut}>
-            Logout
+        <Button onClick={fbSignOut}>
+          Logout
         </Button> :
           null
       }

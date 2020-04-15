@@ -29,11 +29,6 @@ const Draft = props => {
     return null
   }
 
-  //needs work probably
-  const fbSignOut = () => {
-    removeUser()
-  }
-
   if (isUser === true) {
     return (
       <div className={classes.root}>
@@ -54,7 +49,7 @@ const Draft = props => {
               <Button onClick={handlePublishIsUser}>
                 Continue
               </Button>
-              <Button onClick={fbSignOut}>
+              <Button onClick={() => removeUser()}>
                 Logout
               </Button>
               <Button onClick={handleGoBack}>
@@ -101,4 +96,4 @@ const mapState = state => ({
 
 const mapDispatch = { removeUser }
 
-export default connect(mapState, null)(Draft)
+export default connect(mapState, mapDispatch)(Draft)

@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
 
 const useStyles = makeStyles(theme => ({
