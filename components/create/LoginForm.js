@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, } from '@material-ui/core'
+import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Link from '../../src/Link'
 
@@ -15,13 +15,19 @@ export default function (props) {
 
   const domain = process.env.DOMAIN
 
-  const { handleSignIn } = props
+  const { handleSignIn, urlId } = props
 
   const [formText, setFormText] = useState('')
+  const [checked, setChecked] = useState(false)
+
   const handleChange = event => {
     setFormText(event.target.value)
   }
-  
+
+  const handleCheckbox = () => {
+    setChecked(!checked)
+  }
+
   const handleGoBack = () => {
     console.log('time for some more redux action!')
   }

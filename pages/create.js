@@ -205,7 +205,7 @@ const Create = props => {
                 scenarioText={scenarioText}
               />
       case 2:
-        return <LoginForm handleSignIn={handleSignIn} />
+        return <LoginForm handleSignIn={handleSignIn} urlId={urlId} />
       case 3:
         return <ThankYou handleReset={handleRest} urlId={urlId} />
       case 4:
