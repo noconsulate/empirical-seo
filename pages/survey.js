@@ -7,7 +7,7 @@ import { Typography, TextField, Grid, Button } from '@material-ui/core'
 import { db } from '../config/firebase'
 
 import Layout from '../components/layout/Layout'
-import Survey from '../components/survey/SurveyForm'
+import SurveyForm from '../components/survey/SurveyForm'
 import ThankYou from '../components/survey/ThankYou'
 
 const useStyles = makeStyles(theme => ({
@@ -121,66 +121,6 @@ const survey = props => {
     }
     return null
   }
-  const SurveyForm = () => {
-    return (
-      <>
-        <Grid container direction='column'>
-          {
-            owned ?
-              <Owned /> :
-              null
-          }
-          <div className={classes.content}>
-            <Typography variant='body1'>
-              {scenarioText}
-            </Typography>
-          </div>
-          <form
-            className={classes.form}
-            autoComplete='off'
-            onSubmit={handleSubmit}
-          >
-            <TextField
-              value={formText}
-              onChange={handleChange}
-            />
-            <Button type='submit'>
-              google!
-            </Button>
-          </form>
-        </Grid>
-      </>
-    )
-  }
-
-  // const ThankYou = () => {
-  //   return (
-  //     <>
-  //       <div className={classes.thankYou}>
-  //         <Typography variant='body1'>
-  //           Thank you for your submission.
-  //         </Typography>
-  //       </div>
-  //       {
-  //         privateResults == false || owned ?
-  //           <div className={classes.thankYou}>
-  //             <Typography variant='body1'>
-  //               You can see the results of the survey here:
-  //           </Typography>
-  //             <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-  //               {`${domain}/results?urlid=${urlId}`}
-  //             </Link>
-  //           </div> :
-  //           null
-  //       }
-  //       <div className={classes.thankYou} onClick={handleReset}>
-  //         <Button onClick={handleReset}>
-  //           Return to survey
-  //         </Button>
-  //       </div>
-  //     </>
-  //   )
-  // }
 
   const NoSurvey = () => {
     return (
@@ -203,7 +143,7 @@ const survey = props => {
       case -1:
         return NoSurvey()
       case 0:
-        return <Survey 
+        return <SurveyForm 
                 scenario={scenarioText}
                 handleSubmit={handleSubmit}
               />
