@@ -104,7 +104,7 @@ const Create = props => {
   const handlePublish = () => {
     event.preventDefault()
     const urlIdGen = shortid.generate()
-    console.log(urlIdGen, formText)
+    console.log(urlId)
 
     db.collection('scenarios').add({
       scenario: formText,

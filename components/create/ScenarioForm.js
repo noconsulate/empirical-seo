@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 export default function (props) {
   const classes = useStyles()
 
-  const { handleSubmit } = props
+  const {handleSubmit} = props
 
   const [formText, setFormText] = useState('')
 
