@@ -96,6 +96,7 @@ const Create = props => {
   }
 
   const handleSubmit = text => {
+    console.log(text)
     event.preventDefault()
     setScenarioText(text)
     setPageControl(1)
@@ -107,7 +108,7 @@ const Create = props => {
     console.log(urlId)
 
     db.collection('scenarios').add({
-      scenario: formText,
+      scenario: scenarioText,
       urlId: urlIdGen,
       private: false,
       owner: userUid,
@@ -118,8 +119,6 @@ const Create = props => {
         setUrlId(urlIdGen)
         setPageControl(2)
         setFormText('')
-        setScenarioText(formText)
-        setFormText('noconsulate@gmail.com')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
