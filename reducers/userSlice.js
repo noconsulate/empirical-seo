@@ -6,6 +6,7 @@ const initialState = {
   userUid: 'init Uid',
   userEmail: 'init userEmail',
   isUser: false,
+  isAnon: false,
 }
 const userSlice = createSlice({
   name: 'user',
@@ -13,10 +14,11 @@ const userSlice = createSlice({
   reducers: {
   changeUser(state, action) {
     console.log(action.payload)
-    const { userEmail, userUid, isUser } = action.payload
+    const { userEmail, userUid, isUser, isAnon } = action.payload
     state.userEmail = userEmail
     state.userUid = userUid
     state.isUser = isUser
+    state.isAnon = isAnon
   },
   removeUser() {
     fbAuth.signOut()
@@ -29,3 +31,4 @@ const userSlice = createSlice({
 
 export const { changeUser, removeUser } = userSlice.actions
 export default userSlice.reducer
+

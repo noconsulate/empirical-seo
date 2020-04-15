@@ -35,11 +35,21 @@ const Layout = props => {
           userUid: user.uid,
           userEmail: user.email,
           isUser: true,
+          isAnon: false,
         })
+        if (user.isAnonymous) {
+          console.log('anon user dispatch')
+          props.changeUser({
+            userUid: user.uid,
+            userEmail: 'init userEmail',
+            isUser: false,
+            isAnon: true,
+          })
+        }
       } else {
         console.log('no user in Layout')
       }
-    }) 
+    })
     return () => unsubscribe()
   }, [])
 
