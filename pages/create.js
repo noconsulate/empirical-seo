@@ -41,8 +41,8 @@ const Create = props => {
   const [scenarioUid, setScenarioUid] = useState('')
   const [pageControl, setPageControl] = useState(0)
   const [formText, setFormText] = useState('')
-  const [checked, setChecked] = useState(false)
   const [scenarioText, setScenarioText] = useState('')
+
   const { userEmail, userUid, isUser, fbSignOut } = props.user
 
   const classes = useStyles()
@@ -59,19 +59,20 @@ const Create = props => {
   }, [])
 
   // firebase email authentication
-  const handleSignIn = event => {
+  const handleSignIn = (event, text, checked) => {
     event.preventDefault()
     console.log('opt in?', checked)
+    console.log(text)
 
     const actionCodeSettings = {
       url: `${domain}/portal?portalMode=create&optin=${checked}&urlid=${urlId}&scenarioUid=${scenarioUid}`,
       handleCodeInApp: true,
     }
 
-    fbAuth.sendSignInLinkToEmail(formText, actionCodeSettings)
+    fbAuth.sendSignInLinkToEmail(text, actionCodeSettings)
       .then(() => {
         console.log('link sent')
-        window.localStorage.setItem('emailForSignIn', formText)
+        window.localStorage.setItem('emailForSignIn', text)
         setPageControl(3)
       })
       .catch(error => {
@@ -181,7 +182,10 @@ const Create = props => {
                 scenarioText={scenarioText}
               />
       case 2:
-        return <LoginForm handleSignIn={handleSignIn} urlId={urlId} />
+        return <LoginForm 
+                handleSignIn={handleSignIn} 
+                urlId={urlId}
+              />
       case 3:
         return <ThankYou handleReset={handleRest} urlId={urlId} />
       case 4:

@@ -17,8 +17,13 @@ export default function (props) {
 
   const { handleSignIn, urlId } = props
 
-  const [formText, setFormText] = useState('')
+  const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
+
+  const handleSignInInternal = event => {
+    console.log(formText)
+    handleSignIn(event, formText, checked)
+  }
 
   const handleChange = event => {
     setFormText(event.target.value)
@@ -61,7 +66,7 @@ export default function (props) {
           </Typography>
         </Grid>
         <Grid item>
-          <form onSubmit={handleSignIn}>
+          <form onSubmit={handleSignInInternal}>
             <TextField
               label='email'
               value={formText}
