@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const handleSubmit = (event, text) => {
   event.preventDefault()
-  console.log('click!', text)
+  
 }
 
 const Draft = props => {

@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Router from 'next/router'
 
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
-import { setCreate, test2 } from '../reducers/flagsSlice'
+import { setCreate } from '../reducers/flagsSlice'
 
 import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
@@ -280,7 +280,7 @@ const mapState = state => ({
   flags: state.flags,
 })
 
-const mapDispatch = { setCreate, test2 }
+const mapDispatch = { setCreate }
 
 export default connect(mapState, mapDispatch)(portal)
 

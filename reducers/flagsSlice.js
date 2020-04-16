@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { test } from './userSlice'
 
 const initialState = {
   loggedInViaCreate: false
@@ -15,9 +14,6 @@ const flagsSlice = createSlice({
         loggedInViaCreate: true
       }
     },
-    test2() {
-      console.log('test2')
-    }
   }
 })
 

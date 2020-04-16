@@ -108,7 +108,7 @@ const Create = props => {
   const handlePublish = () => {
     event.preventDefault()
     const urlIdGen = shortid.generate()
-    console.log(urlId)
+    console.log(urlIdGen)
 
     db.collection('scenarios').add({
       scenario: scenarioText,
@@ -117,7 +117,7 @@ const Create = props => {
       owner: userUid,
     })
       .then(docRef => {
-        console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen)
+        console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen, 'as', scenarioText)
         setScenarioUid(docRef.id)
         setUrlId(urlIdGen)
         setPageControl(2)
@@ -134,7 +134,7 @@ const Create = props => {
     console.log('handlePublishIsUser')
 
     db.collection('scenarios').add({
-      scenario: formText,
+      scenario: scenarioText,
       urlId: urlIdGen,
       private: true,
       owner: userUid,
@@ -145,8 +145,8 @@ const Create = props => {
         setUrlId(urlIdGen)
         setPageControl(4)
         setFormText('')
-        setScenarioText(formText)
-        setFormText('noconsulate@gmail.com')
+      //  setScenarioText(formText)
+       // setFormText('noconsulate@gmail.com')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
