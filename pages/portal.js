@@ -148,7 +148,7 @@ const portal = props => {
       // auth/db operations for create mode
       const dbUpdate = () => {
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
-        let docRef = db.collection('users').doc(uid)
+        let docRef = db.collection('users').doc(userUid)
         docRef.get()
           .then(doc => {
             if (doc.exists) {
@@ -205,7 +205,8 @@ const portal = props => {
               .then(result => {
                 console.log('signed in', result.user.email, result.user.uid)
                 // in case of redux not working right
-                uid = result.user.uid
+                userUid = result.user.uid
+                userEmail = result.user.email
                 dbUpdate()
               })
               .catch(error => {
