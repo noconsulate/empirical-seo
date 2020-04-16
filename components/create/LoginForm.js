@@ -1,21 +1,10 @@
 import { useState } from 'react'
-<<<<<<< HEAD
-import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, } from '@material-ui/core'
-=======
 import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button} from '@material-ui/core'
->>>>>>> layout
 import { makeStyles } from '@material-ui/core/styles'
 import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
-<<<<<<< HEAD
-  root: {
-    padding: theme.spacing(2),
-    backgroundColor: 'pink',
-  }
-=======
   
->>>>>>> layout
 }))
 
 export default function (props) {
@@ -25,13 +14,6 @@ export default function (props) {
 
   const { handleSignIn, urlId } = props
 
-<<<<<<< HEAD
-  const [formText, setFormText] = useState('')
-  const handleChange = event => {
-    setFormText(event.target.value)
-  }
-  
-=======
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
 
@@ -48,17 +30,12 @@ export default function (props) {
     setChecked(!checked)
   }
 
->>>>>>> layout
   const handleGoBack = () => {
     console.log('time for some more redux action!')
   }
 
   return (
-<<<<<<< HEAD
-    <div className={classes.root}>
-=======
     <>
->>>>>>> layout
       <Grid container>
         <Grid item>
           <Typography variant='body1'>
@@ -86,11 +63,7 @@ export default function (props) {
           </Typography>
         </Grid>
         <Grid item>
-<<<<<<< HEAD
-          <form onSubmit={handleSignIn}>
-=======
           <form onSubmit={handleSignInInternal}>
->>>>>>> layout
             <TextField
               label='email'
               value={formText}
@@ -120,10 +93,6 @@ export default function (props) {
         </Button>
         </Grid>
       </Grid>
-<<<<<<< HEAD
-    </div>
-=======
     </>
->>>>>>> layout
   )
 }
