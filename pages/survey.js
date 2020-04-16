@@ -58,9 +58,9 @@ const survey = props => {
               const scenarioValue = doc.data().scenario
               const privateValue = doc.data().private
               const ownerValue = doc.data().owner
-              console.log(ownerValue)
-              console.log(userUid)
-              console.log(privateValue)
+              console.log('scenario owner',ownerValue)
+              console.log('userUid', userUid)
+              console.log('private?', privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
               if (privateValue == true && ownerValue == userUid) {
@@ -107,7 +107,7 @@ const survey = props => {
 
   const Owned = () => {
     console.log('Owned Render')
-    if (owned) {
+    if (owned === true) {
       return (
         <div className={classes.owned}>
           <Typography variant='body1'>

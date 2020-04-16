@@ -27,7 +27,7 @@ const portal = props => {
   console.log(mode)
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
-
+  let userResult
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
@@ -148,7 +148,7 @@ const portal = props => {
       // auth/db operations for create mode
       const dbUpdate = () => {
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
-        let docRef = db.collection('users').doc(userUid)
+        let docRef = db.collection('users').doc(userResult.uid)
         docRef.get()
           .then(doc => {
             if (doc.exists) {
@@ -163,13 +163,13 @@ const portal = props => {
               console.log('user dont exists')
               docRef.set({
                 urlIds: [urlId],
-                email: userEmail,
+                email: userResult.email,
                 optIn: optIn
               })
                 .catch(error => console.log(error))
             }
             let urlsGet
-            db.collection('users').doc(uid).get()
+            db.collection('users').doc(userResult.uid).get()
               .then(doc => {
                 urlsGet = doc.data().urlIds
                 console.log(urlsGet)
@@ -205,8 +205,7 @@ const portal = props => {
               .then(result => {
                 console.log('signed in', result.user.email, result.user.uid)
                 // in case of redux not working right
-                userUid = result.user.uid
-                userEmail = result.user.email
+                userResult = result.user
                 dbUpdate()
               })
               .catch(error => {
