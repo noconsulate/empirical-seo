@@ -4,8 +4,10 @@ import {
   Typography, List, ListItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import Router from 'next/router'
 
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
+import { setCreate } from '../reducers/flagsSlice'
 
 import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
@@ -19,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 const portal = props => {
   const classes = useStyles()
   const { userEmail, userUid, isUser, } = props.user
+  const { loggedInViaCreate } = props.flags
   //url querys
   const optIn = props.query.optin
   const urlId = props.query.urlid
@@ -145,8 +148,14 @@ const portal = props => {
   if (mode == 'create') {
     useEffect(() => {
       console.log('create mode')
+      if (loggedInViaCreate === true) {
+        Router.push('/portal?portalMode=continue')
+      }
       // auth/db operations for create mode
       const dbUpdate = () => {
+        if (loggedInViaCreate === true) {
+
+        }
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
         let docRef = db.collection('users').doc(userResult.uid)
         docRef.get()
@@ -185,7 +194,7 @@ const portal = props => {
         db.collection('scenarios').doc(scenarioUid).set({
           owner: userUid,
         }, { merge: true })
-
+        setCreate()
       }
       // firebase authentication
 
@@ -262,8 +271,11 @@ portal.getInitialProps = ({ query }) => {
 }
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  flags: state.flags
 })
 
-export default connect(mapState, null)(portal)
+const mapDispatch = { setCreate }
+
+export default connect(mapState, mapDispatch)(portal)
 
