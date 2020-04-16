@@ -5,7 +5,7 @@ import { TextField, Button } from '@material-ui/core'
 
 import { fbAuth } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 
 
 

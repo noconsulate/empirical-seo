@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import React from 'react'
 import { fbAuth } from '../config/firebase'
 
 const initialState = {
@@ -24,7 +23,7 @@ const userSlice = createSlice({
       fbAuth.signOut()
         .catch(res => console.log('signout error', res))
       return initialState
-    }
+    },
   }
 
 })
