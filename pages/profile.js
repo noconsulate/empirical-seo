@@ -8,24 +8,24 @@ import Router from 'next/router'
 
 import { fbAuth } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
+//import ThankYou from '../components/ThankYou'
 
 const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
-  main: {
-    backgroundColor: 'brown',
+  root: {
+    padding: theme.spacing(3),
+    border: 'dashed'
   },
 }))
 
 const signin = props => {
   const classes = useStyles()
-  const { isUser } = props.user
+  const { isUser, isAnon } = props.user
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
-
-//  ** trying to push to actual profile if user is signed in
 
   useEffect(() => {
     if (isUser) {
@@ -49,7 +49,7 @@ const signin = props => {
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', formText)
-        Router.push('/thankyou')
+        setPageControl(1)
       })
       .catch(error => {
         console.log(error)
@@ -64,34 +64,44 @@ const signin = props => {
 
     return (
       <>
-        <div className={classes.main}>
-          <Typography variant='body1'>
-            Enter your email address below and you'll be sent a link to your page.
+        <Typography variant='body1'>
+          Enter your email address below and you'll be sent a link to your page.
         </Typography>
-          <form onSubmit={handleSignIn}>
-            <TextField
-              label='email'
-              value={formText}
-              onChange={handleChange}
-              type='email'
+        <form onSubmit={handleSignIn}>
+          <TextField
+            label='email'
+            value={formText}
+            onChange={handleChange}
+            type='email'
+          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheckbox}
+                  valiue='primary'
+                />
+              }
+              label='Opt in?'
             />
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleCheckbox}
-                    valiue='primary'
-                  />
-                }
-                label='Opt in?'
-              />
-            </FormGroup>
-            <Button type='submit'>
-              Sign in!
+          </FormGroup>
+          <Button type='submit'>
+            Sign in!
           </Button>
-          </form>
-        </div>
+        </form>
+      </>
+    )
+  }
+
+  const ThankYou = props => {
+    const classes = useStyles()
+  
+    return (
+      <>
+          <Typography variant='body1'>
+            Thank you. Please follow the link in your email to continue.
+          </Typography>
       </>
     )
   }
@@ -100,13 +110,15 @@ const signin = props => {
     switch (pageControl) {
       case 0:
         return SignInForm()
+      case 1:
+        return <ThankYou />
     }
   }
 
   const pageContent = (
-    <>
+    <div className={classes.root}>
       {viewControl()}
-    </>
+    </div>
   )
 
   return (

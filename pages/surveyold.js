@@ -7,7 +7,7 @@ import { TextField } from 'formik-material-ui';
 
 import { db } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 
 const useStyles = makeStyles(theme => ({
   form: {

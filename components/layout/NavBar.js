@@ -2,14 +2,15 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
-import Link from '../src/Link'
+import Link from '../../src/Link'
 
 const useStyles = makeStyles({
   navButton: {
     marginRight: 15,
-    backgroundColor: 'pink',
   },
   navBar: {
+    backgroundColor: 'white',
+    border: 'dashed',
   },
   email: {
 
@@ -18,8 +19,7 @@ const useStyles = makeStyles({
 
 const NavBar = props => {
   console.log(props.user)
-  const { userEmail, fbSignOut, isUser } = props.user
-  console.log(userEmail)
+  const { userEmail, isUser } = props.user
   const classes = useStyles()
 
   const LoginUi = () => {
@@ -37,8 +37,8 @@ const NavBar = props => {
       return (
         <>
           <Grid item>
-            <Link href='/profile' color='textPrimary'>
-              Profile
+            <Link href='/profile' color='textPrimary' className={classes.navButton}>
+              profile
             </Link>
           </Grid>
         </>
@@ -48,17 +48,12 @@ const NavBar = props => {
   return (
 
     <AppBar position='static'>
-      <Grid container spacing={0}>
-        <Toolbar className={classes.navBar} >
-          <Grid item>
-            <Link href='/create' color='textPrimary' className={classes.navButton}>
-              create
+      <Toolbar className={classes.navBar} >
+        <Link href='/create' color='textPrimary' className={classes.navButton}>
+          create
           </Link>
-          </Grid>
-          <LoginUi />
-        </Toolbar>
-
-      </Grid>
+        <LoginUi />
+      </Toolbar>
     </AppBar>
 
   )

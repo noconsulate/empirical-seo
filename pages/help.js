@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 
 const Help = () => {
 

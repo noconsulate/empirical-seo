@@ -4,10 +4,12 @@ import {
   Typography, List, ListItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import Router from 'next/router'
 
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
+import { setCreate } from '../reducers/flagsSlice'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 const portal = props => {
   const classes = useStyles()
   const { userEmail, userUid, isUser, } = props.user
+  const { loggedInViaCreate } = props.flags
   //url querys
   const optIn = props.query.optin
   const urlId = props.query.urlid
@@ -27,6 +30,7 @@ const portal = props => {
   console.log(mode)
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
+  let userResult
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
@@ -138,16 +142,26 @@ const portal = props => {
         console.log('problem with user state', isUser)
       }
       //   
-    }, props.user)
+    }, [])
   }
   // from create
   if (mode == 'create') {
     useEffect(() => {
       console.log('create mode')
+      props.test2()
+     // debugger
+      props.setCreate()
+      console.log(loggedInViaCreate)
+      if (loggedInViaCreate === true) {
+        Router.push('/portal?portalMode=continue')
+      }
       // auth/db operations for create mode
       const dbUpdate = () => {
+        if (loggedInViaCreate === true) {
+
+        }
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
-        let docRef = db.collection('users').doc(uid)
+        let docRef = db.collection('users').doc(userResult.uid)
         docRef.get()
           .then(doc => {
             if (doc.exists) {
@@ -162,13 +176,13 @@ const portal = props => {
               console.log('user dont exists')
               docRef.set({
                 urlIds: [urlId],
-                email: userEmail,
+                email: userResult.email,
                 optIn: optIn
               })
                 .catch(error => console.log(error))
             }
             let urlsGet
-            db.collection('users').doc(uid).get()
+            db.collection('users').doc(userResult.uid).get()
               .then(doc => {
                 urlsGet = doc.data().urlIds
                 console.log(urlsGet)
@@ -184,7 +198,8 @@ const portal = props => {
         db.collection('scenarios').doc(scenarioUid).set({
           owner: userUid,
         }, { merge: true })
-
+        debug
+        setCreate()
       }
       // firebase authentication
 
@@ -204,7 +219,7 @@ const portal = props => {
               .then(result => {
                 console.log('signed in', result.user.email, result.user.uid)
                 // in case of redux not working right
-                uid = result.user.uid
+                userResult = result.user
                 dbUpdate()
               })
               .catch(error => {
@@ -261,8 +276,11 @@ portal.getInitialProps = ({ query }) => {
 }
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  flags: state.flags,
 })
 
-export default connect(mapState, null)(portal)
+const mapDispatch = { setCreate }
+
+export default connect(mapState, mapDispatch)(portal)
 

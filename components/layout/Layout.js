@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core'
 import { connect } from 'react-redux'
 
-import { fbAuth } from '../config/firebase'
-import { changeUser } from '../reducers/userSlice'
+import { fbAuth } from '../../config/firebase'
+import { changeUser } from '../../reducers/userSlice'
 
 import NavBar from './NavBar'
 import Header from './Header'
@@ -29,17 +29,38 @@ const Layout = props => {
   //firebase auth listener
   React.useEffect(() => {
     const unsubscribe = fbAuth.onAuthStateChanged(user => {
-      if (user) {
+      if (user && !user.isAnonymous) {
         console.log('user found in Layout')
         props.changeUser({
           userUid: user.uid,
           userEmail: user.email,
           isUser: true,
+          isAnon: false,
         })
+        if (user.isAnonymous) {
+          console.log('anon user dispatch')
+          props.changeUser({
+            userUid: user.uid,
+            userEmail: 'init userEmail',
+            isUser: false,
+            isAnon: true,
+          })
+        }
       } else {
         console.log('no user in Layout')
+        fbAuth.signInAnonymously()
+        .then(res => {
+          console.log('anon user signin', res)
+          props.changeUser({
+            userUid: user.uid,
+            userEmail: 'init userEmail',
+            isUser: false,
+            isAnon: true,
+          })
+        })
+        .catch(err => {console.log('anon signin error', err)})
       }
-    }) 
+    })
     return () => unsubscribe()
   }, [])
 

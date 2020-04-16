@@ -36,4 +36,9 @@ export default function (props) {
       </Button>
     </div>
   )
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> layout
