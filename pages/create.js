@@ -18,12 +18,6 @@ import LoginForm from '../components/create/LoginForm'
 import ThankYou from '../components/create/ThankYou'
 import Success from '../components/create/Success'
 
-import ScenarioForm from '../components/create/ScenarioForm'
-import Draft from '../components/create/Draft'
-import LoginForm from '../components/create/LoginForm'
-
-import Success from '../components/create/Succes'
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
@@ -111,7 +105,7 @@ const Create = props => {
     setPageControl(1)
   }
 
-  const handlePublish = (text) => {
+  const handlePublish = () => {
     event.preventDefault()
     const urlIdGen = shortid.generate()
     console.log(urlIdGen)
@@ -179,10 +173,9 @@ const Create = props => {
   const viewControl = () => {
     switch (pageControl) {
       case 0:
-        return <ScenarioForm 
-          handleSubmit={handleSubmit} 
-         
-        />
+        return <ScenarioForm handleSubmit={handleSubmit} 
+                initialText={scenarioText} 
+              />
       case 1:
         return <Draft
                 handlePublish={handlePublish}
