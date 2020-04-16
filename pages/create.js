@@ -10,7 +10,7 @@ import shortid from 'shortid'
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 
 import Layout from '../components/layout/Layout'
-import Survey from '../components/Survey'
+import Survey from '../components/survey/SurveyForm'
 
 import ScenarioForm from '../components/create/ScenarioForm'
 import Draft from '../components/create/Draft'
@@ -45,7 +45,7 @@ const Create = props => {
   const [scenarioUid, setScenarioUid] = useState('')
   const [pageControl, setPageControl] = useState(0)
   const [formText, setFormText] = useState('')
-  const [scenarioText, setScenarioText] = useState('EXAMPLE')
+  const [scenarioText, setScenarioText] = useState('')
 
   const { userEmail, userUid, isUser, fbSignOut } = props.user
 
@@ -55,7 +55,7 @@ const Create = props => {
 
   useEffect(() => {
     // reset state for when user clicks on create button**DOESNOTWORK**
-    setPageControl(1)
+    setPageControl(0)
     setFormText('')
     forceUpdate()
   }, [])

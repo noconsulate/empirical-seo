@@ -27,6 +27,7 @@ const portal = props => {
   console.log(mode)
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
+
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 

@@ -9,7 +9,7 @@ import Link from '../src/Link'
 import Router from 'next/router'
 import { db, fbAuth } from '../config/firebase'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 
 const domain = process.env.DOMAIN
 

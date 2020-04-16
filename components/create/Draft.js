@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { fbAuth } from '../../config/firebase'
 import { removeUser } from '../../reducers/userSlice'
 
-import Survey from '../survey/SurveyForm'
+import SurveyForm from '../survey/SurveyForm'
 
 const useStyles = makeStyles(theme => ({
   description: {
@@ -16,6 +16,11 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
 }))
+
+const handleSubmit = (event, text) => {
+  event.preventDefault()
+  console.log('click!', text)
+}
 
 const Draft = props => {
   const classes = useStyles()
@@ -36,7 +41,7 @@ const Draft = props => {
           </Typography>
           </Grid>
           <Grid item className={classes.draft}>
-            <Survey scenario={scenarioText} />
+            <SurveyForm scenario={scenarioText} />
           </Grid>
           <Grid item className={classes.description}>
             <Typography variant='body1'>
@@ -68,7 +73,7 @@ const Draft = props => {
           </Typography>
         </Grid>
         <Grid item className={classes.survey} xs={12}>
-          <Survey scenario={scenarioText} />
+          <SurveyForm scenario={scenarioText} handleSubmit={handleSubmit} />
         </Grid>
         <Grid item className={classes.description}>
           <Typography variant='body1'>
