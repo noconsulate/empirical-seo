@@ -6,8 +6,11 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
   root: {
     border: 'dashed',
-    paddingLeft: theme.spacing(2),
+ 
   },
+  logo: {
+    border: 'solid',
+  }
 }))
 const Header = () => {
   const classes = useStyles()
@@ -15,8 +18,8 @@ const Header = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item>
+      <Grid container>
+        <Grid item className={classes.logo}>
           <Typography variant='h4'>
             Empirical SEO
           </Typography>

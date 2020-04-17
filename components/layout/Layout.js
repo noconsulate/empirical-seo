@@ -17,7 +17,10 @@ import Footer from './Footer'
 const useStyles = makeStyles(theme => ({
   root: {
   },
-  header: {
+  item: {
+    padding: theme.spacing(1),
+    borderColor: 'red',
+    border: 'dashed'
   }
 }))
 
@@ -68,15 +71,23 @@ const Layout = props => {
         <title>{props.title}</title>
       </Head>
       <div>
-        <Container maxWidth="md" className={classes.header}>
-          <Header />
-          <NavBar />
-          <main>
-            <div className={classes.root}>
-              {props.content}
-            </div>
-          </main>
-          <Footer />
+        <Container maxWidth="md">
+          <Grid container
+            spacing={2}
+            direction='column'
+          >
+            <Grid item className={classes.item}>
+              <Header />
+            </Grid>
+            <Grid item className={classes.item}>
+              <NavBar />
+            </Grid>
+            <Grid item className={classes.item}>
+              <main>
+                {props.content}
+              </main>
+            </Grid>
+          </Grid>
         </Container>
       </div>
     </>
