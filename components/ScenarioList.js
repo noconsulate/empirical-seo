@@ -26,7 +26,7 @@ const SurveyList = (props) => {
             </Typography>
           <List>
             {scenarios.map(item => (
-              <ListItem key={item.urlId}>
+              <ListItem key={item.urlId} button>
                 <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }}>
                   {item.scenario}
                 </Link>

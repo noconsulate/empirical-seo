@@ -4,18 +4,22 @@ import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
 import Link from '../../src/Link'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   navButton: {
     marginRight: 15,
+    border: 'dashed',
+    borderColor: 'blue',
   },
   navBar: {
+    padding: theme.spacing(1),
     backgroundColor: 'white',
     border: 'dashed',
+    borderColor: 'green',
   },
   email: {
 
   },
-})
+}))
 
 const NavBar = props => {
   console.log(props.user)
@@ -26,21 +30,17 @@ const NavBar = props => {
     if (isUser) {
       return (
         <>
-          <Grid item>
-            <Link href='/profile' color='textPrimary'>
+            <Link href='/profile' color='textPrimary' className={classes.navButton}>
               {userEmail}
             </Link>
-          </Grid>
         </>
       )
     } else {
       return (
         <>
-          <Grid item>
             <Link href='/profile' color='textPrimary' className={classes.navButton}>
               profile
             </Link>
-          </Grid>
         </>
       )
     }
@@ -48,7 +48,7 @@ const NavBar = props => {
   return (
 
     <AppBar position='static'>
-      <Toolbar className={classes.navBar} >
+      <Toolbar className={classes.navBar} disableGutters >
         <Link href='/create' color='textPrimary' className={classes.navButton}>
           create
           </Link>

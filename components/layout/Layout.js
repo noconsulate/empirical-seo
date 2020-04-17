@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   root: {
   },
   item: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0),
     borderColor: 'red',
     border: 'dashed'
   }
@@ -73,7 +73,7 @@ const Layout = props => {
       <div>
         <Container maxWidth="md">
           <Grid container
-            spacing={2}
+            spacing={0}
             direction='column'
           >
             <Grid item className={classes.item}>
@@ -86,6 +86,9 @@ const Layout = props => {
               <main>
                 {props.content}
               </main>
+            </Grid>
+            <Grid item className={classes.item}>
+              <Footer />
             </Grid>
           </Grid>
         </Container>
