@@ -99,7 +99,6 @@ const Create = props => {
   }
 
   const handleSubmit = text => {
-    console.log(text)
     event.preventDefault()
     setScenarioText(text)
     setPageControl(1)

@@ -6,8 +6,8 @@ import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  main: {
-    backgroundColor: 'cyan',
+  root: {
+    border: 'solid',
   },
 }))
 
@@ -20,7 +20,7 @@ const SurveyList = (props) => {
   const resultsRows = () => {
     if (scenarios) {
       return (
-        <div className={classes.main}>
+        <div className={classes.root}>
           <Typography variant='body1'>
             Here's a list of all of your scenarios:
             </Typography>

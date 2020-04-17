@@ -13,8 +13,9 @@ import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
 
 const useStyles = makeStyles(theme => ({
-  main: {
-    backgroundColor: 'red',
+  root: {
+    padding: theme.spacing(2),
+    border: 'dashed',
   },
 }))
 
@@ -256,7 +257,7 @@ const portal = props => {
 
   const pageContent = (
     <>
-      <div className={classes.main}>
+      <div className={classes.root}>
         {ViewControl()}
 
       </div>

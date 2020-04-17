@@ -15,11 +15,9 @@ import Header from './Header'
 import Footer from './Footer'
 
 const useStyles = makeStyles(theme => ({
-  slab: {
-    border: 'dashed',
+  root: {
   },
-  pageContent: {
-    padding: 0,
+  header: {
   }
 }))
 
@@ -49,16 +47,16 @@ const Layout = props => {
       } else {
         console.log('no user in Layout')
         fbAuth.signInAnonymously()
-        .then(res => {
-          console.log('anon user signin', res)
-          props.changeUser({
-            userUid: user.uid,
-            userEmail: 'init userEmail',
-            isUser: false,
-            isAnon: true,
+          .then(res => {
+            console.log('anon user signin', res)
+            props.changeUser({
+              userUid: user.uid,
+              userEmail: 'init userEmail',
+              isUser: false,
+              isAnon: true,
+            })
           })
-        })
-        .catch(err => {console.log('anon signin error', err)})
+          .catch(err => { console.log('anon signin error', err) })
       }
     })
     return () => unsubscribe()
@@ -70,15 +68,13 @@ const Layout = props => {
         <title>{props.title}</title>
       </Head>
       <div>
-        <Container maxWidth="md" className={classes.slab}>
+        <Container maxWidth="md" className={classes.header}>
           <Header />
           <NavBar />
           <main>
-            <Grid container className={classes.pageContent}>
-              <Grid item>
-                {props.content}
-              </Grid>
-            </Grid>
+            <div className={classes.root}>
+              {props.content}
+            </div>
           </main>
           <Footer />
         </Container>

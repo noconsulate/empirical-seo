@@ -53,6 +53,7 @@ const survey = props => {
               console.log('private?', privateValue)
               setScenarioText(scenarioValue)
               setScenarioUid(doc.id)
+              setPrivateResults(privateValue)
               if (privateValue == true && ownerValue == userUid) {
                 console.log('Owned!')
                 setOwned(true)

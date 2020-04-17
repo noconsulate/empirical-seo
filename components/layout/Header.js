@@ -17,7 +17,7 @@ const Header = () => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item>
-          <Typography variant='h3'>
+          <Typography variant='h4'>
             Empirical SEO
           </Typography>
         </Grid>
