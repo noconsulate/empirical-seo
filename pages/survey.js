@@ -15,18 +15,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     border: 'dashed',
   },
-  form: {
-    backgroundColor: 'red',
-    alignItems: 'center',
-  },
-  content: {
-    backgroundColor: 'yellow',
-  },
-  thankYou: {
-    backgroundColor: 'orange',
-  },
   owned: {
-    backgroundColor: 'aqua'
+    border: 'dashed'
   }
 }))
 
@@ -109,7 +99,7 @@ const survey = props => {
     console.log('Owned Render')
     if (owned === true) {
       return (
-        <div className={classes.owned}>
+        <div className={classes.owned}> 
           <Typography variant='body1'>
             This survey belongs to you. You can see the results
                 <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
@@ -125,7 +115,7 @@ const survey = props => {
   const NoSurvey = () => {
     return (
       <>
-        <div className={classes.content}>
+        <div>
           <Typography variant='h5'>
             There is nothing here! :(
           </Typography>
