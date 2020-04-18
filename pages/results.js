@@ -12,12 +12,16 @@ import { db, fbAuth } from '../config/firebase'
 import Layout from '../components/layout/Layout'
 import SubHeader from '../components/results/SubHeader'
 import Keywords from '../components/results/Keywords'
+import Phrases from '../components/results/Phrases'
+import Summary from '../components/results/Summary'
+import PermissionDeniedPre from '../components/results/PermissionDeniedPre'
+import PermissionDeniedPost from '../components/results/PermissionDeniedPost'
 
 const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
-  container: {
-
+  root: {
+    padding: theme.spacing(1)
   },
   
   keywords: {
@@ -225,63 +229,8 @@ const Results = (props) => {
     )
   }
 
-  // const SubHeaderPane = () => {
-  //   return (
-  //     <div className={classes.subHeader}>
-  //       <Typography variant='h4'>
-  //         Results for:
-  //       </Typography>
-  //       <Typography variant='h5'>
-  //         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-  //           {scenarioText}
-  //         </Link>
-  //       </Typography>
-  //     </div>
-  //   )
-  // }
-
-  const KeywordsPane = () => {
-    return (
-      <div className={classes.keywords}>
-        <Typography variant='h4'>
-          Keywords
-       </Typography>
-        {rowsKeywords()}
-      </div>
-    )
-  }
-
-  const PhrasesPane = () => {
-    return (
-      <div className={classes.phrases}>
-        <Typography variant='h4'>
-          Phrases
-      </Typography>
-        {rowsPhrases()}
-      </div>
-    )
-  }
-
-  const ExtraPane = () => {
-    return (
-      <div className={classes.extra}>
-        <Typography variant='h4'>
-          number of words: {wordCount}
-        </Typography>
-      </div>
-    )
-  }
-
-  const DeleteButton = () => {
-    return (
-      <Button onClick={handleDeleteClick}>
-        Delete
-      </Button>
-    )
-  }
-
   const pageContent = (
-    <>
+    <div className={classes.root}>
       <Grid container 
         className={classes.container} 
         direction='column'
@@ -294,34 +243,27 @@ const Results = (props) => {
          <Keywords rowsKeywords={rowsKeywords} />
         </Grid>
         <Grid item>
-          <PhrasesPane />
+          <Phrases rowsPhrases={rowsPhrases} />
         </Grid>
         <Grid item>
-          <ExtraPane />
-        </Grid>
-        <Grid item>
-        <DeleteButton />
+          <Summary wordCount={wordCount} handleDeleteClick={handleDeleteClick} />
         </Grid>
         <Grid item>
         <DeleteDialog />
         </Grid>
       </Grid>
-    </>
+    </div>
   )
-  const handleChange = event => {
-    setEmail(event.target.value)
-  }
 
-  const handleSignIn = event => {
-    event.preventDefault()
-    console.log(email)
+  const handleSignIn = text => {
+    console.log(text)
 
     const actionCodeSettings = {
       url: `${domain}/results?urlid=${props.urlId}`,
       handleCodeInApp: true,
     }
 
-    fbAuth.sendSignInLinkToEmail(email, actionCodeSettings)
+    fbAuth.sendSignInLinkToEmail(text, actionCodeSettings)
       .then(() => {
         console.log('link sent')
         window.localStorage.setItem('emailForSignIn', email)
@@ -332,51 +274,12 @@ const Results = (props) => {
       })
   }
 
-  //need to add flow for sign in 
-
-  const PermissionDeniedPre = () => {
-    return (
-      <>
-        <div className={classes.extra}>
-          <Typography variant='body1'>
-            Sorry, you don't have the correct permission. If this is your scenario, you can login below with your email address.
-        </Typography>
-        </div>
-        <div className={classes.emailForm}>
-          <form onSubmit={handleSignIn}>
-            <TextField
-              label='email'
-              value={email}
-              onChange={handleChange}
-              type='email'
-            />
-            <Button type='submit'>
-              Sign in!
-          </Button>
-          </form>
-        </div>
-      </>
-    )
-  }
-
-  const PermissionDeniedPost = () => {
-    return (
-      <>
-        <div className={classes.extra}>
-          <Typography variant='body1'>
-            Thank you, please check your email for a link to coninue signing in.
-          </Typography>
-        </div>
-      </>
-    )
-  }
-
   const permissionViewControl = () => {
     switch (badPermissionControl) {
       case 0:
-        return PermissionDeniedPre()
+        return <PermissionDeniedPre handleSignIn={handleSignIn} />
       case 1:
-        return PermissionDeniedPost()
+        return <PermissionDeniedPost />
     }
   }
 

@@ -20,8 +20,9 @@ import Success from '../components/create/Success'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     border: 'dashed',
+    borderColor: 'green',
   },
   extra: {
     backgroundColor: 'red',

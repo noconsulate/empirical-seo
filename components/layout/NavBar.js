@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
   navBar: {
     padding: theme.spacing(1),
-    backgroundColor: 'white',
+   // backgroundColor: 'white',
     border: 'dashed',
     borderColor: 'green',
   },

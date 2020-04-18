@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import { connect } from 'react-redux'
-import { Button } from '@material-ui/core'
+import { Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { fbAuth } from '../../config/firebase'
 
@@ -31,24 +31,27 @@ const Footer = props => {
   }
 
   return (
-    <Toolbar className={classes.toolbar}>
-      <Link href='/help' className={classes.navButton}>
-        help
+    <>
+      <Divider />
+      <Toolbar className={classes.toolbar}>
+        <Link href='/help' className={classes.navButton}>
+          help
         </Link>
-      <Link href='/about' className={classes.navButton}>
-        about
+        <Link href='/about' className={classes.navButton}>
+          about
         </Link>
-      <Link href='privacy' className={classes.navButton}>
-        privacy
+        <Link href='privacy' className={classes.navButton}>
+          privacy
         </Link>
-      {
-        isUser ?
-        <Button onClick={fbSignOut}>
-          Logout
+        {
+          isUser ?
+            <Button onClick={fbSignOut}>
+              Logout
         </Button> :
-          null
-      }
-    </Toolbar>
+            null
+        }
+      </Toolbar>
+    </>
   )
 }
 

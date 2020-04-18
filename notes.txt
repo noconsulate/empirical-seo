@@ -2,33 +2,16 @@
 
 Loading animations (npm skelton?)
 
-Error handling, especially for query params
-  (Handle pages with params missing/invalid)
-  (Handle pages that break rules, EG results for private scenario)
-
-change NextJS Link to ../src/Link ?
-
-hide firebase config
-
-
-record full string and individual keywords. so just add a 'complete string' field to database and retrieve that in results
-
-put more stuff in InfoBar, out of content pane
-
 click 'create' in navbar should reset create form?
-
-draft survey should not be interactive?
-
 
 profile button confused between signin process and already signed in? the problem may not exist in production
 
 in /survey option to submit again?
 
-forward to /profile rather than '/' after delete, which means I need to:
-
-**USE FUXORING REDUX DAMNIT YOU LAZY TARDBREATHBARRRGGGG **
+forward to /profile rather than '/' after delete
 
 sort keywords in /results 
 put anchor in /results to phrases in case of really long results
 
-refresh in profile, no list. (redux will probably fix this)
+finish results.js signin flow. can either go to profile or preferably to original results page
+
