@@ -3,17 +3,23 @@ import { connect } from  'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography, TextField, Button,
-  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid
 } from '@material-ui/core'
 import Link from '../src/Link'
 import Router from 'next/router'
 import { db, fbAuth } from '../config/firebase'
 
 import Layout from '../components/layout/Layout'
+import SubHeader from '../components/results/SubHeader'
+import Keywords from '../components/results/Keywords'
 
 const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
+  container: {
+
+  },
+  
   keywords: {
     backgroundColor: 'green',
   },
@@ -33,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 const Results = (props) => {
   const classes = useStyles()
-console.log(props)
+  console.log(props)
   const urlId = props.query.urlid
   const { userUid } = props.user
 
@@ -78,7 +84,12 @@ console.log(props)
       // check permission
       const scenDoc = await db.collection('scenarios').doc(scenarioUidVar).get()
       console.log('scenario owner', scenDoc.data().owner)
-      console.log('userId', userUid)
+      console.log('userId', userUid, 'userUid directly from state', props.userUid)
+
+      //if auth listener hasn't finished
+      if (userUid === 'init Uid') return null
+
+
       if (scenDoc.data().private == true &&
         (scenDoc.data().owner != userUid)
       ) {
@@ -126,7 +137,7 @@ console.log(props)
     }
 
     fetchScenario()
-  }, [])
+  }, [props.user])
 
   const handleDeleteClick = event => {
     event.preventDefault()
@@ -214,20 +225,20 @@ console.log(props)
     )
   }
 
-  const SubHeaderPane = () => {
-    return (
-      <div className={classes.subHeader}>
-        <Typography variant='h4'>
-          Results for:
-        </Typography>
-        <Typography variant='h5'>
-          <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
-            {scenarioText}
-          </Link>
-        </Typography>
-      </div>
-    )
-  }
+  // const SubHeaderPane = () => {
+  //   return (
+  //     <div className={classes.subHeader}>
+  //       <Typography variant='h4'>
+  //         Results for:
+  //       </Typography>
+  //       <Typography variant='h5'>
+  //         <Link href={{ pathname: '/survey', query: { urlid: urlId } }}>
+  //           {scenarioText}
+  //         </Link>
+  //       </Typography>
+  //     </div>
+  //   )
+  // }
 
   const KeywordsPane = () => {
     return (
@@ -270,14 +281,32 @@ console.log(props)
   }
 
   const pageContent = (
-    <div>
-      <SubHeaderPane />
-      <KeywordsPane />
-      <PhrasesPane />
-      <ExtraPane />
-      <DeleteButton />
-      <DeleteDialog />
-    </div>
+    <>
+      <Grid container 
+        className={classes.container} 
+        direction='column'
+        spacing={1}
+      >
+        <Grid item>
+         <SubHeader urlId={urlId} scenarioText={scenarioText} />
+        </Grid>
+        <Grid item>
+         <Keywords rowsKeywords={rowsKeywords} />
+        </Grid>
+        <Grid item>
+          <PhrasesPane />
+        </Grid>
+        <Grid item>
+          <ExtraPane />
+        </Grid>
+        <Grid item>
+        <DeleteButton />
+        </Grid>
+        <Grid item>
+        <DeleteDialog />
+        </Grid>
+      </Grid>
+    </>
   )
   const handleChange = event => {
     setEmail(event.target.value)
