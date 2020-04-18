@@ -28,7 +28,6 @@ const portal = props => {
   const urlId = props.query.urlid
   //portal mode for signin flow
   const mode = props.query.portalMode
-  console.log(mode)
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
   let userResult
@@ -38,13 +37,11 @@ const portal = props => {
   const processScenarios = async urls => {
     console.log('processUrls', urls)
     await urls.forEach(item => {
-      console.log(item)
       const query = db.collection('scenarios').where('urlId', '==', item)
       query.get()
         .then(snapshot => {
           snapshot.forEach(doc => {
             const scenario = doc.data().scenario
-            console.log(scenario)
             setScenarios(prevArray => [
               ...prevArray,
               {
