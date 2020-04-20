@@ -15,7 +15,7 @@ const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
     border: 'dashed'
   },
 }))

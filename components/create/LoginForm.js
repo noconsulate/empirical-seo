@@ -79,7 +79,7 @@ export default function (props) {
                     valiue='primary'
                   />
                 }
-                label='AUSTIN COME UP WITH SOMETHING HERE for OPT IN language'
+                label='MAYBE JUST OPT-IN ALL USERS AND PROVIDE LINK TO SMALL PRINT??'
               />
             </FormGroup>
             <Button type='submit'>

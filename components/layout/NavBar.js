@@ -39,7 +39,7 @@ const NavBar = props => {
       return (
         <>
             <Link href='/profile' color='textPrimary' className={classes.navButton}>
-              profile
+              login
             </Link>
         </>
       )
