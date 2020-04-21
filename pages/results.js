@@ -22,22 +22,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1)
   },
-  
-  keywords: {
-    backgroundColor: 'green',
-  },
-  phrases: {
-    backgroundColor: 'red',
-  },
-  extra: {
-    backgroundColor: 'yellow',
-  },
-  subHeader: {
-    backgroundColor: 'grey'
-  },
-  emailForm: {
-    backgroundColor: 'green',
-  },
 }))
 
 const Results = (props) => {
@@ -65,23 +49,25 @@ const Results = (props) => {
         const scenarioQuery = db.collection('scenarios').where('urlId', '==', urlId)
         scenarioVar = await scenarioQuery.get()
         console.log('scenario uid', scenarioVar)
+        scenarioVar.forEach(doc => {
+          scenarioUidVar = doc.id
+          console.log('scenario uid', scenarioUidVar)
+          const textVar = doc.data().scenario
+          console.log(textVar)
+          setScenarioText(textVar)
+          setScenarioUid(scenarioUidVar)
+        })
       } catch (error) {
         console.log('scenario query error', error)
       }
 
-      scenarioVar.forEach(doc => {
-        scenarioUidVar = doc.id
-        console.log('scenario uid', scenarioUidVar)
-        const textVar = doc.data().scenario
-        console.log(textVar)
-        setScenarioText(textVar)
-        setScenarioUid(scenarioUidVar)
-      })
+     
 
       // incorrect urlId
       if (!scenarioUidVar) {
         setBadUrl(true)
         console.log('bad url')
+        return
       }
 
       // check permission
@@ -89,6 +75,12 @@ const Results = (props) => {
       console.log('scenario owner', scenDoc.data().owner)
       console.log('userId', userUid, 'userUid directly from state', props.userUid)
 
+      try {
+        const scenDoc = await db.collection('scenarios').doc(scenarioUidVar).get()
+      } catch (err) {
+        console.log('scenario fetch error', err.message)
+      }
+      
       //if auth listener hasn't finished
       if (userUid === 'init Uid') return null
 
@@ -291,7 +283,7 @@ const Results = (props) => {
   }
 
   const badUrlRender = (
-    <div className={classes.extra}>
+    <div className={classes.root}>
       <Typography variant='body1'>
         Sorry, there's something wrong with your url. If you typed in manually, please check it again, especially the part after the "?" mark!
       </Typography>

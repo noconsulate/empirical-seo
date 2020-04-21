@@ -6,12 +6,12 @@ import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
   navButton: {
-    marginRight: 15,
+    marginLeft: theme.spacing(1),
     border: 'dashed',
     borderColor: 'blue',
   },
   navBar: {
-    padding: theme.spacing(1),
+   // padding: theme.spacing(1),
    // backgroundColor: 'white',
     border: 'dashed',
     borderColor: 'green',
