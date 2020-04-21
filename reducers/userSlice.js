@@ -1,3 +1,5 @@
+import Router from 'next/router'
+
 import { createSlice } from '@reduxjs/toolkit'
 import { fbAuth } from '../config/firebase'
 
@@ -22,6 +24,7 @@ const userSlice = createSlice({
     removeUser() {
       fbAuth.signOut()
         .catch(res => console.log('signout error', res))
+      Router.push('/')
       return initialState
     },
   }
