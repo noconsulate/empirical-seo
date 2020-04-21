@@ -162,7 +162,7 @@ const Results = (props) => {
           .catch(error => console.log(error))
       })
       .catch(error => console.log(error))
-      Router.push('/')
+      Router.push('/profile')
   }
 
 

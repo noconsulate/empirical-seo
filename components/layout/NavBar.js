@@ -51,9 +51,14 @@ const NavBar = props => {
 
     <AppBar position='static'>
       <Toolbar className={classes.navBar} disableGutters >
-        <Link href='/create' color='textPrimary' className={classes.navButton}>
-          create
-          </Link>
+      <Link 
+        href='/create' 
+        color='textPrimary' 
+        className={classes.navButton}
+        onClick={() => props.setPageControl(0)}
+      >
+        create
+      </Link>
         <LoginUi />
       </Toolbar>
     </AppBar>
@@ -67,4 +72,4 @@ const mapState = state => ({
 
 const mapDispatch = {setPageControl}
 
-export default connect(mapState, null)(NavBar)
+export default connect(mapState, mapDispatch)(NavBar)
