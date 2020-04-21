@@ -95,7 +95,7 @@ const Create = props => {
       scenario: scenarioText,
       urlId: urlIdGen,
       private: false,
-      owner: userUid,
+      owner: 'no owner',
     })
       .then(docRef => {
         console.log('scenario written to: ', docRef.id, 'with url id:', urlIdGen, 'as', scenarioText)
@@ -125,7 +125,7 @@ const Create = props => {
         setScenarioUid(docRef.id)
         setUrlId(urlIdGen)
         setPageControl(4)
-        setFormText('')
+     //   setFormText('')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
@@ -139,7 +139,7 @@ const Create = props => {
 
   const handleGoBack = event => {
     event.preventDefault()
-    setFormText(scenarioText)
+   // setFormText(scenarioText)
     setPageControl(pageControl - 1)
   }
 

@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Router from 'next/router'
 
 import { fbAuth, db, dbArrayUnion, } from '../config/firebase'
-import { setCreate } from '../reducers/flagsSlice'
+import { setCreateFlag } from '../reducers/flagsSlice'
 
 import Layout from '../components/layout/Layout'
 import ScenarioList from '../components/ScenarioList'
@@ -151,9 +151,7 @@ const portal = props => {
   if (mode == 'create' && loggedInViaCreate === false) {
     useEffect(() => {
       console.log('create mode')
-      // debugger
-      props.setCreate()
-      console.log(loggedInViaCreate)
+      console.log('create flag', loggedInViaCreate)
       if (loggedInViaCreate === true) {
         Router.push('/portal?portalMode=continue')
       }
@@ -203,8 +201,8 @@ const portal = props => {
         }, { merge: true })
           .then(res => console.log(res))
           .catch(err => console.log(err))
-        debug
-        setCreate()
+        setCreateFlag()
+        console.log('create flag', loggedInViaCreate)
       }
       // firebase authentication
 
@@ -286,7 +284,7 @@ const mapState = state => ({
   flags: state.flags,
 })
 
-const mapDispatch = { setCreate }
+const mapDispatch = { setCreateFlag }
 
 export default connect(mapState, mapDispatch)(portal)
 
