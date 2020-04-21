@@ -75,9 +75,9 @@ const Create = props => {
         console.log(error)
       })
     // set scenario to private, this should be done after sign in is complete so that it doens't get lost
-    db.collection('scenarios').doc(scenarioUid).update({
-      private: true,
-    })
+    // db.collection('scenarios').doc(scenarioUid).update({
+    //   private: true,
+    // })
   }
 
   const handleSubmit = text => {
@@ -102,7 +102,7 @@ const Create = props => {
         setScenarioUid(docRef.id)
         setUrlId(urlIdGen)
         setPageControl(2)
-        setFormText('')
+        //setFormText('')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
@@ -146,7 +146,7 @@ const Create = props => {
   const handleReset = event => {
     event.preventDefault()
     setPageControl(0)
-    setFormText('')
+   // setFormText('')
   }
 
   const viewControl = () => {

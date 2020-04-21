@@ -27,7 +27,7 @@ const SurveyList = (props) => {
         <div className={classes.root}>
           <Grid container direction='column'>
             <Grid item className={classes.item}>
-              <Typography variant='body1'>
+              <Typography variant='h4'>
                 Your scenarios
               </Typography>
               <Divider />
@@ -50,7 +50,13 @@ const SurveyList = (props) => {
         </div>
       )
     } else {
-      return <p>noscenarios</p>
+      return (
+        <div className={classes.root}>
+          <Typography variant='body1'>
+            It looks like you don't have any scenarios here!
+          </Typography>
+        </div>
+      )
     }
   }
   return (

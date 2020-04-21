@@ -36,23 +36,28 @@ const portal = props => {
 
   const processScenarios = async urls => {
     console.log('processUrls', urls)
-    await urls.forEach(item => {
-      const query = db.collection('scenarios').where('urlId', '==', item)
-      query.get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
-            const scenario = doc.data().scenario
-            setScenarios(prevArray => [
-              ...prevArray,
-              {
-                urlId: item,
-                scenario: scenario
-              }
-            ])
+    if (urls) {
+      await urls.forEach(item => {
+        const query = db.collection('scenarios').where('urlId', '==', item)
+        query.get()
+          .then(snapshot => {
+  
+            snapshot.forEach(doc => {
+              const scenario = doc.data().scenario
+              console.log(scenario)
+              setScenarios(prevArray => [
+                ...prevArray,
+                {
+                  urlId: item,
+                  scenario: scenario
+                }
+              ])
+            })
+  
           })
-        })
-        .catch(error => console.log(error))
-    })
+          .catch(error => console.log(error))
+      })
+    } 
   }
 
   // for signin (from /profile)
@@ -118,7 +123,7 @@ const portal = props => {
   }
 
   // from profile if user
-  if (mode == 'continue') {
+  if (mode == 'continue' || loggedInViaCreate === true) {
     useEffect(() => {
       console.log('continue mode')
       const dbUpdate = () => {
@@ -128,26 +133,25 @@ const portal = props => {
           console.log('user found')
           urlsGet = doc.data().urlIds
           processScenarios(urlsGet)
-          //  setScenarios(urlsGet)
+          setScenarios(urlsGet)
         })
           .catch(error => { console.log('users db error') })
       }
       // get user from fbAuth and db
-      if (isUser) {
+      if (props.user.isUser) {
         console.log('user logged in', userEmail)
         dbUpdate()
       } else {
-        console.log('problem with user state', isUser)
+        console.log('problem with user state, isUser:', isUser, 'props.user.isUser', props.user.isUser)
       }
       //   
-    }, [])
+    }, [props.user.isUser])
   }
   // from create
-  if (mode == 'create') {
+  if (mode == 'create' && loggedInViaCreate === false) {
     useEffect(() => {
       console.log('create mode')
-      props.test2()
-     // debugger
+      // debugger
       props.setCreate()
       console.log(loggedInViaCreate)
       if (loggedInViaCreate === true) {
@@ -194,8 +198,11 @@ const portal = props => {
             console.log('users db error', error)
           })
         db.collection('scenarios').doc(scenarioUid).set({
-          owner: userUid,
+          owner: userResult.uid,
+          private: true,
         }, { merge: true })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
         debug
         setCreate()
       }
@@ -222,6 +229,7 @@ const portal = props => {
               })
               .catch(error => {
                 console.log('signin with email error', error)
+                // ** DISPLAY AN ERROR **
               })
           }
         }
@@ -237,7 +245,7 @@ const portal = props => {
           Authentication error!
     </Typography>
         <Typography variant='body1'>
-          Something went wrong with the authentication process. Please try again. Please make sure you're logging in with the link we most recently sent you. 
+          Something went wrong with the authentication process. Please try again. Please make sure you're logging in with the link we most recently sent you.
     </Typography>
       </div>
     )
