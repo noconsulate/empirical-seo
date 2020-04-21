@@ -1,16 +1,10 @@
 import React, { useState, useEffect, } from 'react'
-import Link from '../src/Link'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Typography, Button, Grid, FormControl, TextField, Checkbox,
-  FormGroup, FormControlLabel
-} from '@material-ui/core'
 import shortid from 'shortid'
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
 
 import Layout from '../components/layout/Layout'
-import Survey from '../components/survey/SurveyForm'
 
 import ScenarioForm from '../components/create/ScenarioForm'
 import Draft from '../components/create/Draft'
@@ -45,10 +39,10 @@ const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')
   const [pageControl, setPageControl] = useState(0)
-  const [formText, setFormText] = useState('')
+ // const [formText, setFormText] = useState('')
   const [scenarioText, setScenarioText] = useState('')
 
-  const { userEmail, userUid, isUser, fbSignOut } = props.user
+  const {userUid} = props.user
 
   const classes = useStyles()
 
@@ -57,7 +51,6 @@ const Create = props => {
   useEffect(() => {
     // reset state for when user clicks on create button**DOESNOTWORK**
     setPageControl(0)
-    setFormText('')
     forceUpdate()
   }, [])
 
@@ -85,18 +78,6 @@ const Create = props => {
     db.collection('scenarios').doc(scenarioUid).update({
       private: true,
     })
-  }
-
-  const handleContinue = () => {
-    db.collection('scenarios').doc(scenarioUid).update({
-      private: true,
-    })
-      .catch(error => console.log(error))
-    db.collection('users').doc(userUid).update({
-      urlIds: dbArrayUnion(urlId)
-    })
-      .catch(error => console.log(error))
-    setPageControl(4)
   }
 
   const handleSubmit = text => {
@@ -145,8 +126,6 @@ const Create = props => {
         setUrlId(urlIdGen)
         setPageControl(4)
         setFormText('')
-      //  setScenarioText(formText)
-       // setFormText('noconsulate@gmail.com')
       })
       .catch(error => {
         console.error('error adding document: ', error.message)
