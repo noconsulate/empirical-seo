@@ -13,9 +13,11 @@ import ThankYou from '../components/survey/ThankYou'
 const useStyles = makeStyles(theme => ({
   root: {
     border: 'dashed',
+    padding: theme.spacing(1)
   },
   owned: {
-    border: 'dashed'
+    border: 'dashed',
+    margin: theme.spacing(2)
   }
 }))
 
