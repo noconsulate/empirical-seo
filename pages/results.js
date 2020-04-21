@@ -5,7 +5,6 @@ import {
   ListItem, List, ListItemText, Typography, TextField, Button,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid
 } from '@material-ui/core'
-import Link from '../src/Link'
 import Router from 'next/router'
 import { db, fbAuth } from '../config/firebase'
 
@@ -166,7 +165,7 @@ const Results = (props) => {
         console.log(newUrlIds)
         db.collection('users').doc(userUid).set({
           urlIds: newUrlIds,
-          test: 'okay boomer'
+      //    test: 'okay boomer'
         }, { merge: true })
           .catch(error => console.log(error))
       })
@@ -266,7 +265,7 @@ const Results = (props) => {
     fbAuth.sendSignInLinkToEmail(text, actionCodeSettings)
       .then(() => {
         console.log('link sent')
-        window.localStorage.setItem('emailForSignIn', email)
+        window.localStorage.setItem('emailForSignIn', text)
         setBadPermissionControl(1)
       })
       .catch(error => {
