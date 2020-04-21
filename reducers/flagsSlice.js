@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  loggedInViaCreate: false
+  loggedInViaCreate: false,
+  pageControl: 0,
 }
 
 const flagsSlice = createSlice({
@@ -14,10 +15,15 @@ const flagsSlice = createSlice({
         loggedInViaCreate: true
       }
     },
+    setPageControl(state, action) {
+      console.log('setPageControl action', action.payload)
+      const {pageControl} = action.payload
+      state.pageControl = pageControl
+    },
   }
 })
 
-export const { setCreateFlag, test2 } = flagsSlice.actions
+export const { setCreateFlag, setPageControl } = flagsSlice.actions
 export default flagsSlice.reducer
 
 //just some noise here

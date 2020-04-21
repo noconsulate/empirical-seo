@@ -2,10 +2,11 @@ import React, { useState, useEffect, } from 'react'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import shortid from 'shortid'
+
 import { db, fbAuth, dbArrayUnion } from '../config/firebase'
+import {setPageControl} from '../reducers/flagsSlice'
 
 import Layout from '../components/layout/Layout'
-
 import ScenarioForm from '../components/create/ScenarioForm'
 import Draft from '../components/create/Draft'
 import LoginForm from '../components/create/LoginForm'
@@ -84,6 +85,7 @@ const Create = props => {
     event.preventDefault()
     setScenarioText(text)
     setPageControl(1)
+    props.setPageControl(1)
   }
 
   const handlePublish = () => {
@@ -150,7 +152,7 @@ const Create = props => {
   }
 
   const viewControl = () => {
-    switch (pageControl) {
+    switch (props.pageControl) {
       case 0:
         return <ScenarioForm handleSubmit={handleSubmit} 
                 initialText={scenarioText} 
@@ -193,7 +195,10 @@ const Create = props => {
 }
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  pageControl: state.flags.pageControl
 })
 
-export default connect(mapState, null)(Create)
+const mapDispatch = { setPageControl }
+
+export default connect(mapState, mapDispatch)(Create)
