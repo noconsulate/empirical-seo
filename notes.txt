@@ -16,5 +16,3 @@ put anchor in /results to phrases in case of really long results
 finish results.js signin flow. can either go to profile or preferably to original results page
 
 Bookmarkable /create after submission to allow user to return here to make scenario private.
-
-contact/feedback submission

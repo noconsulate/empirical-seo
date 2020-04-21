@@ -246,6 +246,8 @@ const Results = (props) => {
     </div>
   )
 
+  // to allow signin flow directly on this page, to do later
+
   const handleSignIn = text => {
     console.log(text)
 
