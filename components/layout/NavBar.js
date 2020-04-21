@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Grid, AppBar, Toolbar, Button } from '@material-ui/core'
 import Link from '../../src/Link'
 
+import {setPageControl} from '../../reducers/flagsSlice'
+
 const useStyles = makeStyles(theme => ({
   navButton: {
     marginLeft: theme.spacing(1),
@@ -62,5 +64,7 @@ const NavBar = props => {
 const mapState = state => ({
   user: state.user
 })
+
+const mapDispatch = {setPageControl}
 
 export default connect(mapState, null)(NavBar)

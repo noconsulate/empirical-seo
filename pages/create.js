@@ -39,11 +39,13 @@ const domain = process.env.DOMAIN
 const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')
-  const [pageControl, setPageControl] = useState(0)
+ // const [pageControl, setPageControl] = useState(0)
  // const [formText, setFormText] = useState('')
   const [scenarioText, setScenarioText] = useState('')
 
   const {userUid} = props.user
+  const pageControl = props.pageControl
+  const setPageControl = props.setPageControl
 
   const classes = useStyles()
 
@@ -85,7 +87,6 @@ const Create = props => {
     event.preventDefault()
     setScenarioText(text)
     setPageControl(1)
-    props.setPageControl(1)
   }
 
   const handlePublish = () => {

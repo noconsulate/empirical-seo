@@ -17,13 +17,10 @@ const flagsSlice = createSlice({
     },
     setPageControl(state, action) {
       console.log('setPageControl action', action.payload)
-      const {pageControl} = action.payload
-      state.pageControl = pageControl
+      state.pageControl = action.payload
     },
   }
 })
 
 export const { setCreateFlag, setPageControl } = flagsSlice.actions
 export default flagsSlice.reducer
-
-//just some noise here

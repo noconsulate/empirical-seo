@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 import Link from '../../src/Link'
+
+import {setPageControl} from '../../reducers/flagsSlice'
 
 const useStyles = makeStyles(theme => ({
   
 }))
 
-export default function (props) {
+const mapDispatch = {setPageControl}
+
+export default connect(null, mapDispatch)(function (props) {
   const classes = useStyles()
 
   const domain = process.env.DOMAIN
@@ -31,7 +36,7 @@ export default function (props) {
   }
 
   const handleGoBack = () => {
-    console.log('time for some more redux action!')
+    props.setPageControl(0)
   }
 
   return (
@@ -95,4 +100,4 @@ export default function (props) {
       </Grid>
     </>
   )
-}
+})
