@@ -1,4 +1,4 @@
-import { Typography, Button, Grid } from '@material-ui/core'
+import { Typography, Button, Grid, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Link from '../../src/Link'
@@ -16,26 +16,30 @@ export default function (props) {
   console.log(privateResults)
   return (
     <>
-      <Grid container>
+      <Grid container direction='column' spacing={1}>
         <Grid item>
           <Typography variant='body1'>
             Thank you for your submission.
           </Typography>
+          <Divider />
         </Grid>
-        <Grid item>
-          {
-            privateResults == false ?
-              <div>
-                <Typography variant='body1'>
-                  You can see the results of the survey here:
-            </Typography>
+        {
+          privateResults === false ? (
+            <Grid item>
+              <Typography variant='body1'>
+                You can see the results of the survey here:
+                <br />
                 <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
-                  {`${domain}/results?urlid=${urlId}`}
-                </Link>
-              </div> :
-              null
-          }
-        </Grid>
+                {`${domain}/results?urlid=${urlId}`}
+              </Link>
+              </Typography>
+              
+              <Divider />
+            </Grid>
+          ) : (
+            null
+          )
+        }
         <Grid item>
           <Button onClick={handleReset}>
             Return to survey

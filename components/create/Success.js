@@ -7,10 +7,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     border: 'solid'
   },
-  item: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
   button: {
     marginTop: theme.spacing(1)
   }
@@ -25,13 +21,13 @@ export default function (props) {
 
   return (
     <>
-      <Grid container>
-        <Grid>
+      <Grid container direction='column' spacing={1}>
+        <Grid item>
           <Typography variant='h4'>
             Thank you!
           </Typography>
         </Grid>
-        <Grid>
+        <Grid item>
          <Typography variant='body1' className={classes.item}>
            Here is a link to the survey you just created. Be sure to bookmark it for later! You can see all of your surveys and their results anytime by clicking on your email address in the nav bar or logging in. Anytime you visit one of your surveys when you're logged in you'll see a link to the results for that survey.
          </Typography>
@@ -44,7 +40,7 @@ export default function (props) {
           </Link>
         </Grid>
         <Grid item>
-          <Button onClick={handleReset} className={classes.button}>
+          <Button onClick={handleReset}>
             Create a new scenario
           </Button>
         </Grid>

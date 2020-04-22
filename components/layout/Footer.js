@@ -5,6 +5,7 @@ import { Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { removeUser } from '../../reducers/userSlice'
+import { setPageControl } from '../../reducers/flagsSlice'
 
 import { Toolbar } from '@material-ui/core'
 import Link from '../../src/Link'
@@ -26,6 +27,7 @@ const Footer = props => {
 
   const fbSignOut = () => {
     props.removeUser()
+    props.setPageControl(0)
     Router.push('/create')
   }
 
@@ -58,5 +60,5 @@ const mapState = state => ({
   user: state.user
 })
 
-const mapDispatch = { removeUser }
+const mapDispatch = { removeUser, setPageControl }
 export default connect(mapState, mapDispatch)(Footer)

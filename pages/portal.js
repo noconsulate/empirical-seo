@@ -157,9 +157,6 @@ const portal = props => {
       }
       // auth/db operations for create mode
       const dbUpdate = () => {
-        if (loggedInViaCreate === true) {
-
-        }
         console.log('userUid, userEmail in dbUpdate()', userUid, userEmail)
         let docRef = db.collection('users').doc(userResult.uid)
         docRef.get()
@@ -201,7 +198,7 @@ const portal = props => {
         }, { merge: true })
           .then(res => console.log(res))
           .catch(err => console.log(err))
-        setCreateFlag()
+        props.setCreateFlag()
         console.log('create flag', loggedInViaCreate)
       }
       // firebase authentication

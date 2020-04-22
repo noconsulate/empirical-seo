@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Link from '../src/Link'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, TextField, Grid, Button } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 import { db } from '../config/firebase'
 
@@ -26,7 +27,7 @@ const domain = process.env.DOMAIN
 const survey = props => {
 
   const [scenarioUid, setScenarioUid] = useState('')
-  const [scenarioText, setScenarioText] = useState('')
+  const [scenarioText, setScenarioText] = useState(null)
   const [formText, setFormText] = useState('')
   const [pageControl, setPageControl] = useState(0)
   const [privateResults, setPrivateResults] = useState(false)
