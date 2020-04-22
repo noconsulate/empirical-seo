@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   owned: {
     border: 'dashed',
-    margin: theme.spacing(2)
+    paddingBottom: theme.spacing(1)
   }
 }))
 

@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
   item: {
     border: 'dashed',
     bordercolor: 'orange',
+  },
+  listItem: {
+    padding: 0,
+    marginLeft: theme.spacing(1)
   }
 }))
 
@@ -21,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 const SurveyList = (props) => {
   const classes = useStyles()
   const scenarios = props.scenarios
-  console.log(scenarios, props.scenarios)
+  console.log(scenarios)
 
   const resultsRows = () => {
     if (scenarios) {
@@ -37,9 +41,9 @@ const SurveyList = (props) => {
             <Grid item className={classes.item}>
               <List>
                 {scenarios.map(item => (
-                  <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }} key={item.urlId} passRef>
-                    <ListItem button>
-                      <ListItemText primary={item.scenario} component='a' />
+                  <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }} key={item.urlId} >
+                    <ListItem button className={classes.listItem}>
+                      <ListItemText dense primary={item.scenario} component='a' />
                     </ListItem>
                   </Link>
                 ))}
