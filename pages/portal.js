@@ -31,8 +31,12 @@ const portal = props => {
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
   let userResult
-  const [scenarios, setScenarios] = useState([])
+  const [scenarios, setScenarios] = useState(null)
   const [userError, setUserError] = useState(false)
+
+  const processScenariosNew = urls => {
+
+  }
 
   const processScenarios = async urls => {
     console.log('processUrls', urls)

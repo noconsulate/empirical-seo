@@ -48,8 +48,8 @@ const Footer = props => {
           isUser ?
             <Button onClick={fbSignOut}>
               Logout
-        </Button> :
-            null
+            </Button> :
+              null
         }
       </Toolbar>
     </>

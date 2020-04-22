@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 const SurveyList = (props) => {
   const classes = useStyles()
   const scenarios = props.scenarios
+  console.log(scenarios, props.scenarios)
 
   const resultsRows = () => {
     if (scenarios) {
