@@ -2,17 +2,11 @@
 
 Loading animations (npm skelton?)
 
-click 'create' in navbar should reset create form?
 
 profile button confused between signin process and already signed in? the problem may not exist in production
 
-in /survey option to submit again?
-
-forward to /profile rather than '/' after delete
 
 sort keywords in /results 
 put anchor in /results to phrases in case of really long results
 
 finish results.js signin flow. can either go to profile or preferably to original results page
-
-Bookmarkable /create after submission to allow user to return here to make scenario private.

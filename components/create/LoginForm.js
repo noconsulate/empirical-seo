@@ -1,16 +1,16 @@
 import { useState } from 'react'
-import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button} from '@material-ui/core'
+import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import Link from '../../src/Link'
 
-import {setPageControl} from '../../reducers/flagsSlice'
+import { setPageControl } from '../../reducers/flagsSlice'
 
 const useStyles = makeStyles(theme => ({
-  
+
 }))
 
-const mapDispatch = {setPageControl}
+const mapDispatch = { setPageControl }
 
 export default connect(null, mapDispatch)(function (props) {
   const classes = useStyles()
@@ -87,16 +87,22 @@ export default connect(null, mapDispatch)(function (props) {
                 label='MAYBE JUST OPT-IN ALL USERS AND PROVIDE LINK TO SMALL PRINT??'
               />
             </FormGroup>
-            <Button type='submit'>
-              Sign in!
-            </Button>
+            <Grid container>
+              <Grid item>
+                <Button type='submit'>
+                  Sign in!
+                </Button>
+              </Grid>
+              <Grid item>
+              <Button onClick={handleGoBack}>
+                Go Back
+              </Button>
+              </Grid>
+            </Grid>
+
           </form>
         </Grid>
-        <Grid item>
-        <Button onClick={handleGoBack}>
-          Go Back
-        </Button>
-        </Grid>
+       
       </Grid>
     </>
   )

@@ -22,7 +22,7 @@ const Header = () => {
       <Grid container>
         <Grid item className={classes.logo}>
           <Typography variant='h4'>
-            Empirical SEO
+            Empirical Keywords
           </Typography>
         </Grid>
       </Grid>
