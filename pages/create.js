@@ -36,6 +36,8 @@ const useStyles = makeStyles(theme => ({
 
 const domain = process.env.DOMAIN
 
+console.log(process.env.NODE_ENV)
+
 const Create = props => {
   const [urlId, setUrlId] = useState('')
   const [scenarioUid, setScenarioUid] = useState('')

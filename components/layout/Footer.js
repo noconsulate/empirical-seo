@@ -3,7 +3,6 @@ import Router from 'next/router'
 import { connect } from 'react-redux'
 import { Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { fbAuth } from '../../config/firebase'
 
 import { removeUser } from '../../reducers/userSlice'
 

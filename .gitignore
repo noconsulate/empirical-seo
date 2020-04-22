@@ -20,3 +20,5 @@ yarn-error.log*
 .now
 .env
 .env.build
+
+fbconfigs.txt

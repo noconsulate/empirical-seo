@@ -1,8 +1,7 @@
-import { Typography, TextField, Grid, Button } from '@material-ui/core'
+import { Typography, Grid, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 
-import { fbAuth } from '../../config/firebase'
 import { removeUser } from '../../reducers/userSlice'
 
 import SurveyForm from '../survey/SurveyForm'

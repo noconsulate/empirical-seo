@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Typography, TextField, Button } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -13,16 +13,8 @@ export default function (props) {
   const classes = useStyles()
 
   const [formText, setFormText] = useState('')
-  const handleChange = event => {
-    setFormText(event.target.value)
-  }
 
   const {handleSignIn} = props
-
-  const handleSignInInternal = event => {
-    event.preventDefault()
-    handleSignIn(formText)
-  }
 
   return (
     <div className={classes.root}>

@@ -1,6 +1,5 @@
 {
   "env": {
-    "ENV_TEST": "@env-test",
     "API_KEY": "@api-key",
     "AUTH_DOMAIN": "@auth-domain",
     "DATABASE_URL": "@database-url",
@@ -9,16 +8,16 @@
     "MESSAGING_SENDER_ID": "@messaging-sender-id",
     "APP_ID": "@app-id"
   },
+
   "build": {
     "env": {
-      "ENV_TEST": "@env-test",
-      "API_KEY": "@api-key",
-      "AUTH_DOMAIN": "@auth-domain",
-      "DATABASE_URL": "@database-url",
-      "PROJECT_ID": "@project-id",
-      "STORAGE_BUCKET": "@storage-bucket",
-      "MESSAGING_SENDER_ID": "@messaging-sender-id",
-      "APP_ID": "@app-id"
+      "API_KEY": "@api-key-prod",
+      "AUTH_DOMAIN": "@auth-domain-prod",
+      "DATABASE_URL": "@database-url-prod",
+      "PROJECT_ID": "@project-id-prod",
+      "STORAGE_BUCKET": "@storage-bucket-prod",
+      "MESSAGING_SENDER_ID": "@messaging-sender-id-prod",
+      "APP_ID": "@app-id-prod"
     }
   }
 }
