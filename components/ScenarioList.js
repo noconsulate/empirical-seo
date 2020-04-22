@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     border: 'dashed',
     borderColor: 'grey',
+    padding: theme.spacing(1)
   },
   item: {
     border: 'dashed',

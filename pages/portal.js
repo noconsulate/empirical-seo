@@ -31,21 +31,18 @@ const portal = props => {
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
   let userResult
-  const [scenarios, setScenarios] = useState(null)
+  const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
-  const processScenariosNew = urls => {
 
-  }
 
-  const processScenarios = async urls => {
+  const processScenarios = urls => {
     console.log('processUrls', urls)
     if (urls) {
-      await urls.forEach(item => {
+      urls.forEach(item => {
         const query = db.collection('scenarios').where('urlId', '==', item)
         query.get()
           .then(snapshot => {
-  
             snapshot.forEach(doc => {
               const scenario = doc.data().scenario
               console.log(scenario)
@@ -62,6 +59,7 @@ const portal = props => {
           .catch(error => console.log(error))
       })
     } 
+    console.log(scenarios)
   }
 
   // for signin (from /profile)
@@ -137,7 +135,7 @@ const portal = props => {
           console.log('user found')
           urlsGet = doc.data().urlIds
           processScenarios(urlsGet)
-          setScenarios(urlsGet)
+          
         })
           .catch(error => { console.log('users db error') })
       }
