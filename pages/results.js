@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from  'react-redux'
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ListItem, List, ListItemText, Typography, TextField, Button,
@@ -20,7 +20,8 @@ const domain = process.env.DOMAIN
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    flexGrow: 1,
   },
 }))
 
@@ -61,7 +62,7 @@ const Results = (props) => {
         console.log('scenario query error', error)
       }
 
-     
+
 
       // incorrect urlId
       if (!scenarioUidVar) {
@@ -80,7 +81,7 @@ const Results = (props) => {
       } catch (err) {
         console.log('scenario fetch error', err.message)
       }
-      
+
       //if auth listener hasn't finished
       if (userUid === 'init Uid') return null
 
@@ -157,12 +158,12 @@ const Results = (props) => {
         console.log(newUrlIds)
         db.collection('users').doc(userUid).set({
           urlIds: newUrlIds,
-      //    test: 'okay boomer'
+          //    test: 'okay boomer'
         }, { merge: true })
           .catch(error => console.log(error))
       })
       .catch(error => console.log(error))
-      Router.push('/profile')
+    Router.push('/profile')
   }
 
 
@@ -222,25 +223,28 @@ const Results = (props) => {
 
   const pageContent = (
     <div className={classes.root}>
-      <Grid container 
-        className={classes.container} 
+      <Grid container
+        className={classes.container}
         direction='column'
         spacing={1}
       >
         <Grid item>
-         <SubHeader urlId={urlId} scenarioText={scenarioText} />
+          <SubHeader urlId={urlId} scenarioText={scenarioText} />
         </Grid>
-        <Grid item>
-         <Keywords rowsKeywords={rowsKeywords} />
+        <Grid container item xs={12}>
+          <Grid item xs={12} sm={6}>
+            <Keywords rowsKeywords={rowsKeywords} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Phrases rowsPhrases={rowsPhrases} />
+          </Grid>
         </Grid>
-        <Grid item>
-          <Phrases rowsPhrases={rowsPhrases} />
-        </Grid>
+
         <Grid item>
           <Summary wordCount={wordCount} handleDeleteClick={handleDeleteClick} />
         </Grid>
         <Grid item>
-        <DeleteDialog />
+          <DeleteDialog />
         </Grid>
       </Grid>
     </div>
