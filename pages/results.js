@@ -192,34 +192,7 @@ const Results = (props) => {
     )
   }
 
-  const rowsKeywords = () => {
-    let listKey = 0
-    return (
-      <List dense={true}>
-        {keywords.map(word =>
-          <ListItem key={listKey++}>
-            <ListItemText primary={`"${word.keyword}": ${word.count} times`} />
-          </ListItem>
-        )}
-      </List>
-    )
-  }
 
-  const rowsPhrases = () => {
-    let listKey = 0
-    return (
-
-      <div>
-        <List dense={true}>
-          {phrases.map(phrase =>
-            <ListItem key={listKey++}>
-              <ListItemText primary={phrase} />
-            </ListItem>
-          )}
-        </List>
-      </div>
-    )
-  }
 
   const pageContent = (
     <div className={classes.root}>
@@ -233,10 +206,10 @@ const Results = (props) => {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={12} sm={6}>
-            <Keywords rowsKeywords={rowsKeywords} />
+            <Keywords keywords={keywords} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Phrases rowsPhrases={rowsPhrases} />
+            <Phrases phrases={phrases} />
           </Grid>
         </Grid>
 
