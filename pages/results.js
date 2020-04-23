@@ -32,7 +32,7 @@ const Results = (props) => {
   const { userUid } = props.user
 
   const [scenarioUid, setScenarioUid] = useState('')
-  const [scenarioText, setScenarioText] = useState('')
+  const [scenarioText, setScenarioText] = useState(null)
   const [badUrl, setBadUrl] = useState(false)
   const [badPermission, setBadPermission] = useState(false)
   const [badPermissionControl, setBadPermissionControl] = useState(0)
@@ -252,24 +252,24 @@ const Results = (props) => {
 
   // to allow signin flow directly on this page, to do later
 
-  const handleSignIn = text => {
-    console.log(text)
+  // const handleSignIn = text => {
+  //   console.log(text)
 
-    const actionCodeSettings = {
-      url: `${domain}/results?urlid=${props.urlId}`,
-      handleCodeInApp: true,
-    }
+  //   const actionCodeSettings = {
+  //     url: `${domain}/results?urlid=${props.urlId}`,
+  //     handleCodeInApp: true,
+  //   }
 
-    fbAuth.sendSignInLinkToEmail(text, actionCodeSettings)
-      .then(() => {
-        console.log('link sent')
-        window.localStorage.setItem('emailForSignIn', text)
-        setBadPermissionControl(1)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  //   fbAuth.sendSignInLinkToEmail(text, actionCodeSettings)
+  //     .then(() => {
+  //       console.log('link sent')
+  //       window.localStorage.setItem('emailForSignIn', text)
+  //       setBadPermissionControl(1)
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
+  // }
 
   const permissionViewControl = () => {
     switch (badPermissionControl) {
