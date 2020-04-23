@@ -5,7 +5,7 @@ import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    border: 'dashed',
+  //  border: 'dashed',
     padding: theme.spacing(1)
   }
 }))

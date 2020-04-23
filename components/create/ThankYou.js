@@ -4,7 +4,7 @@ import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    border: 'solid'
+//    border: 'solid'
   }
 }))
 

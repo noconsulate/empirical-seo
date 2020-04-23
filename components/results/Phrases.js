@@ -4,7 +4,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    border: 'dashed',
+  //  border: 'dashed',
     padding: theme.spacing(1)
   }
 }))

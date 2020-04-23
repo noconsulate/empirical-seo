@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
-
+  
 }))
 
 export default function (props) {
@@ -18,7 +18,7 @@ export default function (props) {
     <>
       <Grid container direction='column' spacing={1}>
         <Grid item>
-          <Typography variant='body1'>
+          <Typography variant='body1' gutterBottom>
             Thank you for your submission.
           </Typography>
           <Divider />

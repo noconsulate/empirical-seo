@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   item: {
     padding: theme.spacing(0),
     borderColor: 'red',
-    border: 'dashed'
+   // border: 'dashed'
   }
 }))
 

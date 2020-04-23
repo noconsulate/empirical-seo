@@ -6,7 +6,7 @@ import Layout from '../components/layout/Layout'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
-    border: 'dashed',
+  //  border: 'dashed',
     borderColor: 'green'
   },
 }))

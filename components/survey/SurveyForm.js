@@ -5,10 +5,10 @@ import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(theme => ({
   form: {
-    border: 'solid',
+  //  border: 'solid',
   },
   content: {
-    border: 'solid',
+ //   border: 'solid',
   },
 }))
 

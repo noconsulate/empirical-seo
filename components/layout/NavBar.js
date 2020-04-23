@@ -9,13 +9,13 @@ import {setPageControl} from '../../reducers/flagsSlice'
 const useStyles = makeStyles(theme => ({
   navButton: {
     marginLeft: theme.spacing(1),
-    border: 'dashed',
+  //  border: 'dashed',
     borderColor: 'blue',
   },
   navBar: {
    // padding: theme.spacing(1),
    // backgroundColor: 'white',
-    border: 'dashed',
+  //  border: 'dashed',
     borderColor: 'green',
   },
   email: {

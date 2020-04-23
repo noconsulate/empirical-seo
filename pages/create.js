@@ -16,21 +16,11 @@ import Success from '../components/create/Success'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
-    border: 'dashed',
+   // border: 'dashed',
     borderColor: 'green',
   },
-  extra: {
-    backgroundColor: 'red',
-  },
-  form: {
-    backgroundColor: 'yellow',
-  },
-  description: {
-    backgroundColor: 'orange',
-    direction: 'comlumn'
-  },
   draft: {
-    border: 'solid'
+  //  border: 'solid'
   }
 }))
 

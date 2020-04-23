@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   description: {
-    border: 'solid',
+  //  border: 'solid',
   },
   form: {
-    border: 'solid',
+ //   border: 'solid',
   }
 }))
 

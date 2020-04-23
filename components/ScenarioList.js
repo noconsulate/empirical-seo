@@ -8,12 +8,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    border: 'dashed',
+   // border: 'dashed',
     borderColor: 'grey',
     padding: theme.spacing(1)
   },
   item: {
-    border: 'dashed',
+  //  border: 'dashed',
     bordercolor: 'orange',
   },
   listItem: {
@@ -56,7 +56,7 @@ const SurveyList = (props) => {
         <div className={classes.root}>
           <Grid container direction='column'>
             <Grid item className={classes.item}>
-              <Typography variant='h4'>
+              <Typography variant='h5'>
                 Your scenarios
               </Typography>
               <Divider />

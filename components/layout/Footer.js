@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     marginRight: 15,
   },
   toolbar: {
-    border: 'dash',
+  //  border: 'dash',
+  backgroundColor: 'orange',
   }
 })
 
