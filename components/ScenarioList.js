@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Typography, List, ListItem, ListItemText, Divider, Grid,
 } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -22,10 +23,32 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
+
 const SurveyList = (props) => {
   const classes = useStyles()
-  const scenarios = props.scenarios
+  const {scenarios, animationHeight} = props
   console.log(scenarios)
+  console.log(props)
+
+  const ScenarioSlab = () => {
+    if (scenarios.length === 0) {
+      return (
+        <Skeleton variant='rect' animation='wave' height={animationHeight} />
+      )
+    }
+  
+    return (
+      <List>
+        {scenarios.map(item => (
+          <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }} key={item.urlId} >
+            <ListItem button className={classes.listItem}>
+              <ListItemText primary={item.scenario} component='a' />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    )
+  }
 
   const resultsRows = () => {
     if (scenarios) {
@@ -39,15 +62,7 @@ const SurveyList = (props) => {
               <Divider />
             </Grid>
             <Grid item className={classes.item}>
-              <List>
-                {scenarios.map(item => (
-                  <Link href={{ pathname: '/survey', query: { urlid: item.urlId } }} key={item.urlId} >
-                    <ListItem button className={classes.listItem}>
-                      <ListItemText dense primary={item.scenario} component='a' />
-                    </ListItem>
-                  </Link>
-                ))}
-              </List>
+              {ScenarioSlab()}
             </Grid>
           </Grid>
 

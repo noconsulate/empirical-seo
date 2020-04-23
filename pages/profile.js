@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   Typography, Button, TextField, FormGroup, FormControlLabel, Checkbox
 } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/core/styles'
 import Router from 'next/router'
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const signin = props => {
   const classes = useStyles()
-  const { isUser, isAnon } = props.user
+  const { isUser, userUid } = props.user
   const [formText, setFormText] = useState('noconsulate@gmail.com')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
@@ -61,6 +62,13 @@ const signin = props => {
   }
 
   const SignInForm = () => {
+    if (userUid === 'init Uid' || isUser === true) {
+      return (
+        <>
+          <Skeleton variant='rect' animation='wave' height={200}/>
+        </>
+      )
+    }
 
     return (
       <>

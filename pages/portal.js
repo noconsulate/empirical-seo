@@ -31,13 +31,15 @@ const portal = props => {
   const scenarioUid = props.query.scenarioUid
   let uid = userUid
   let userResult
+  const [animationHeight, setAnimationHeight] = useState()
   const [scenarios, setScenarios] = useState([])
   const [userError, setUserError] = useState(false)
 
 
-
   const processScenarios = urls => {
     console.log('processUrls', urls)
+    setAnimationHeight(urls.length * 40)
+    console.log(animationHeight)
     if (urls) {
       urls.forEach(item => {
         const query = db.collection('scenarios').where('urlId', '==', item)
@@ -253,7 +255,9 @@ const portal = props => {
       case true:
         return userErrorPane()
       case false:
-        return <ScenarioList scenarios={scenarios} />
+        return <ScenarioList 
+                scenarios={scenarios} animationHeight={animationHeight}
+               />
     }
   }
 
