@@ -4,17 +4,20 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   description: {
-  //  border: 'solid',
+    //  border: 'solid',
   },
   form: {
- //   border: 'solid',
+    //   border: 'solid',
+  },
+  TextField: {
+    paddingBottom: theme.spacing(1)
   }
 }))
 
 export default function (props) {
   const classes = useStyles()
 
-  const {handleSubmit, initialText} = props
+  const { handleSubmit, initialText } = props
 
   const [formText, setFormText] = useState(initialText)
 
@@ -29,24 +32,31 @@ export default function (props) {
     <>
       <Grid container>
         <Grid item className={classes.description}>
-        <Typography variant='body1'>
+          <Typography variant='body1'>
             Please consider a scenario that describes the situation your user will be in when they do a Google search that will lead them to your website.
           </Typography>
         </Grid>
-        <Grid item className={classes.form}>
-        <form autoComplete='off'  onSubmit={handleSubmitInternal}>
-          <TextField id='foo'
-            label="scenario"
-            multiline
-            fullWidth
-            rowsMax='2'
-            value={formText}
-            onChange={handleChange}
-          />
-          <Button type='submit' variant='contained'>
-            Submit
-          </Button>
-        </form>
+        <Grid item className={classes.form} xs={12}>
+          <form autoComplete='off' onSubmit={handleSubmitInternal}>
+            <Grid item xs={12} sm={6}>
+              <TextField id='foo'
+                label="scenario"
+                multiline
+                fullWidth
+                rowsMax='2'
+                value={formText}
+                onChange={handleChange}
+                className={classes.TextField}
+              />
+            </Grid>
+            <Grid item>
+              <Button type='submit' variant='contained'>
+                Submit
+            </Button>
+            </Grid>
+
+
+          </form>
         </Grid>
       </Grid>
     </>

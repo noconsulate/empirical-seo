@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 const signin = props => {
   const classes = useStyles()
   const { isUser, userUid } = props.user
-  const [formText, setFormText] = useState('noconsulate@gmail.com')
+  const [formText, setFormText] = useState('')
   const [checked, setChecked] = useState(false)
   const [pageControl, setPageControl] = useState(0)
 
