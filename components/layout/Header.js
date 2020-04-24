@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'orange',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(.5)
   },
   logo: {
   //  border: 'solid',
