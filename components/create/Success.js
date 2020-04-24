@@ -4,11 +4,11 @@ import Link from '../../src/Link'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
  //   border: 'solid'
   },
-  button: {
-    marginTop: theme.spacing(1)
+  item: {
+    marginBottom: theme.spacing(1)
   }
 }))
 

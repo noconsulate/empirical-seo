@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import { AppBar, Toolbar } from '@material-ui/core'
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import Link from '../../src/Link'
 
 import {setPageControl} from '../../reducers/flagsSlice'
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
    // padding: theme.spacing(1),
    // backgroundColor: 'white',
   //  border: 'dashed',
-    borderColor: 'green',
+   // borderColor: 'green',
   },
   email: {
 
@@ -33,7 +33,9 @@ const NavBar = props => {
       return (
         <>
             <Link href='/profile' color='textPrimary' className={classes.navButton}>
-              {userEmail}
+              <Typography variant='body1'>
+                {userEmail}
+              </Typography>
             </Link>
         </>
       )
@@ -41,7 +43,9 @@ const NavBar = props => {
       return (
         <>
             <Link href='/profile' color='textPrimary' className={classes.navButton}>
-              login
+              <Typography variant='body1'>
+                login
+              </Typography>
             </Link>
         </>
       )
@@ -57,7 +61,9 @@ const NavBar = props => {
         className={classes.navButton}
         onClick={() => props.setPageControl(0)}
       >
-        create
+        <Typography variant='body1'>
+          create
+        </Typography>
       </Link>
         <LoginUi />
       </Toolbar>

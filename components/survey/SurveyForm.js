@@ -50,7 +50,7 @@ const Survey = props => {
             value={formText}
             onChange={handleChange}
           />
-          <Button type='submit'>
+          <Button type='submit' color='primary'>
             SUBMIT
         </Button>
         </form>
