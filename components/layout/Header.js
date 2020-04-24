@@ -7,7 +7,8 @@ const useStyles = makeStyles(theme => ({
   root: {
  //   border: 'dashed',
     backgroundColor: 'orange',
- 
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
   },
   logo: {
   //  border: 'solid',
