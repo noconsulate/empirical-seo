@@ -22,3 +22,6 @@ yarn-error.log*
 .env.build
 
 fbconfigs.txt
+
+# not sure about this one
+/.yarn

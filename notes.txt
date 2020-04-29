@@ -1,6 +1,5 @@
 ** TO DO **
 
-Loading animations (npm skelton?)
 
 
 profile button confused between signin process and already signed in? the problem may not exist in production
