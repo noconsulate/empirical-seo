@@ -9,8 +9,6 @@
     "clsx": "latest",
     "firebase": "^7.7.0",
     "firebaseui": "^4.4.0",
-    "formik": "^2.1.2",
-    "formik-material-ui": "^2.0.0-alpha.2",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
@@ -18,8 +16,7 @@
     "react-redux": "^7.2.0",
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
-    "shortid": "^2.2.15",
-    "yup": "^0.28.1"
+    "shortid": "^2.2.15"
   },
   "scripts": {
     "dev": "next",
