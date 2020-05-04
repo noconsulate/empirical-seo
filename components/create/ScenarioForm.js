@@ -43,14 +43,14 @@ export default function (props) {
                 label="scenario"
                 multiline
                 fullWidth
-                rowsMax='2'
+                rowsMax='6'
                 value={formText}
                 onChange={handleChange}
                 className={classes.TextField}
               />
             </Grid>
             <Grid item>
-              <Button type='submit' variant='contained'>
+              <Button type='submit' variant='contained' color='primary'>
                 Submit
             </Button>
             </Grid>
