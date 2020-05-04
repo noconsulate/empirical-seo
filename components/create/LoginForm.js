@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button } from '@material-ui/core'
+import { Typography, TextField, Grid, FormGroup, FormControlLabel, Checkbox, Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import Link from '../../src/Link'
@@ -41,7 +41,7 @@ export default connect(null, mapDispatch)(function (props) {
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item>
           <Typography variant='body1'>
             Here's the link to your survey, make sure to save it somewhere! Anybody who has this link can participate.
@@ -52,6 +52,9 @@ export default connect(null, mapDispatch)(function (props) {
             {`${domain}/survey?urlid=${urlId}`}
           </Link>
         </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
         <Grid item>
           <Typography variant='body1'>
             Here's the results page. Please note anyone with this link can see your results, unless you provide your email address below.
@@ -61,6 +64,9 @@ export default connect(null, mapDispatch)(function (props) {
           <Link href={{ pathname: '/results', query: { urlid: urlId } }}>
             {`${domain}/results?urlid=${urlId}`}
           </Link>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
         </Grid>
         <Grid item>
           <Typography variant='body1'>
@@ -84,7 +90,7 @@ export default connect(null, mapDispatch)(function (props) {
                     valiue='primary'
                   />
                 }
-                label='MAYBE JUST OPT-IN ALL USERS AND PROVIDE LINK TO SMALL PRINT??'
+                label='Opt in!'
               />
             </FormGroup>
             <Grid container>
